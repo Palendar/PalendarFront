@@ -1,4 +1,3 @@
-
 // initialize and setup facebook js sdk
 window.fbAsyncInit = function() {
 	FB.init({
@@ -9,9 +8,11 @@ window.fbAsyncInit = function() {
 
 	FB.getLoginStatus(function(response) {
 		if (response.status === 'connected') {
-			//window.location.href="http://localhost/PalendarFront/home.html";
-			//document.getElementById('status').innerHTML = 'We are connected.';
-			//document.getElementsByClassName('loginform').style.display = 'none';
+			var link = window.location.href;
+			var res = link.split("/");
+			if(res[res.length-1] == 'login.html' || res[res.length-1] == 'login') {
+				window.location.href="http://localhost/PalendarFront/home";
+			}
 		} else if (response.status === 'not_authorized') {
 			//document.getElementById('status').innerHTML = 'We are not logged in.'
 		} else {
@@ -21,20 +22,9 @@ window.fbAsyncInit = function() {
 };
 
 // login with facebook with extra permissions
-/*function login() {
-	FB.login(function(response) {
-		if (response.status === 'connected') {
-			window.location.href="http://localhost/PalendarFront/home.html";
-			document.getElementById('status').innerHTML = 'We are connected.';
-			document.getElementById('login').style.visibility = 'hidden';
-		} else if (response.status === 'not_authorized') {
-			document.getElementById('status').innerHTML = 'We are not logged in.'
-		} else {
-			console.log('test');
-			document.getElementById('status').innerHTML = 'You are not logged into Facebook.';
-		}
-	}, {scope: 'email'});
-}*/
+function login() {
+	window.location.href="http://localhost/PalendarFront/home";
+}
 
 // getting basic user info
 function getInfo() {
