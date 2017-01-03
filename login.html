@@ -3,14 +3,41 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
 	<title>Palendar</title>
-	<link rel="stylesheet" href="">
+
+	<link rel="stylesheet" href="css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="js/facebook.js"></script>
+	<script src="js/app.js"></script>
 </head>
 <body>
-<div id="login" class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>
-	<div id="status"></div>
-	<button onclick="getInfo()">Get Info</button>
-	<button onclick="login()" id="login">Login</button>
+	<div class="login-page">
+	  <div class="form">
+	    <form class="register-form">
+	      <input type="text" placeholder="Firstname" required/>
+				<input type="text" placeholder="Lastname" required/>
+				<input type="text" placeholder="Age" required/>
+				<input type="text" placeholder="Email" required/>
+	      <input type="password" placeholder="Password" required/>
+	      <input type="password" placeholder="Confirm password" required/>
+				<label> Date of Birth </label>
+				<input type="date" required/>
+				<div class="radio-gender">
+					<input type="radio" name="gender" value="Male"> Male
+					<input type="radio" name="gender" value="Female"> Female
+				</div>
+	      <button>Register</button>
+	      <p class="message">Already registered? <a href="#">Sign In</a></p>
+	    </form>
+	    <form method="POST" action="home.html" class="login-form">
+	      <input type="text" placeholder="Email" required/>
+	      <input type="password" placeholder="Password" required/>
+				<div onclick="window.location.href='http://localhost/PalendarFront/home.html';" class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="true" data-auto-logout-link="true"></div>
+	      <button>login</button>
+	      <p class="message">Not registered? <a href="#">Create an account</a></p>
+	    </form>
+	  </div>
+	</div>
 </body>
 </html>
