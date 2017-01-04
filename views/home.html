@@ -20,11 +20,111 @@
 	<div w3-include-html="header.html"></div>
 </header>
 <body>
+	<!-- Modal for settings -->
+	<div class="modal fade" id="modalSettings" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Settings</h4>
+        </div>
+        <div class="modal-body">
+					<!-- Modal : left part -->
+					<div class="settings-panel-left">
+			      <div class="navbar navbar-default settings-navigation" role="navigation">
+			        <div class="navbar-collapse collapse sidebar-navbar-collapse">
+			          <ul class="nav nav-tabs nav-stacked settings-nav">
+			            <li><a href="#settings-accsettings" data-toggle="tab">Account settings</a></li>
+			            <li><a href="#settings-aboutus" data-toggle="tab">About us</a></li>
+			            <li><a href="#settings-support" data-toggle="tab">Support</a></li>
+			            <li><a href="#settings-calsync" data-toggle="tab">Calendar syncing</a></li>
+			          </ul>
+			        </div>
+			      </div>
+					</div>
+					<!-- END MODAL LEFT PART -->
+					<!-- Modal : right part -->
+					<div class="settings-panel-right tab-content">
+						<!-- Account settings -->
+						<div class="tab-pane fade" id="settings-accsettings">
+							<h3 class="settings-item" data-id="settings-accsettings-general"> General </h3>
+							<div id="settings-accsettings-general">
+								General ...
+							</div>
+							<h3 class="settings-item" data-id="settings-accsettings-notifications"> Notifications </h3>
+							<div id="settings-accsettings-notifications">
+								Notifications ...
+							</div>
+							<h3 class="settings-item" data-id="settings-accsettings-security"> Security </h3>
+							<div id="settings-accsettings-security">
+								Security ...
+							</div>
+							<h3 class="settings-item" data-id="settings-accsettings-lang"> Language </h3>
+							<div id="settings-accsettings-lang">
+								Language ...
+							</div>
+						</div>
+						<!-- About us -->
+						<div class="tab-pane fade" id="settings-aboutus">
+							<h3 class="settings-item" data-id="settings-aboutus-whoweare"> General </h3>
+							<div id="settings-aboutus-whoweare">
+								We are PALENDAR !
+							</div>
+							<h3 class="settings-item" data-id="settings-aboutus-other"> Notifications </h3>
+							<div id="settings-aboutus-other">
+								Other stuff ...
+							</div>
+							<h3 class="settings-item" data-id="settings-aboutus-whywedoit"> Security </h3>
+							<div id="settings-aboutus-whywedoit">
+								BECAUSE
+							</div>
+						</div>
+						<!-- Support -->
+						<div class="tab-pane fade" id="settings-support">
+							<h3 class="settings-item" data-id="settings-support-help"> Get some help </h3>
+							<div id="settings-support-help">
+								Help
+							</div>
+							<h3 class="settings-item" data-id="settings-support-assistance"> Assistance </h3>
+							<div id="settings-support-assistance">
+								Notifications ...
+							</div>
+							<h3 class="settings-item" data-id="settings-support-problem"> Signal a problem </h3>
+							<div id="settings-support-problem">
+								No problem
+							</div>
+							<h3 class="settings-item" data-id="settings-support-terms"> Terms </h3>
+							<div id="settings-support-terms">
+								Terms
+							</div>
+							<h3 class="settings-item" data-id="settings-support-tellus"> Tell us something </h3>
+							<div id="settings-support-tellus">
+								Tell me about you
+							</div>
+						</div>
+						<!-- Calendar syncing -->
+						<div class="tab-pane fade" id="settings-calsync">
+							<button class="btn" id="sync-calendar"> Synchronize a calendar </button>
+							<button class="btn" id="sync-calendar"> Desynchronize a calendar </button>
+						</div>
+					</div>
+					<!-- END MODAL RIGHT PART -->
+        </div>
+      </div>
+    </div>
+  </div>
+	<!-- END MODAL -->
+
+	<!-- get info result -->
   <div id="status"></div>
   <button class="btn" onclick="getInfo()">Get Info</button>
+
+
 	<div id="self">
 		<button class="homeImage">aza</button>
 	</div>
+	<!-- add group button -->
+	<button class="homeImage" id="newGroup"><i class="fa fa-plus" aria-hidden="true"></i></button>
 	<div id="groups"></div>
 </body>
 <footer>
