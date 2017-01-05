@@ -14,6 +14,10 @@ function getNumberGroupsFriendsEvents() {
 
 }
 
+function getMyPalendar() {
+  window.location.href = "http://localhost/PalendarFront/views/mypalendar.html"
+}
+
 $(document).ready(function() {
   $('.message a').click(function(){
      $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
@@ -36,11 +40,12 @@ $(document).ready(function() {
   $(".search").keyup(function() {
     var resultsearch = $(".search").val();
     if(resultsearch === "") {
-      $('tr').show();
+      $('.content tr').show();
+      getNumberGroupsFriendsEvents();
       return;
     }
-    $('tr').hide();
-    $('tr').each(function() {
+    $('.content tr').hide();
+    $('.content tr').each(function() {
       if($(this).text().toLowerCase().indexOf(resultsearch.toLowerCase()) >= 0) {
         $(this).show();
         getNumberGroupsFriendsEvents();
