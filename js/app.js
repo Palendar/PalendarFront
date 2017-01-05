@@ -1,14 +1,15 @@
 function getNumberGroupsFriendsEvents() {
-  var tabgroups = $('.tabgroups').text();
-  var numbergroups = $('#tabs-1 table tr').length;
+  var tabgroups = 'Groups'
+  var numbergroups = $('#tabs-1 table tr:not([style*="display: none"])').length;
   $('.tabgroups').text(tabgroups + ' (' + numbergroups +')');
 
-  var tabfriends = $('.tabfriends').text();
-  var numberfriends = $('#tabs-2 table tr').length;
+  var tabfriends = 'Friends'
+  var numberfriends = $('#tabs-2 table tr:not([style*="display: none"])').length;
   $('.tabfriends').text(tabfriends + ' (' + numberfriends +')');
 
-  var tabevents = $('.tabevents').text();
-  var numberevents = $('#tabs-3 table tr').length;
+  var tabevents = 'Events'
+  var numberevents = $('#tabs-3 table tr:not([style*="display: none"])').length;
+  console.log(numberevents);
   $('.tabevents').text(tabevents + ' (' + numberevents +')');
 
 }
@@ -32,4 +33,18 @@ $(document).ready(function() {
 
   getNumberGroupsFriendsEvents();
 
+  $(".search").keyup(function() {
+    var resultsearch = $(".search").val();
+    if(resultsearch === "") {
+      $('tr').show();
+      return;
+    }
+    $('tr').hide();
+    $('tr').each(function() {
+      if($(this).text().toLowerCase().indexOf(resultsearch.toLowerCase()) >= 0) {
+        $(this).show();
+        getNumberGroupsFriendsEvents();
+      }
+    });
+  });
 });
