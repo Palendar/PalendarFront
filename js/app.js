@@ -11,7 +11,7 @@ $(document).ready(function() {
     $('#' + this.dataset.id).toggle();
   });
   $('#newGroup').click(function(){
-    window.location.href = "http://localhost/Palendar/PalendarFront/views/newGroup.html";
+    window.location.href = "http://localhost/PalendarFront/views/newGroup.html";
   });
 
 });
