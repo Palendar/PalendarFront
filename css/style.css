@@ -117,12 +117,17 @@ html {
   min-height: 150px;
 }
 
+/***
+  SETTINGS MODAL
+***/
+
 .settings-panel-left, .settings-panel-right {
   display: inline-block;
 }
 
 .settings-panel-left {
   width: 200px;
+  float:left;
 }
 .settings-panel-right {
   width: 250px;
@@ -142,8 +147,37 @@ html {
   float: none;
 }
 
+.settings-panel-left .nav-tabs > li > a {
+  border-radius: 0px;
+  margin: 0px !important;
+}
+
+.settings-panel-left li > a:hover {
+  border: none !important;
+}
+
+.settings-panel-left  li.active > a {
+  border: none !important;
+}
+
+.settings-panel-left-menu {
+  padding: 0px !important;
+}
+
+.settings-panel-right {
+  padding: 0px 10px;
+}
+
+.modal-body {
+  height: 500px;
+}
+
 .modal h3 {
   color: blue;
+}
+
+.modal h3:first-child {
+  margin-top: 0px !important;
 }
 
 /***
