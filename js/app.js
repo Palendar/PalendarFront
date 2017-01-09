@@ -31,10 +31,6 @@ $(document).ready(function() {
     $('#' + this.dataset.id).toggle();
   });
 
-  $('#newGroup').click(function(){
-    window.location.href = "http://localhost/PalendarFront/views/newGroup.html";
-  });
-
   getNumberGroupsFriendsEvents();
 
   $(".search").keyup(function() {

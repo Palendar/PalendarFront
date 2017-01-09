@@ -112,14 +112,14 @@ html {
   width: 50px;
 }
 
+/***
+  SETTINGS MODAL
+***/
+
 #modalSettings {
   display: none;
   min-height: 150px;
 }
-
-/***
-  SETTINGS MODAL
-***/
 
 .settings-panel-left, .settings-panel-right {
   display: inline-block;
@@ -168,16 +168,28 @@ html {
   padding: 0px 10px;
 }
 
-.modal-body {
+#modalSettings .modal-body {
   height: 500px;
 }
 
-.modal h3 {
+#modalNewGroup .modal-body {
+  height: 250px;
+}
+
+#modalSettings h3 {
   color: blue;
 }
 
-.modal h3:first-child {
+#modalSettings h3:first-child {
   margin-top: 0px !important;
+}
+
+/***
+  NEW GROUP MODAL
+***/
+
+#newGroup-description {
+  width: auto;
 }
 
 /***
