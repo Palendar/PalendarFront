@@ -12,7 +12,6 @@
 	<link rel="stylesheet" href="../css/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="../js/tabulous.js"></script>
 	<script src="../js/app.js"></script>
 	<script src="../css/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 
@@ -21,45 +20,42 @@
 	<div w3-include-html="header.html"></div>
 </header>
 <body>
-  <div id="wrapper">
-    <div id="tabs">
-      <ul>
-        <li><a href="#tabs-1" title="">Profile</a></li>
-        <li><a href="#tabs-2" title="">Calendar</a></li>
-        <li><a href="#tabs-3" title="">Notification</a></li>
+	<div class="navbar navbar-default settings-navigation" role="navigation">
+    <div class="navbar-collapse collapse sidebar-navbar-collapse">
+      <ul class="nav nav-tabs group-nav">
+        <li class="active"><a href="#my-calendar" data-toggle="tab">Calendar</a></li>
+				<li><a href="#my-events" data-toggle="tab">Events</a></li>
       </ul>
-
-      <div id="tabs_container">
-        <div id="tabs-1">
-          <h2>My Name<i class="fa fa-pencil" aria-hidden="true"></i><h2>
-          <img src="" height="42" width="42"> <i class="fa fa-pencil" aria-hidden="true"></i>
-          <p>Description <i class="fa fa-pencil" aria-hidden="true"></i></p>
-        </div>
-        <div id="tabs-2">
-          <p>Calendar<p>
-        </div>
-        <div id="tabs-3">
-          <table class="notif">
-            <tr>
-              <th>Group's Name</th>
-              <th>Info</th>
-            </tr>
-						<tr>
-							<td>Group 1 </td>
-              <td>01/01/2017 XYZ invite you to participate in an event <i class="fa fa-times" aria-hidden="true"></i></td>
-						</tr>
-						<tr>
-              <td>Group 2 </td>
-              <td>01/02/2017 YY wants to become your friend <i class="fa fa-times" aria-hidden="true"></i></td>
-						</tr>
-						<tr>
-              <td>Group 1 </td>
-              <td>01/03/2017 XXX joined the group <i class="fa fa-times" aria-hidden="true"></i></td>
-						</tr>
-					</table>
-        </div>
-      </div>
     </div>
+		<div class="tab-content">
+	    <div class="tab-pane fade" id="my-calendar">
+	      <div id="group-calendar-timeline"> TIMELINE HERE</div>
+	    </div>
+	    <div class="tab-pane fade" id="my-events">
+				<table class="table table-striped">
+			  	<thead>
+			      <tr>
+			        <th>Time</th>
+			        <th>Info</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			      <tr>
+			        <td>14/08/2016:14h05</td>
+			        <td>XX invite you to participate in an Event 1 in Group 1</td>
+			      </tr>
+			      <tr>
+			        <td>16/12/2016:12h55</td>
+			        <td>XY want to be your friend</td>
+			      </tr>
+			      <tr>
+			        <td>20/15/2016:20h33</td>
+			        <td>XZ invite you to join the Group 2</td>
+			      </tr>
+			    </tbody>
+				  </table>
+	    </div>
+		</div>
   </div>
 </body>
 <footer>
