@@ -10,7 +10,27 @@ function getNumberFriendsGroups() {
 }
 
 function getMyPalendar() {
-  window.location.href = "http://localhost/PalendarFront/views/mypalendar.html"
+  var current = $(location).attr('href');
+  var tabcurrent = current.split('/');
+  var lastElement = tabcurrent[tabcurrent.length-1];
+  var newlink = current.replace(lastElement,'mypalendar');
+  window.location.href = newlink;
+}
+
+function getHome() {
+  var current = $(location).attr('href');
+  var tabcurrent = current.split('/');
+  var lastElement = tabcurrent[tabcurrent.length-1];
+  var newlink = current.replace(lastElement,'home');
+  window.location.href = newlink;
+}
+
+function getContact() {
+  var current = $(location).attr('href');
+  var tabcurrent = current.split('/');
+  var lastElement = tabcurrent[tabcurrent.length-1];
+  var newlink = current.replace(lastElement,'contact');
+  window.location.href = newlink;
 }
 
 $(document).ready(function() {
