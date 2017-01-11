@@ -20,37 +20,65 @@
 	<div w3-include-html="header.html"></div>
 </header>
 <body>
-	<!-- get info result -->
-  <div id="status"></div>
-  <button class="btn" onclick="getInfo()">Get Info</button>
+	<!-- Do mediascreen for mainDiv -->
+	<div id="mainDiv">
+		<!-- get info result
+	  <div id="status"></div>
+	  <button class="btn" onclick="getInfo()">Get Info</button>
+		-->
+		<ul id="grid" class="clear">
+			<li>
+				<div class="hexagon hide"></div>
+			</li>
+			<li>
+				<a data-toggle="modal" data-target="#modalNewGroup"><div class="hexagon addGroup"></div></a>
+			</li>
+			<li>
+				<a data-toggle="modal" data-target="#modalNewGroup"><div class="hexagon addGroup"></div></a>
+			</li>
+			<li>
+				<div class="hexagon" id="notifications"></div>
+			</li>
+			<li>
+				<div class="hexagon" id="self"></div>
+			</li>
+			<li>
+				<a data-toggle="modal" data-target="#modalNewGroup"><div class="hexagon addGroup"></div></a>
+			</li>
+			<li>
+				<div class="hexagon hide"></div>
+			</li>
+			<li>
+				<a data-toggle="modal" data-target="#modalNewGroup"><div class="hexagon addGroup"></div></a>
+			</li>
+			<li>
+				<a data-toggle="modal" data-target="#modalNewGroup"><div class="hexagon addGroup"></div></a>
+			</li>
+		</ul>
 
-	<div id="self">
-		<button onclick="getMyPalendar()" class="homeImage">aza</button>
+		<!-- new group modal -->
+		<div class="modal fade" id="modalNewGroup" role="dialog">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal">&times;</button>
+		        <h4 class="modal-title">New group</h4>
+		      </div>
+		      <div class="modal-body">
+						<form>
+					   <input type="text" name="group-name" placeholder="Group name" required>
+					   <br>
+					   <input type="file" name="group-image">
+					   <input type="text" name="group-description" placeholder="Put your description here" id="newGroup-description">
+						 <br>
+					   <input type="image">
+					  </form>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<!-- END MODAL -->
 	</div>
-	<!-- add group button -->
-	<button class="homeImage" data-toggle="modal" data-target="#modalNewGroup"><i class="fa fa-plus" aria-hidden="true"></i></button>
-	<div class="modal fade" id="modalNewGroup" role="dialog">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal">&times;</button>
-	        <h4 class="modal-title">New group</h4>
-	      </div>
-	      <div class="modal-body">
-					<form>
-				   <input type="text" name="group-name" placeholder="Group name" required>
-				   <br>
-				   <input type="file" name="group-image">
-				   <input type="text" name="group-description" placeholder="Put your description here" id="newGroup-description">
-					 <br>
-				   <input type="image">
-				  </form>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	<!-- END MODAL -->
-	<div id="groups"></div>
 </body>
 <footer>
 	<div w3-include-html="footer.html"></div>

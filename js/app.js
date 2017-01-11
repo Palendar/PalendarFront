@@ -48,4 +48,8 @@ $(document).ready(function() {
   $(".search").keyup(function() {
 
   });
+
+  $('#self').click(function(){
+    getMyPalendar();
+  })
 });
