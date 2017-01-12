@@ -1,17 +1,19 @@
 /***
   MAIN COMPONENTS
+***/
+/*
 html {
   margin: auto;
   width: 50%;
   padding: 10px;
   background-color: #59585e;
 }
+*/
 
 body {
-  margin: 5px;
-  height: 600px;
+  background-color: #e6e6e6 !important;
 }
-
+/***
 header {
   padding: 5px;
   border-bottom: solid 1px #c2d6d6;
@@ -221,7 +223,7 @@ html {
 }
 
 #notifications {
-  background-color: #e6e6e6;
+  background-color: #fff;
   background-image: url(../img/icon/notification.png);
   background-repeat: no-repeat;
   background-position: center;
@@ -232,7 +234,7 @@ html {
 }
 
 .addGroup {
-  background-color: #e6e6e6;
+  background-color: #fff;
   background-image: url(../img/icon/add.png);
   background-repeat: no-repeat;
   background-position: center;
@@ -362,7 +364,7 @@ html {
 
 #modalNewGroup form ul li textarea{
   resize: none;
-  width: 250px;
+  width: 265px;
 }
 
 #modalNewGroup form ul li input{
@@ -371,7 +373,7 @@ html {
   border: none !important;
 }
 
-#modalNewGroup form ul li input #modalNewGroup-name{
+#modalNewGroup form ul li #modalNewGroup-name{
   border-bottom: 1px solid #c1c1f0 !important;
 }
 
