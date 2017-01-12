@@ -37,6 +37,17 @@ $(document).ready(function() {
 
   getNumberFriendsGroups();
 
+  //searchbar & result search init
+  $(".resultsSearch").hide();
+
+  $(document).click(function() {
+    $(".search-form .form-group").css('width', '');
+    $(".search-form .form-group").css('border-radius', '');
+    $("#search").val('');
+    $(".resultsSearch").hide();
+  });
+
+
   $('.message a').click(function(){
      $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
   });
@@ -60,4 +71,19 @@ $(document).ready(function() {
     // read the image file as a data URL.
     reader.readAsDataURL(this.files[0]);
   });
+
+  //searchbar interact
+  $(".search-form .form-group").click(function(e) {
+    $(this).css('width', '100%');
+    $(this).css('border-radius', '4px 25px 25px 4px');
+    e.stopPropagation();
+  });
+
+
+
+  $("#search").keyup(function() {
+    $(".resultsSearch").show();
+  });
+
+
 });

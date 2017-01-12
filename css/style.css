@@ -389,7 +389,7 @@ html {
 
 .search-form .form-group {
   margin-top: 10px;
-  float: right !important;
+  float: left !important;
   transition: all 0.35s, border-radius 0s;
   width: 32px;
   height: 32px;
@@ -398,6 +398,7 @@ html {
   border-radius: 25px;
   border: 1px solid #ccc;
 }
+
 .search-form .form-group input.form-control {
   padding-right: 20px;
   border: 0 none;
@@ -419,11 +420,7 @@ html {
 .search-form .form-group input.form-control:-ms-input-placeholder {
   display: none;
 }
-.search-form .form-group:hover,
-.search-form .form-group.hover {
-  width: 100%;
-  border-radius: 4px 25px 25px 4px;
-}
+
 .search-form .form-group span.form-control-feedback {
   position: absolute;
   top: -1px;
@@ -437,6 +434,19 @@ html {
   color: #3596e0;
   left: initial;
   font-size: 14px;
+}
+
+/***
+  SEARCHBAR
+***/
+
+.resultsSearch {
+  color: black;
+  background-color: white;
+  max-height: 100px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  border: 1px solid #EFEFEF;
 }
 
 /** NAV BAR CUSTOM **/
@@ -497,6 +507,23 @@ html {
   font-size: 25px;
 }
 
+/***
+  SCROLLBAR
+***/
 .rowWithNoMargin {
   margin-right: 0px !important;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
 }
