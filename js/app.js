@@ -45,11 +45,7 @@ $(document).ready(function() {
     $('#' + this.dataset.id).toggle();
   });
 
-  $(".search").keyup(function() {
-
-  });
-
   $('#self').click(function(){
     getMyPalendar();
-  })
+  });
 });
