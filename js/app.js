@@ -48,4 +48,16 @@ $(document).ready(function() {
   $('#self').click(function(){
     getMyPalendar();
   });
+
+  $('#modalNewGroup-image-input').on('change', function () {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+        // get loaded data and render thumbnail.
+        $('#modalNewGroup-image-preview').attr('src', e.target.result);
+    };
+
+    // read the image file as a data URL.
+    reader.readAsDataURL(this.files[0]);
+  });
 });

@@ -156,7 +156,7 @@ html {
     clear: both;
 }
 
-#grid li {
+#grid li, #modalNewGroup-image {
     list-style-type: none;
     position: relative;
     float: left;
@@ -172,11 +172,11 @@ html {
     visibility: hidden;
 }
 
-#grid li * {
+#grid li *, #modalNewGroup-image * {
   visibility: visible;
 }
 
-#grid li .hexagon {
+#grid li .hexagon, #modalNewGroup-image .hexagon {
     position: absolute;
     top: 0;
     left: 0;
@@ -216,6 +216,9 @@ html {
   visibility: hidden;
 }
 
+#modalNewGroup-image .hexagon {
+  background-color: red;
+}
 
 #notifications {
   background-color: #e6e6e6;
@@ -234,6 +237,19 @@ html {
   background-repeat: no-repeat;
   background-position: center;
 }
+
+/***
+  MODALS
+***/
+
+.modal-title {
+  text-align: center;
+}
+
+.modal-content {
+  padding: 5px;
+}
+
 /***
   SETTINGS MODAL
 ***/
@@ -310,8 +326,59 @@ html {
   NEW GROUP MODAL
 ***/
 
-#newGroup-description {
-  width: auto;
+#modalNewGroup .modal-content{
+  width: 650px;
+}
+
+#modalNewGroup-send {
+  position: absolute;
+  top: 75%;
+  left: 80%;
+}
+
+#modalNewGroup form {
+  height: 100%;
+}
+
+#modalNewGroup form ul {
+  list-style: none;
+  padding: 10px !important;
+}
+
+#modalNewGroup form ul li{
+  padding: 0px;
+  display: inline-block;
+}
+
+#modalNewGroup form ul li:nth-child(1){
+  float: left;
+  width: 270px;
+}
+
+#modalNewGroup form ul li:nth-child(2){
+  width: 300px;
+  margin-left: 15px;
+}
+
+#modalNewGroup form ul li textarea{
+  resize: none;
+  width: 250px;
+}
+
+#modalNewGroup form ul li input{
+  width: 265px;
+  margin-bottom: 10px;
+  border: none !important;
+}
+
+#modalNewGroup form ul li input #modalNewGroup-name{
+  border-bottom: 1px solid #c1c1f0 !important;
+}
+
+#modalNewGroup #modalNewGroup-image-select{
+  position: relative;
+  top: 60%;
+  left: 35%;
 }
 
 /***
