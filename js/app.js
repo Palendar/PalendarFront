@@ -34,12 +34,10 @@ function getContact() {
 }
 
 $(document).ready(function() {
-
   getNumberFriendsGroups();
 
   //searchbar & result search init
   $(".resultsSearch").hide();
-
   $(document).click(function() {
     $(".search-form .form-group").css('width', '');
     $(".search-form .form-group").css('border-radius', '');
@@ -83,6 +81,17 @@ $(document).ready(function() {
 
   $("#search").keyup(function() {
     $(".resultsSearch").show();
+    var input = $("#search").val();
+    
+    $.post('http://vinci.aero/palendar/php/search.php', {search:input}, function(data, status) {
+      if (status === "success") {
+        $(".resultsSearch table tbody").html('');
+        $.each(data, function(index, val) {
+          $(".resultsSearch table tbody").append("<tr>" +
+              "<td>" + val.pseudo + "</td></tr>");
+        });
+      }
+    }, "json");
   });
 
 

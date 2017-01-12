@@ -497,6 +497,10 @@ html {
   font-size: 25px;
 }
 
+.rowWithNoMargin {
+  margin-right: 0px !important;
+}
+
 /***
   FOOTER
 ***/
@@ -510,9 +514,6 @@ html {
 /***
   SCROLLBAR
 ***/
-.rowWithNoMargin {
-  margin-right: 0px !important;
-}
 
 ::-webkit-scrollbar {
     width: 12px;

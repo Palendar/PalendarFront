@@ -1,10 +1,7 @@
 $(document).ready(function() {
-  $.post('http://vinci.aero/palendar/php/search.php', {search:'in'}).done(function(data) {
-    console.log( "Data Loaded: " + data);
-  });
   //Get JSON listfriends page contact
   var url1 = 'http://vinci.aero/palendar/php/test.php';
-  $.getJSON(url1, function (data, status) {
+  $.getJSON(url1, function (data, v) {
     if (status === "success") {
       $.each(data, function(index, val) {
         $("#myfriends table tbody").append("<tr>" +
