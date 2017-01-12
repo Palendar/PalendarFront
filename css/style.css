@@ -221,7 +221,10 @@ html {
 
 
 #notifications {
-  background-color: blue;
+  background-color: #e6e6e6;
+  background-image: url(../img/icon/notification.png);
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 #self {
@@ -229,7 +232,10 @@ html {
 }
 
 .addGroup {
-  background-color: red;
+  background-color: #e6e6e6;
+  background-image: url(../img/icon/add.png);
+  background-repeat: no-repeat;
+  background-position: center;
 }
 /***
   SETTINGS MODAL
