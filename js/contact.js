@@ -1,7 +1,7 @@
 $(document).ready(function() {
   //Get JSON listfriends page contact
   var url1 = 'http://vinci.aero/palendar/php/test.php';
-  $.getJSON(url1, function (data, v) {
+  $.getJSON(url1, function (data, status) {
     if (status === "success") {
       $.each(data, function(index, val) {
         $("#myfriends table tbody").append("<tr>" +
