@@ -23,7 +23,11 @@ window.fbAsyncInit = function() {
 
 // login with facebook with extra permissions
 function login() {
-	window.location.href="http://localhost/PalendarFront/views/home";
+	var current = $(location).attr('href');
+  var tabcurrent = current.split('/');
+  var lastElement = tabcurrent[tabcurrent.length-1];
+  var newlink = current.replace(lastElement,'home');
+  window.location.href = newlink;
 }
 
 // getting basic user info
