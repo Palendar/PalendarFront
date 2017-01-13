@@ -447,6 +447,7 @@ html {
   overflow-x: hidden;
   overflow-y: scroll;
   border: 1px solid #EFEFEF;
+  display: none;
 }
 
 /** NAV BAR CUSTOM **/

@@ -33,9 +33,8 @@ function getContact() {
   window.location.href = newlink;
 }
 
-$(document).ready(function() {
+$(window).on('load', function () {
   //searchbar & result search init
-  $(".resultsSearch").hide();
   $(document).click(function() {
     $(".search-form .form-group").css('width', '');
     $(".search-form .form-group").css('border-radius', '');
@@ -91,6 +90,5 @@ $(document).ready(function() {
       }
     }, "json");
   });
-
 
 });
