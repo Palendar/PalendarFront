@@ -10,6 +10,7 @@ $(document).ready(function() {
     }
   });
 
+
   //Get JSON listgroups page contact
   var url2 = 'http://vinci.aero/palendar/php/test.php';
   $.getJSON(url2, function (data, status) {
@@ -18,6 +19,7 @@ $(document).ready(function() {
         $("#mygroups table tbody").append("<tr>" +
             "<td>" + val.pseudo + "</td></tr>");
       });
+      getNumberFriendsGroups();
     }
   });
 });

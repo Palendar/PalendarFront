@@ -1,10 +1,10 @@
 function getNumberFriendsGroups() {
   var tabgroups = $('.tabgroups a').text();
-  var numbergroups = $('#mygroups table tr').length;
+  var numbergroups = $('#mygroups table tbody tr').length;
   $('.tabgroups a').text(tabgroups + ' (' + numbergroups +')');
 
   var tabfriends = $('.tabfriends a').text();
-  var numberfriends = $('#myfriends table tr').length;
+  var numberfriends = $('#myfriends table tbody tr').length;
   $('.tabfriends a').text(tabfriends + ' (' + numberfriends +')');
 
 }
@@ -34,8 +34,6 @@ function getContact() {
 }
 
 $(document).ready(function() {
-  getNumberFriendsGroups();
-
   //searchbar & result search init
   $(".resultsSearch").hide();
   $(document).click(function() {
@@ -82,7 +80,7 @@ $(document).ready(function() {
   $("#search").keyup(function() {
     $(".resultsSearch").show();
     var input = $("#search").val();
-    
+
     $.post('http://vinci.aero/palendar/php/search.php', {search:input}, function(data, status) {
       if (status === "success") {
         $(".resultsSearch table tbody").html('');
