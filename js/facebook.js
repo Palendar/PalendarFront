@@ -11,7 +11,7 @@ window.fbAsyncInit = function() {
 			var link = window.location.href;
 			var res = link.split("/");
 			if(res[res.length-1] == 'login.html' || res[res.length-1] == 'login') {
-				window.location.href="http://localhost/PalendarFront/views/home";
+				getHome();
 			}
 		} else if (response.status === 'not_authorized') {
 			//document.getElementById('status').innerHTML = 'We are not logged in.'
@@ -22,8 +22,8 @@ window.fbAsyncInit = function() {
 };
 
 // login with facebook with extra permissions
-function login() {
-	var current = $(location).attr('href');
+function getHome() {
+  var current = $(location).attr('href');
   var tabcurrent = current.split('/');
   var lastElement = tabcurrent[tabcurrent.length-1];
   var newlink = current.replace(lastElement,'home');
