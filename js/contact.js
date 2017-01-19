@@ -1,3 +1,13 @@
+function getNumberFriendsGroups() {
+  var tabgroups = $('.tabgroups a').text();
+  var numbergroups = $('#mygroups table tbody tr').length;
+  $('.tabgroups a').text(tabgroups + ' (' + numbergroups +')');
+
+  var tabfriends = $('.tabfriends a').text();
+  var numberfriends = $('#myfriends table tbody tr').length;
+  $('.tabfriends a').text(tabfriends + ' (' + numberfriends +')');
+}
+
 $(document).ready(function() {
   //Get JSON listfriends page contact
   var url1 = 'http://vinci.aero/palendar/php/test.php';
