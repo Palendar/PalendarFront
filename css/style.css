@@ -39,6 +39,11 @@ html {
   font-family: "Roboto", sans-serif;
 }
 
+.errorloginpassword {
+  display: none;
+  color: red;
+}
+
 .login-page {
   margin-top: 30%;
   width: 100%;
@@ -494,22 +499,17 @@ html {
 
 .btncontact > i{
   margin-top: 6px;
-  margin-left: 10px;
   font-size: 25px;
+}
+
+.btnhome > i{
+  margin-top: 4px;
+  margin-left: 10px;
+  font-size: 30px;
 }
 
 .rowWithNoMargin {
   margin-right: 0px !important;
-}
-
-/***
-  FOOTER
-***/
-
-.btnhome > i{
-  margin-top: 6px;
-  margin-left: 10px;
-  font-size: 25px;
 }
 
 /***

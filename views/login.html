@@ -9,12 +9,12 @@
 	<link rel="stylesheet" href="../css/style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="../js/facebook.js"></script>
-	<script src="../js/app.js"></script>
+	<script src="../js/login.js"></script>
 </head>
 <body>
 	<div class="login-page">
 	  <div class="form">
-	    <form class="register-form">
+	    <form method="POST" action="login" class="register-form">
 	      <input type="text" placeholder="Firstname" required/>
 				<input type="text" placeholder="Lastname" required/>
 				<input type="text" placeholder="Email" required/>
@@ -23,7 +23,8 @@
 	      <button>Register</button>
 	      <p class="message">Already registered? <a href="#">Sign In</a></p>
 	    </form>
-	    <form method="POST" action="home" class="login-form">
+			<p class="errorloginpassword"> Username or password is incorrect. Please try logging in again <p>
+	    <form class="login-form" method="POST" action="login">
 	      <input type="text" placeholder="Email" required/>
 	      <input type="password" placeholder="Password" required/>
 				<div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="true" onlogin="getHome();" data-auto-logout-link="true"></div>
