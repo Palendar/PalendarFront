@@ -6,7 +6,6 @@ function getNumberFriendsGroups() {
   var tabfriends = $('.tabfriends a').text();
   var numberfriends = $('#myfriends table tbody tr').length;
   $('.tabfriends a').text(tabfriends + ' (' + numberfriends +')');
-
 }
 
 function getMyPalendar() {
@@ -33,7 +32,7 @@ function getContact() {
   window.location.href = newlink;
 }
 
-$(window).on('load', function () {
+$(document).ready(function () {
   //searchbar & result search init
   $(document).click(function() {
     $(".search-form .form-group").css('width', '');
@@ -90,5 +89,7 @@ $(window).on('load', function () {
       }
     }, "json");
   });
+
+  console.log("ddddddd");
 
 });
