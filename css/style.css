@@ -456,6 +456,10 @@ html {
 }
 
 /** NAV BAR CUSTOM **/
+.addmargintop {
+  margin-top: 60px;
+}
+
 .navbar-custom {
   background-color: #4CAF50;
   color: #FFFFFF;
