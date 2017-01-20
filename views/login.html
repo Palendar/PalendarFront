@@ -17,13 +17,14 @@
 	    <form method="POST" action="login" class="register-form">
 	      <input type="text" placeholder="Firstname" required/>
 				<input type="text" placeholder="Lastname" required/>
+				<div class="erroremail"> Sorry, this email address is already registered. </div>
 				<input type="text" placeholder="Email" required/>
 	      <input type="password" placeholder="Password" required/>
 	      <input type="password" placeholder="Confirm password" required/>
 	      <button>Register</button>
 	      <p class="message">Already registered? <a href="#">Sign In</a></p>
 	    </form>
-			<p class="errorloginpassword"> Username or password is incorrect. Please try logging in again <p>
+			<div class="errorloginpassword"> Username or password is incorrect. Please try logging in again </div>
 	    <form class="login-form" method="POST" action="login">
 	      <input type="text" placeholder="Email" required/>
 	      <input type="password" placeholder="Password" required/>

@@ -42,6 +42,14 @@ html {
 .errorloginpassword {
   display: none;
   color: red;
+  margin-bottom: 3px;
+}
+
+.erroremail {
+  display: none;
+  color: red;
+  font-size: 12px;
+  margin-bottom: 3px;
 }
 
 .login-page {

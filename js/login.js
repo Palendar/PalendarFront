@@ -6,10 +6,25 @@ function getHome() {
   window.location.href = newlink;
 }
 
+function clearAllInput() {
+  $(".login-form").closest('form').find('input').eq(0).val("");
+  $(".login-form").closest('form').find('input').eq(1).val("");
+
+  $(".register-form").closest('form').find('input').eq(0).val("");
+  $(".register-form").closest('form').find('input').eq(1).val("");
+  $(".register-form").closest('form').find('input').eq(2).val("");
+  $(".register-form").closest('form').find('input').eq(3).val("");
+  $(".register-form").closest('form').find('input').eq(4).val("");
+}
+
 $(window).on('load', function () {
 
   $('.message a').click(function(){
-     $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+    $(".errorloginpassword").hide();
+    clearAllInput();
+    $(".erroremail").hide();
+    $(".register-form").closest('form').find('input').eq(2).css("border", "");
+    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
   });
 
   $(".login-form").submit(function(event) {
@@ -32,6 +47,9 @@ $(window).on('load', function () {
   });
 
   $(".register-form").submit(function(event) {
+    $(".erroremail").hide();
+    $(".register-form").closest('form').find('input').eq(2).css("border", "");
+
     var fn = $(this).closest('form').find('input').eq(0).val();
     var ln = $(this).closest('form').find('input').eq(1).val();
     var email = $(this).closest('form').find('input').eq(2).val();
@@ -57,7 +75,8 @@ $(window).on('load', function () {
             }
           }, "json");
         } else {
-          //error message email
+          $(".erroremail").show();
+          $(".register-form").closest('form').find('input').eq(2).css("border", "2px red solid");
         }
       }
     }, "json");
