@@ -410,14 +410,14 @@ html {
 ***/
 
 .search-form .form-group {
+  width: 100%;
+  border-radius: 4px 25px 25px 4px;
   margin-top: 10px;
   float: left !important;
   transition: all 0.35s, border-radius 0s;
-  width: 32px;
   height: 32px;
   background-color: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-  border-radius: 25px;
   border: 1px solid #ccc;
 }
 

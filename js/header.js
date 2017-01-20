@@ -17,8 +17,6 @@ function getContact() {
 $(document).ready(function () {
   //searchbar & result search init
   $(document).click(function() {
-    $(".search-form .form-group").css('width', '');
-    $(".search-form .form-group").css('border-radius', '');
     $("#search").val('');
     $(".resultsSearch").hide();
   });
@@ -28,12 +26,6 @@ $(document).ready(function () {
     $('#' + this.dataset.id).toggle();
   });
 
-  //searchbar interact
-  $(".search-form .form-group").click(function(e) {
-    $(this).css('width', '100%');
-    $(this).css('border-radius', '4px 25px 25px 4px');
-    e.stopPropagation();
-  });
 
   $("#search").keyup(function() {
     $(".resultsSearch").show();
