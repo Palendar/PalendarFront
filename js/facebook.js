@@ -11,7 +11,7 @@ window.fbAsyncInit = function() {
 			var link = window.location.href;
 			var res = link.split("/");
 			if(res[res.length-1] == 'login.html' || res[res.length-1] == 'login') {
-				getHome();
+				//getHome();
 			}
 		} else if (response.status === 'not_authorized') {
 			//document.getElementById('status').innerHTML = 'We are not logged in.'
