@@ -346,6 +346,15 @@ html {
   margin-top: 0px !important;
 }
 
+.settings-panel-left ul li #logout {
+  cursor: pointer;
+  color: black;
+}
+
+.settings-panel-left ul li #logout, .settings-panel-left ul li #logout:hover {
+  border-top: solid 1px gray !important;
+}
+
 /***
   NEW GROUP MODAL
 ***/
