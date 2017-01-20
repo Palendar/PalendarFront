@@ -14,6 +14,15 @@ function getContact() {
   window.location.href = newlink;
 }
 
+function logout() {
+  $.post('http://vinci.aero/palendar/php/logout.php', function(data, status) {
+    if (status === "success") {
+        location.reload();
+        console.log("logout ok");
+    }
+  });
+}
+
 $(document).ready(function () {
   //searchbar & result search init
   $(document).click(function() {
