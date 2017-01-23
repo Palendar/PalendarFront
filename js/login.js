@@ -46,7 +46,7 @@ $(window).on('load', function () {
     $(".errorloginpassword").hide();
     clearAllInput();
     $(".erroremail").hide();
-    $(".register-form").closest('form').find('input').eq(2).css("border", "");
+    $(".register-form").closest('form').find('input').eq(2).css("box-shadow","");
     $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
   });
 
