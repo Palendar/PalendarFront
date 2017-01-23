@@ -17,7 +17,30 @@ function clearAllInput() {
   $(".register-form").closest('form').find('input').eq(4).val("");
 }
 
+function validatePassword(){
+  if(password.value != confirm_password.value) {
+    confirm_password.setCustomValidity("Passwords don't match");
+    $(".register-form").closest('form').find('input').eq(4).focus(function() {
+      $(this).css("box-shadow","0px 0px 4px red");
+    });
+  } else {
+    confirm_password.setCustomValidity('');
+    $(".register-form").closest('form').find('input').eq(4).focus(function() {
+      $(this).css("box-shadow","0px 0px 4px #37ABEA");
+    });
+  }
+  $(".register-form").closest('form').find('input').eq(4).blur(function() {
+    $(this).css("box-shadow","");
+  });
+}
+
 $(window).on('load', function () {
+
+  var password = document.getElementById("password");
+  var confirm_password = document.getElementById("confirm_password");
+
+  password.onchange = validatePassword;
+  confirm_password.onkeyup = validatePassword;
 
   $('.message a').click(function(){
     $(".errorloginpassword").hide();
@@ -48,7 +71,7 @@ $(window).on('load', function () {
 
   $(".register-form").submit(function(event) {
     $(".erroremail").hide();
-    $(".register-form").closest('form').find('input').eq(2).css("border", "");
+    $(".register-form").closest('form').find('input').eq(2).css("box-shadow","");
 
     var fn = $(this).closest('form').find('input').eq(0).val();
     var ln = $(this).closest('form').find('input').eq(1).val();
@@ -76,7 +99,9 @@ $(window).on('load', function () {
           }, "json");
         } else {
           $(".erroremail").show();
-          $(".register-form").closest('form').find('input').eq(2).css("border", "2px red solid");
+          $(".register-form").closest('form').find('input').eq(2).css("box-shadow","0px 0px 4px red");
+          $(".register-form").closest('form').find('input').eq(3).val("");
+          $(".register-form").closest('form').find('input').eq(4).val("");
         }
       }
     }, "json");
