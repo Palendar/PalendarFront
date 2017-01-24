@@ -24,4 +24,19 @@ $(window).on('load', function () {
     reader.readAsDataURL(this.files[0]);
   });
 
+  //Create group
+  $(".form-horizontal").submit(function(event) {
+    var nameGroup = $("#modalNewGroup-name").val();
+    var descriptionGroup = $("#newGroup-description").val();
+
+    console.log(nameGroup + ' ' + descriptionGroup);
+    var loginPostUrl = 'http://vinci.aero/palendar/php/createGroup.php';
+    $.post(loginPostUrl, {name: nameGroup, description:descriptionGroup}, function(data, status) {
+      if (status === "success") {
+        console.log(data.id);
+      }
+    }, "json");
+    event.preventDefault();
+  });
+
 });
