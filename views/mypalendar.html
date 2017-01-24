@@ -8,12 +8,17 @@
 
 	<link rel="stylesheet" href="../css/style.css">
 	<link rel="stylesheet" href="../css/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link href="../css/vis-js/vis.min.css" rel="stylesheet" type="text/css"/>
 	<link rel="stylesheet" href="../css/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="../js/header.js"></script>
 	<script src="../js/checklogin.js"></script>
 	<script src="../css/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+	<script src="../js/vis-js/vis.min.js"></script>
+	<script src="../js/ical-parser/ical_parser.js"></script>
+	<script src="../js/mypalendar.js"></script>
 
 </head>
 <header>
@@ -29,7 +34,8 @@
     </div>
 		<div class="tab-content">
 	    <div class="tab-pane fade active in" id="my-calendar">
-	      <div id="group-calendar-timeline"> TIMELINE HERE</div>
+	      <div id="mypalendar-calendar-timeline"></div>
+				<div id="calendar"></div>
 	    </div>
 	    <div class="tab-pane fade" id="my-events">
 				<table class="table table-striped">
