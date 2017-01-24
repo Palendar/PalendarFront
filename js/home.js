@@ -39,4 +39,8 @@ $(window).on('load', function () {
     event.preventDefault();
   });
 
+  //  $(".group-fav:eq" + ID of hexagone).css
+  $(".group-fav").each(function(index){
+    $(this).css('background-image', "url('../img/group-fav/calendrier.png')");
+  })
 });
