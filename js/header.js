@@ -22,7 +22,7 @@ function logout() {
   });
 }
 
-$(document).ready(function () {
+$(window).on('load', function () {
   //searchbar & result search init
   $(document).click(function() {
     $("#search").val('');
@@ -36,18 +36,21 @@ $(document).ready(function () {
 
 
   $("#search").keyup(function() {
-    $(".resultsSearch").show();
     var input = $("#search").val();
-
-    $.post('http://vinci.aero/palendar/php/search.php', {search:input}, function(data, status) {
-      if (status === "success") {
-        $(".resultsSearch table tbody").html('');
-        $.each(data, function(index, val) {
-          $(".resultsSearch table tbody").append("<tr>" +
-              "<td>" + val.pseudo + "</td></tr>");
-        });
-      }
-    }, "json");
+    if (input.trim() != ""){
+      $(".resultsSearch").show();
+      $.post('http://vinci.aero/palendar/php/search.php', {search:input}, function(data, status) {
+        if (status === "success") {
+          $(".resultsSearch table tbody").html('');
+          $.each(data, function(index, val) {
+            $(".resultsSearch table tbody").append("<tr>" +
+                "<td>" + val.pseudo + "</td></tr>");
+          });
+        }
+      }, "json");
+    } else {
+      $(".resultsSearch").hide();
+    }
   });
 
 });
