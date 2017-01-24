@@ -43,5 +43,17 @@ $(window).on('load', function () {
   $(".group-fav").each(function(index){
     $(this).css('background-image', "url('../img/group-fav/calendrier.png')");
     $(this).css('background-size', '100% 100%');
-  })
+  });
+
+  $(".notif-close").click(function(e){
+    $("#notifications").css("left", "-250px");
+    $(".notif-open").css("display", "block");
+    $(this).css("display", "none");
+  });
+
+  $(".notif-open").click(function(e){
+    $("#notifications").css("left", "0px");
+    $(".notif-close").css("display", "block");
+    $(this).css("display", "none");
+  });
 });

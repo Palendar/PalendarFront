@@ -256,13 +256,6 @@ html {
   background-color: red;
 }
 
-#notifications {
-  background-color: #fff;
-  background-image: url(../img/icon/notification.png);
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
 #self {
   background-color: green;
 }
@@ -570,4 +563,41 @@ html {
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+/***
+  SLIDESHOW
+***/
+
+#notifications {
+	background: #6B9A49;
+  color: #fff;
+
+  position: absolute;
+  width: 250px;
+	padding: 10px;
+	left: -250px;
+  top: 58px;
+
+  -webkit-transition: all .5s ease-in;
+	transition: all .5s ease-in;
+}
+#notifications .notif-open, #notifications .notif-close {
+  position: absolute;
+  right: -38px;
+  top: 4px;
+  padding: 10px;
+  width: 35px;
+  height: 35px;
+  background-size: 100% 100%;
+  background-image: url(../img/icon/notification.png);
+  background-repeat: no-repeat;
+  background-position: center;
+
+	text-decoration: none;
+	border-radius: 0 8px 8px 0px;
+}
+
+#notifications .notif-close {
+	display: none;
 }
