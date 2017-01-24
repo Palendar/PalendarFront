@@ -18,7 +18,6 @@ function logout() {
   $.post('http://vinci.aero/palendar/php/logout.php', function(data, status) {
     if (status === "success") {
         location.reload();
-        console.log("logout ok");
     }
   });
 }
