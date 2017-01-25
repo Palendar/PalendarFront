@@ -68,7 +68,7 @@
 	                <li><a href="#settings-accsettings" data-toggle="tab">Account settings</a></li>
 	                <li><a href="#settings-aboutus" data-toggle="tab">About us</a></li>
 	                <li><a href="#settings-support" data-toggle="tab">Support</a></li>
-	                <li><a href="#settings-calsync" data-toggle="tab">Calendar syncing</a></li>
+	                <li><a href="#settings-calsync" data-toggle="tab">Import calendars</a></li>
 	                <li><a onclick="logout()" id="logout"> Logout </a></li>
 	              </ul>
 	            </div>
@@ -144,8 +144,36 @@
 	          </div>
 	          <!-- Calendar syncing -->
 	          <div class="tab-pane fade" id="settings-calsync">
-	            <button class="btn" id="sync-calendar"> Synchronize a calendar </button>
-	            <button class="btn" id="sync-calendar"> Desynchronize a calendar </button>
+							<h3 class="settings-item" data-id="settings-calsync-import"> Import a calendar </h3>
+							<table>
+								<tr>
+									<td>
+										Exemple
+									</td>
+									<td>
+										<input type="color" class="colorpicker-perso">
+									</td>
+									<td>
+										<span><i class="fa fa-times" aria-hidden="true"></i></span>
+									</td>
+								</tr>
+								<tr>
+									<form action="POST">
+										<td>
+											<input type="text" name="settings-calsync-import-name" placeholder="Calendar name">
+										</td>
+										<td>
+											<input type="text" name="settings-calsync-import-url" placeholder="File URL (.ics only)">
+										</td>
+										<td>
+											<input type="color" name="settings-calsync-import-color" class="colorpicker-perso">
+										</td>
+										<td>
+											<button type="submit"><i class="fa fa-check" aria-hidden="true"></i></button>
+										</td>
+									</form>
+								</tr>
+							</table>
 	          </div>
 	        </div>
 	        <!-- END MODAL RIGHT PART -->

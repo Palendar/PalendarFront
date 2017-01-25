@@ -279,6 +279,10 @@ html {
   padding: 5px;
 }
 
+.modal-dialog {
+  width: 650px !important;
+}
+
 /***
   SETTINGS MODAL
 ***/
@@ -297,7 +301,7 @@ html {
   float:left;
 }
 .settings-panel-right {
-  width: 250px;
+  width: 400px;
 }
 
 .settings-item {
