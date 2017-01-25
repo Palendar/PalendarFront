@@ -4,7 +4,6 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Palendar</title>
-	<script src="http://www.w3schools.com/lib/w3data.js"></script>
 
 	<link rel="stylesheet" href="../css/style.css">
 	<link rel="stylesheet" href="../css/font-awesome-4.7.0/css/font-awesome.min.css">
@@ -22,7 +21,143 @@
 
 </head>
 <header>
-	<div w3-include-html="header.html"></div>
+	<nav class="navbar navbar-custom navbar-fixed-top">
+	  <div class="row rowWithNoMargin">
+	    <div class="col-xs-1">
+	      <button class="btn btnhome" onclick="getHome();">
+	        <i class="fa fa-home" aria-hidden="true"></i>
+	      </button>
+	    </div>
+	    <div class="col-xs-1">
+	      <button class="btn btncontact" onclick="getContact();">
+	        <i class="fa fa-users" aria-hidden="true"></i>
+	      </button>
+	    </div>
+	    <div class="col-xs-9">
+	      <form action="" class="search-form">
+	          <div class="form-group has-feedback">
+	            <label for="search" class="sr-only">Search</label>
+	            <input type="text" class="form-control" name="search" id="search" placeholder="Search...">
+	            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+	            <div class="resultsSearch">
+	              <table class="table table-condensed">
+	      			    <tbody>
+
+	      			    </tbody>
+	      			  </table>
+	            </div>
+	          </div>
+	      </form>
+	    </div>
+	    <div class="col-xs-1">
+	      <button class="btn btnsettings" data-toggle="modal" data-target="#modalSettings"><i class="fa fa-cog" aria-hidden="true"></i></button>
+	    </div>
+	  </div>
+	</nav>
+
+	<!-- Modal for settings -->
+	<div class="modal fade" id="modalSettings" role="dialog">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">Settings</h4>
+	      </div>
+	      <div class="modal-body">
+	        <!-- Modal : left part -->
+	        <div class="settings-panel-left">
+	          <div class="navbar navbar-default settings-navigation" role="navigation">
+	            <div class="navbar-collapse collapse sidebar-navbar-collapse settings-panel-left-menu">
+	              <ul class="nav nav-tabs nav-stacked settings-nav">
+	                <li><a href="#settings-accsettings" data-toggle="tab">Account settings</a></li>
+	                <li><a href="#settings-aboutus" data-toggle="tab">About us</a></li>
+	                <li><a href="#settings-support" data-toggle="tab">Support</a></li>
+	                <li><a href="#settings-calsync" data-toggle="tab">Calendar syncing</a></li>
+	                <li><a onclick="logout()" id="logout"> Logout </a></li>
+	              </ul>
+	            </div>
+	          </div>
+	        </div>
+	        <!-- END MODAL LEFT PART -->
+	        <!-- Modal : right part -->
+	        <div class="settings-panel-right tab-content">
+	          <!-- Account settings -->
+	          <div class="tab-pane fade" id="settings-accsettings">
+	            <h3 class="settings-item" data-id="settings-accsettings-general"> General </h3>
+	            <div id="settings-accsettings-general">
+	              General ...
+	            </div>
+	            <h3 class="settings-item" data-id="settings-accsettings-notifications"> Notifications </h3>
+	            <div id="settings-accsettings-notifications">
+	              Notifications ...
+	            </div>
+	            <h3 class="settings-item" data-id="settings-accsettings-security"> Security </h3>
+	            <div id="settings-accsettings-security">
+	              Security ...
+	            </div>
+	            <h3 class="settings-item" data-id="settings-accsettings-lang"> Language </h3>
+	            <div id="settings-accsettings-lang">
+	              Language ...
+	            </div>
+	          </div>
+	          <!-- About us -->
+	          <div class="tab-pane fade" id="settings-aboutus">
+	            <h3 class="settings-item" data-id="settings-aboutus-whoweare"> General </h3>
+	            <div id="settings-aboutus-whoweare">
+	              We are PALENDAR !
+	            </div>
+	            <h3 class="settings-item" data-id="settings-aboutus-other"> Notifications </h3>
+	            <div id="settings-aboutus-other">
+	              Other stuff ...
+	            </div>
+	            <h3 class="settings-item" data-id="settings-aboutus-whywedoit"> Security </h3>
+	            <div id="settings-aboutus-whywedoit">
+	              BECAUSE
+	            </div>
+	          </div>
+	          <!-- Support -->
+	          <div class="tab-pane fade" id="settings-support">
+	            <h3 class="settings-item" data-id="settings-support-help"> Get some help </h3>
+	            <div id="settings-support-help">
+	              Help
+	            </div>
+	            <h3 class="settings-item" data-id="settings-support-assistance"> Assistance </h3>
+	            <div id="settings-support-assistance">
+	              Notifications ...
+	            </div>
+	            <h3 class="settings-item" data-id="settings-support-problem"> Signal a problem </h3>
+	            <div id="settings-support-problem">
+	              <form>
+	                <input type="text" name="settings-support-problem-title" palceholder="Problem">
+	                <input type="text" name="settings-support-problem-core" placeholder="Your message">
+	                <button type="submit" class="btn"> Send ! </button>
+	              </form>
+	            </div>
+	            <h3 class="settings-item" data-id="settings-support-terms"> Terms </h3>
+	            <div id="settings-support-terms">
+	              Terms
+	            </div>
+	            <h3 class="settings-item" data-id="settings-support-tellus"> Tell us something </h3>
+	            <div id="settings-support-tellus">
+	              <form>
+	                <input type="text" name="settings-support-tellus-title" palceholder="Subject">
+	                <input type="text" name="settings-support-tellus-core" placeholder="Your message">
+	                <button type="submit" class="btn"> Send ! </button>
+	              </form>
+	            </div>
+	          </div>
+	          <!-- Calendar syncing -->
+	          <div class="tab-pane fade" id="settings-calsync">
+	            <button class="btn" id="sync-calendar"> Synchronize a calendar </button>
+	            <button class="btn" id="sync-calendar"> Desynchronize a calendar </button>
+	          </div>
+	        </div>
+	        <!-- END MODAL RIGHT PART -->
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- END MODAL -->
 </header>
 <body>
 	<div class="navbar addmargintop navbar-default settings-navigation" role="navigation">
@@ -64,7 +199,4 @@
 		</div>
   </div>
 </body>
-<script>
-	w3IncludeHTML();
-</script>
 </html>
