@@ -145,7 +145,7 @@
 	          <!-- Calendar syncing -->
 	          <div class="tab-pane fade" id="settings-calsync">
 							<h3 class="settings-item" data-id="settings-calsync-import"> Import a calendar </h3>
-							<table>
+							<table class="tabAllCalendar">
 								<tr>
 									<td>
 										Exemple
@@ -158,18 +158,18 @@
 									</td>
 								</tr>
 								<tr>
-									<form action="POST">
+									<form>
 										<td>
-											<input type="text" name="settings-calsync-import-name" placeholder="Calendar name">
+											<input id="inputCalendarName" type="text" name="settings-calsync-import-name" placeholder="Calendar name" required>
 										</td>
 										<td>
-											<input type="text" name="settings-calsync-import-url" placeholder="File URL (.ics only)">
+											<input id="inputCalendarUrl" type="text" name="settings-calsync-import-url" placeholder="File URL (.ics only)" required>
 										</td>
 										<td>
 											<input type="color" name="settings-calsync-import-color" class="colorpicker-perso">
 										</td>
 										<td>
-											<button type="submit"><i class="fa fa-check" aria-hidden="true"></i></button>
+											<button id="addCalendar"><i class="fa fa-check" aria-hidden="true"></i></button>
 										</td>
 									</form>
 								</tr>

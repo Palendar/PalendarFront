@@ -41,10 +41,11 @@ $(window).on('load', function () {
       $(".resultsSearch").show();
       $.post('http://vinci.aero/palendar/php/search.php', {search:input}, function(data, status) {
         if (status === "success") {
+          console.log(data);
           $(".resultsSearch table tbody").html('');
           $.each(data, function(index, val) {
             $(".resultsSearch table tbody").append("<tr>" +
-                "<td>" + val.pseudo + "</td></tr>");
+                "<td>" + val.firstname + val.lastname + "</td></tr>");
           });
         }
       }, "json");
@@ -53,4 +54,29 @@ $(window).on('load', function () {
     }
   });
 
+  //add Ical
+  $("#addCalendar").click(function() {
+
+    var nameCal = $("#inputCalendarName").val();
+    var urlCal = $("#inputCalendarUrl").val();
+    if(nameCal === '' || urlCal === '') {
+      console.log("ddd");
+      return;
+    }
+    $(".register-form").closest('form').find('input').eq(4).val("");
+    $.post('http://vinci.aero/palendar/php/addIcal.php', {name:nameCal, url:urlCal}, function(data, status) {
+      if (status === "success") {
+        namedbb = data.name;
+      }
+    }, "json");
+    $(".tabAllCalendar > tbody").prepend("<td>" + nameCal +"</td>" +
+    									"<td>" +
+    										"<input type='color' class='colorpicker-perso'>" +
+    									"</td>" +
+    									"<td>" +
+    										"<span><i class='fa fa-times' aria-hidden='true'></i></span>" +
+    									"</td>"+
+    								"</tr>");
+
+  });
 });

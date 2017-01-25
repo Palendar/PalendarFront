@@ -1,7 +1,7 @@
 $(window).on('load', function () {
   var timelineItemId = 0;
 
-  var ical_file = "../ical-temp/basic.ics";
+  var ical_file = "../ical/basic.ics";
 
   var container = $('#mypalendar-calendar-timeline')[0];
 
