@@ -81,7 +81,22 @@
 	          <div class="tab-pane fade" id="settings-accsettings">
 	            <h3 class="settings-item" data-id="settings-accsettings-general"> General </h3>
 	            <div id="settings-accsettings-general">
-	              General ...
+								<div>
+								  <input type="text" id="settings-accsettings-profile-fn" settingsplaceholder="First name">
+								  <input type="text" id="settings-accsettings-profile-ln" placeholder="Last name">
+								  <input type="text" id="settings-accsettings-profile-mail" placeholder="Email">
+								  <input type="password" id="settings-accsettings-profile-password">
+								</div>
+								<div>
+								  <input type="file" name="settings-accsettings-profile-image" accept="image/*" id="modalSettings-image-input">
+									<div id="modal-image-select-preview">
+								  	<div id="modal-image-select">
+									    <div id="modal-image">
+									      <img class="hexagon" id="modal-image-preview">
+									    </div>
+									  </div>
+									</div>
+								</div>
 	            </div>
 	            <h3 class="settings-item" data-id="settings-accsettings-notifications"> Notifications </h3>
 	            <div id="settings-accsettings-notifications">

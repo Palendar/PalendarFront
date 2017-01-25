@@ -189,7 +189,7 @@ html {
     clear: both;
 }
 
-#grid li, #modalNewGroup-image {
+#grid li, #modalNewGroup-image, #modal-image {
     list-style-type: none;
     position: relative;
     float: left;
@@ -205,11 +205,11 @@ html {
     visibility: hidden;
 }
 
-#grid li *, #modalNewGroup-image * {
+#grid li *, #modalNewGroup-image *, #modal-image *{
   visibility: visible;
 }
 
-#grid li .hexagon, #modalNewGroup-image .hexagon {
+#grid li .hexagon, #modalNewGroup-image .hexagon, #modal-image .hexagon{
     position: absolute;
     top: 0;
     left: 0;
@@ -252,7 +252,7 @@ html {
   visibility: hidden;
 }
 
-#modalNewGroup-image .hexagon {
+#modalNewGroup-image .hexagon, #modal-image .hexagon{
   background-color: red;
 }
 
@@ -362,6 +362,12 @@ html {
 
 .settings-panel-left ul li #logout, .settings-panel-left ul li #logout:hover {
   border-top: solid 1px gray !important;
+}
+
+#modal-image-select-preview {
+  margin-left: 15px;
+  width: 250px;
+  height: 80px;
 }
 
 /***
