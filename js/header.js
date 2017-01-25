@@ -61,7 +61,7 @@ $(window).on('load', function () {
     if(nameCal === '' || urlCal === '') {
       return;
     }
-    $.post('http://vinci.aero/palendar/php/addIcal.php', {name:nameCal, url:urlCal}, function(data, status) {
+    $.post('http://vinci.aero/palendar/php/createIcal.php', {name:nameCal, url:urlCal}, function(data, status) {
       if (status === "success") {
         namedbb = data.name;
       }
