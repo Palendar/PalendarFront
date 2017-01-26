@@ -69,7 +69,6 @@ $(window).on('load', function () {
   //click search profile
   $(".resultsSearch table").on("click", "tr", function() {
     var idprofile = $(this).find(".idprofile").text();
-    console.log(idprofile);
     getProfile("?id="+idprofile);
   });
 

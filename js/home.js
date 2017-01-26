@@ -67,20 +67,30 @@ $(window).on('load', function () {
     $.getJSON('http://vinci.aero/palendar/php/getAllInvitationUser.php', function (data, status) {
       if (status === "success") {
           $.each(data, function(index, val) {
-            $(".notifications-invitation").prepend("<p>" + val.firstname + ' ' + val.lastname + ' ' + val.id + ' wants to be your friend !' + "<i class='fa fa-check' aria-hidden='true'></i>" + "<i class='fa fa-times' aria-hidden='true'></i>" + "</p>");
+            $(".notifications-invitation table tbody").append("<tr>" +
+                "<td>" + val.firstname + ' ' + val.lastname + " wants to be your friend !" + "</td>"+
+                "<td><i id='acceptUser' class='fa fa-check' aria-hidden='true'></i></td>" +
+                "<td><i class='fa fa-times' aria-hidden='true'></i></td>"+
+                "<td class='idprofileUser' style='display:none;'>" + val.id+ "</td>"+
+                "</tr>");
           });
       }
     });
   });
 
   //acceptUser
-  $.post('http://vinci.aero/palendar/php/acceptUser.php', {id:'1'}, function(data, status) {
-    if (status === "success") {
-      //namedbb = data.name;
-      console.log("acceptUser");
-      console.log(data);
-    }
-  }, "json");
+  $(".notifications-invitation table").on("click", "#acceptUser", function() {
+    var idprofileUser = $(this).parent().parent().find(".idprofileUser").text();
+    console.log(idprofileUser);
+    /*$.post('http://vinci.aero/palendar/php/acceptUser.php', {id:'1'}, function(data, status) {
+      if (status === "success") {
+        //namedbb = data.name;
+        console.log("acceptUser");
+        console.log(data);
+      }
+    }, "json");*/
+  });
+
 
   $("#modalNewGroup").on("show.bs.modal", function(){
     var $div = $("#modalNewGroup-name").parent();
