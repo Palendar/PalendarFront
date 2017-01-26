@@ -375,6 +375,15 @@ html {
   overflow-y: scroll;
   max-height: 450px;
 }
+
+#modalSettings .settings-accsettings-text input {
+  display:block;
+}
+
+#settings-accsettings {
+  overflow-y: auto;
+  max-height: 450px;
+}
 /***
   NEW GROUP MODAL
 ***/
@@ -418,13 +427,13 @@ html {
   width: 265px;
 }
 
-#modalNewGroup form ul li input{
+#modalNewGroup form ul li input, #modalSettings .settings-accsettings-text input{
   width: 265px;
   margin-bottom: 10px;
   border: none !important;
 }
 
-#modalNewGroup form ul li #modalNewGroup-name{
+#modalNewGroup form ul li #modalNewGroup-name, #modalSettings .settings-accsettings-text input{
   border-bottom: 1px solid #c1c1f0 !important;
 }
 
