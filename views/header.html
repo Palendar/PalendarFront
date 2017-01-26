@@ -49,7 +49,7 @@
                 <li><a href="#settings-accsettings" data-toggle="tab">Account settings</a></li>
                 <li><a href="#settings-aboutus" data-toggle="tab">About us</a></li>
                 <li><a href="#settings-support" data-toggle="tab">Support</a></li>
-                <li><a href="#settings-calsync" data-toggle="tab">Calendar syncing</a></li>
+                <li><a href="#settings-calsync" data-toggle="tab">Import calendars</a></li>
                 <li><a onclick="logout()" id="logout"> Logout </a></li>
               </ul>
             </div>
@@ -62,7 +62,22 @@
           <div class="tab-pane fade" id="settings-accsettings">
             <h3 class="settings-item" data-id="settings-accsettings-general"> General </h3>
             <div id="settings-accsettings-general">
-              General ...
+							<div>
+							  <input type="text" id="settings-accsettings-profile-fn" settingsplaceholder="First name">
+							  <input type="text" id="settings-accsettings-profile-ln" placeholder="Last name">
+							  <input type="text" id="settings-accsettings-profile-mail" placeholder="Email">
+							  <input type="password" id="settings-accsettings-profile-password">
+							</div>
+							<div>
+							  <input type="file" name="settings-accsettings-profile-image" accept="image/*" id="modalSettings-image-input">
+								<div id="modal-image-select-preview">
+							  	<div id="modal-image-select">
+								    <div id="modal-image">
+								      <img class="hexagon" id="modal-image-preview">
+								    </div>
+								  </div>
+								</div>
+							</div>
             </div>
             <h3 class="settings-item" data-id="settings-accsettings-notifications"> Notifications </h3>
             <div id="settings-accsettings-notifications">
@@ -125,8 +140,36 @@
           </div>
           <!-- Calendar syncing -->
           <div class="tab-pane fade" id="settings-calsync">
-            <button class="btn" id="sync-calendar"> Synchronize a calendar </button>
-            <button class="btn" id="sync-calendar"> Desynchronize a calendar </button>
+						<h3 class="settings-item" data-id="settings-calsync-import"> Import a calendar </h3>
+						<table class="tabAllCalendar">
+							<tr>
+								<td>
+									Exemple
+								</td>
+								<td>
+									<input type="color" class="colorpicker-perso">
+								</td>
+								<td>
+									<span><i class="fa fa-times" aria-hidden="true"></i></span>
+								</td>
+							</tr>
+							<tr>
+								<form>
+									<td>
+										<input id="inputCalendarName" type="text" name="settings-calsync-import-name" placeholder="Calendar name" required>
+									</td>
+									<td>
+										<input id="inputCalendarUrl" type="text" name="settings-calsync-import-url" placeholder="File URL (.ics only)" required>
+									</td>
+									<td>
+										<input type="color" name="settings-calsync-import-color" class="colorpicker-perso">
+									</td>
+									<td>
+										<button id="addCalendar"><i class="fa fa-check" aria-hidden="true"></i></button>
+									</td>
+								</form>
+							</tr>
+						</table>
           </div>
         </div>
         <!-- END MODAL RIGHT PART -->
