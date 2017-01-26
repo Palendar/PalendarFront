@@ -14,12 +14,16 @@ function getContact() {
   window.location.href = newlink;
 }
 
-function getProfile() {
+function getProfile(id) {
   var current = $(location).attr('href');
   var tabcurrent = current.split('/');
   var lastElement = tabcurrent[tabcurrent.length-1];
   var newlink = current.replace(lastElement,'profile');
-  window.location.href = newlink;
+  window.location.href = newlink + id;
+}
+
+function returnIdProfile(id) {
+  return id;
 }
 
 function logout() {
@@ -31,9 +35,6 @@ function logout() {
 }
 
 $(window).on('load', function () {
-  //search profile
-  var idprofile;
-
   //searchbar & result search init
   $(document).click(function() {
     $("#search").val('');
@@ -67,21 +68,18 @@ $(window).on('load', function () {
 
   //click search profile
   $(".resultsSearch table").on("click", "tr", function() {
-    idprofile = $(this).find(".idprofile").text();
+    var idprofile = $(this).find(".idprofile").text();
     console.log(idprofile);
-    getProfile();
-
-    /*$.getJSON('http://vinci.aero/palendar/php/getAllInvitation.php', function (data, status) {
-      if (status === "success") {
-          $.each(data, function(index, val) {
-            console.log(val);
-          });
-      }
-    });*/
+    getProfile("?id="+idprofile);
   });
+
 
   //add Friend
   $("#addInvitFriend").click(function() {
+    var current = $(location).attr('href');
+    var tabcurrent = current.split('=');
+    var idprofile = tabcurrent[tabcurrent.length-1];
+    console.log(idprofile);
     $.post('http://vinci.aero/palendar/php/addUser.php', {id:idprofile}, function(data, status) {
       if (status === "success") {
         //namedbb = data.name;
@@ -89,8 +87,7 @@ $(window).on('load', function () {
         alert("Invitation sent !");
       }
     }, "json");
-  })
-
+  });
 
   //getUserInfo in settings
   $.getJSON('http://vinci.aero/palendar/php/getUser.php', function (data, status) {
@@ -146,6 +143,5 @@ $(window).on('load', function () {
       });
     }
   });
-
 
 });

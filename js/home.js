@@ -58,11 +58,29 @@ $(window).on('load', function () {
     $(this).css("display", "none");
   });
 
+  //notification
   $(".notif-open").click(function(e){
     $("#notifications").css("left", "0px");
     $(".notif-close").css("display", "block");
     $(this).css("display", "none");
+
+    $.getJSON('http://vinci.aero/palendar/php/getAllInvitationUser.php', function (data, status) {
+      if (status === "success") {
+          $.each(data, function(index, val) {
+            $(".notifications-invitation").prepend("<p>" + val.firstname + ' ' + val.lastname + ' ' + val.id + ' wants to be your friend !' + "<i class='fa fa-check' aria-hidden='true'></i>" + "<i class='fa fa-times' aria-hidden='true'></i>" + "</p>");
+          });
+      }
+    });
   });
+
+  //acceptUser
+  $.post('http://vinci.aero/palendar/php/acceptUser.php', {id:'1'}, function(data, status) {
+    if (status === "success") {
+      //namedbb = data.name;
+      console.log("acceptUser");
+      console.log(data);
+    }
+  }, "json");
 
   $("#modalNewGroup").on("show.bs.modal", function(){
     var $div = $("#modalNewGroup-name").parent();
@@ -88,5 +106,5 @@ $(window).on('load', function () {
       $("#modalNewGroup-favid").removeData("favid");
       $("#modalNewGroup-favid").val('');
     }
-  })
+  });
 });
