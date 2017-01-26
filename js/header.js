@@ -69,6 +69,15 @@ $(window).on('load', function () {
     getProfile();
   });
 
+  //getUserInfo in settings
+  $.getJSON('http://vinci.aero/palendar/php/getUser.php', function (data, status) {
+    if (status === "success") {
+      $("#settings-accsettings-profile-fn").val(data.firstname);
+      $("#settings-accsettings-profile-ln").val(data.lastname);
+      $("#settings-accsettings-profile-mail").val(data.email);
+    }
+  });
+
   //add Ical
   $("#addCalendar").click(function(event) {
     var nameCal = $("#inputCalendarName").val();
