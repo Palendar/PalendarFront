@@ -199,13 +199,13 @@
 				<div class="hexagon hide"></div>
 			</li>
 			<li>
-				<a data-toggle="modal" data-target="#modalNewGroup"><div class="hexagon addGroup group-fav"></div></a>
+				<a data-toggle="modal" data-target="#modalNewGroup" data-favid="1"><div class="hexagon addGroup group-fav"></div></a>
 			</li>
 			<li>
-				<a data-toggle="modal" data-target="#modalNewGroup"><div class="hexagon addGroup group-fav"></div></a>
+				<a data-toggle="modal" data-target="#modalNewGroup" data-favid="2"><div class="hexagon addGroup group-fav"></div></a>
 			</li>
 			<li>
-				<a data-toggle="modal" data-target="#modalNewGroup"><div class="hexagon addGroup group-fav"></div></a>
+				<a data-toggle="modal" data-target="#modalNewGroup" data-favid="3"><div class="hexagon addGroup group-fav"></div></a>
 			</li>
 			<li>
 				<div class="hexagon" id="self"></div>
@@ -217,10 +217,10 @@
 				<div class="hexagon hide"></div>
 			</li>
 			<li>
-				<a data-toggle="modal" data-target="#modalNewGroup"><div class="hexagon addGroup group-fav"></div></a>
+				<a data-toggle="modal" data-target="#modalNewGroup" data-favid="4"><div class="hexagon addGroup group-fav"></div></a>
 			</li>
 			<li>
-				<a data-toggle="modal" data-target="#modalNewGroup"><div class="hexagon addGroup group-fav"></div></a>
+				<a data-toggle="modal" data-target="#modalNewGroup" data-favid="5"><div class="hexagon addGroup group-fav"></div></a>
 			</li>
 		</ul>
 
@@ -234,17 +234,19 @@
 						<p class="modal-title"> Creating your group allows you to keep in touch with your friends ! </p>
 		      </div>
 		      <div class="modal-body">
-						<form class="form-horizontal" method="POST" action="home" >
+						<form class="form-horizontal" method="POST" action="../../php/createGroup.php">
+							<span id="modalNewGroup-favid" name="group-favid" style="display:none;"></span>
 							<ul>
 								<li>
 									<div class="control-group">
 										<label class="control-label" for="modalNewGroup-name"> Group name </label>
 										<div class="controls">
-						    		<input type="text" name="group-name" id="modalNewGroup-name" placeholder="Type in your group name" required>
+						    			<input type="text" name="group-name" id="modalNewGroup-name" placeholder="Type in your group name" required>
+										</div>
 									</div>
 									<div class="control-group">
 										<div class="controls">
-											<textarea rows="4" name="group-description" placeholder="Put your description here" id="newGroup-description"></textarea>
+											<textarea rows="4" name="group-description" placeholder="Put your description here" id="modalNewGroup-description"></textarea>
 										</div>
 									</div>
 								</li>
@@ -264,7 +266,7 @@
 							<div class="control-group">
 								<div class="controls">
 				    			<!-- <input type="image" id="modalNewGroup-send"> -->
-									<button> Valider </button>
+									<input type="submit" value="Create !">
 								</div>
 							</div>
 					  </form>

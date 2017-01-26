@@ -6,6 +6,16 @@ function getMyPalendar() {
   window.location.href = newlink;
 }
 
+function refreshHomeGroups(location) {
+  console.log(location);
+  if (location != null && location != "" && !!location) {
+    var $slot = $("#grid").find("a").filter("[data-favid]=" + location);
+    var $parentSlot = $slot.parent();
+    $slot.css('display', 'none');
+    $parentSlot.append("<span> Toto </span>");
+  }
+}
+
 $(window).on('load', function () {
 
   $('#self').click(function(){
@@ -36,21 +46,6 @@ $(window).on('load', function () {
     reader.readAsDataURL(this.files[0]);
   });
 
-  //Create group
-  $(".form-horizontal").submit(function(event) {
-    var nameGroup = $("#modalNewGroup-name").val();
-    var descriptionGroup = $("#newGroup-description").val();
-
-    console.log(nameGroup + ' ' + descriptionGroup);
-    var loginPostUrl = 'http://vinci.aero/palendar/php/createGroup.php';
-    $.post(loginPostUrl, {name: nameGroup, description:descriptionGroup}, function(data, status) {
-      if (status === "success") {
-        console.log(data.id);
-      }
-    }, "json");
-    event.preventDefault();
-  });
-
   //  $(".group-fav:eq" + ID of hexagone).css
   $(".group-fav").each(function(index){
     $(this).css('background-image', "url('../img/group-fav/calendrier.png')");
@@ -68,4 +63,30 @@ $(window).on('load', function () {
     $(".notif-close").css("display", "block");
     $(this).css("display", "none");
   });
+
+  $("#modalNewGroup").on("show.bs.modal", function(){
+    var $div = $("#modalNewGroup-name").parent();
+    $("#modalNewGroup-name").val('');
+    $("#modalNewGroup-name").remove();
+    $div.append("<input type=\"text\" name=\"group-name\" id=\"modalNewGroup-name\" placeholder=\"Type in your group name\" required>");
+
+    $("#modalNewGroup-description").val('');
+    $("#modalNewGroup-image-input").val('');
+
+    var $image = $('#modalNewGroup-image-preview');
+    $image.removeAttr('src').replaceWith($image.clone());
+  });
+
+  $(".addGroup").on("click", function(e){
+    var favId = $(this).parent().data('favid');
+    var $slot = $("#grid").find("a");
+
+    if(favId != null && favId != "" && !!favId){
+      $("#modalNewGroup-favid").data("favid", favId);
+      $("#modalNewGroup-favid").val(favId);
+    } else {
+      $("#modalNewGroup-favid").removeData("favid");
+      $("#modalNewGroup-favid").val('');
+    }
+  })
 });
