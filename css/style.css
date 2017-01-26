@@ -370,6 +370,11 @@ html {
   height: 80px;
 }
 
+#settings-calsync {
+  overflow-x: scroll;
+  overflow-y: scroll;
+  max-height: 450px;
+}
 /***
   NEW GROUP MODAL
 ***/
