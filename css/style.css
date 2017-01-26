@@ -501,6 +501,10 @@ html {
   display: none;
 }
 
+.resultsSearch table tbody tr:hover {
+  background-color: #37ABEA;
+}
+
 /** NAV BAR CUSTOM **/
 .addmargintop {
   margin-top: 60px;
