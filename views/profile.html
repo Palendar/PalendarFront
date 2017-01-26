@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Palendar</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="../css/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="../js/header.js"></script>
+	<script src="../js/checklogin.js"></script>
+	<script src="../css/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+</head>
+<header>
+	<nav class="navbar navbar-custom navbar-fixed-top">
+	  <div class="row rowWithNoMargin">
+	    <div class="col-xs-1">
+	      <button class="btn btnhome" onclick="getHome();">
+	        <i class="fa fa-home" aria-hidden="true"></i>
+	      </button>
+	    </div>
+	    <div class="col-xs-1">
+	      <button class="btn btncontact" onclick="getContact();">
+	        <i class="fa fa-users" aria-hidden="true"></i>
+	      </button>
+	    </div>
+	    <div class="col-xs-9">
+	      <form action="" class="search-form">
+	          <div class="form-group has-feedback">
+	            <label for="search" class="sr-only">Search</label>
+	            <input type="text" class="form-control" name="search" id="search" placeholder="Search...">
+	            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+	            <div class="resultsSearch">
+	              <table class="table table-condensed">
+	      			    <tbody>
+
+	      			    </tbody>
+	      			  </table>
+	            </div>
+	          </div>
+	      </form>
+	    </div>
+	    <div class="col-xs-1">
+	      <button class="btn btnsettings" data-toggle="modal" data-target="#modalSettings"><i class="fa fa-cog" aria-hidden="true"></i></button>
+	    </div>
+	  </div>
+	</nav>
+
+	<!-- Modal for settings -->
+	<div class="modal fade" id="modalSettings" role="dialog">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">Settings</h4>
+	      </div>
+	      <div class="modal-body">
+	        <!-- Modal : left part -->
+	        <div class="settings-panel-left">
+	          <div class="navbar navbar-default settings-navigation" role="navigation">
+	            <div class="navbar-collapse collapse sidebar-navbar-collapse settings-panel-left-menu">
+	              <ul class="nav nav-tabs nav-stacked settings-nav">
+	                <li><a href="#settings-accsettings" data-toggle="tab">Account settings</a></li>
+	                <li><a href="#settings-aboutus" data-toggle="tab">About us</a></li>
+	                <li><a href="#settings-support" data-toggle="tab">Support</a></li>
+	                <li><a href="#settings-calsync" data-toggle="tab">Import calendars</a></li>
+	                <li><a onclick="logout()" id="logout"> Logout </a></li>
+	              </ul>
+	            </div>
+	          </div>
+	        </div>
+	        <!-- END MODAL LEFT PART -->
+	        <!-- Modal : right part -->
+	        <div class="settings-panel-right tab-content">
+	          <!-- Account settings -->
+	          <div class="tab-pane fade" id="settings-accsettings">
+	            <h3 class="settings-item" data-id="settings-accsettings-general"> General </h3>
+	            <div id="settings-accsettings-general">
+								<div>
+								  <input type="text" id="settings-accsettings-profile-fn" settingsplaceholder="First name">
+								  <input type="text" id="settings-accsettings-profile-ln" placeholder="Last name">
+								  <input type="text" id="settings-accsettings-profile-mail" placeholder="Email">
+								  <input type="password" id="settings-accsettings-profile-password">
+								</div>
+								<div>
+								  <input type="file" name="settings-accsettings-profile-image" accept="image/*" id="modalSettings-image-input">
+									<div id="modal-image-select-preview">
+								  	<div id="modal-image-select">
+									    <div id="modal-image">
+									      <img class="hexagon" id="modal-image-preview">
+									    </div>
+									  </div>
+									</div>
+								</div>
+	            </div>
+	            <h3 class="settings-item" data-id="settings-accsettings-notifications"> Notifications </h3>
+	            <div id="settings-accsettings-notifications">
+	              Notifications ...
+	            </div>
+	            <h3 class="settings-item" data-id="settings-accsettings-security"> Security </h3>
+	            <div id="settings-accsettings-security">
+	              Security ...
+	            </div>
+	            <h3 class="settings-item" data-id="settings-accsettings-lang"> Language </h3>
+	            <div id="settings-accsettings-lang">
+	              Language ...
+	            </div>
+	          </div>
+	          <!-- About us -->
+	          <div class="tab-pane fade" id="settings-aboutus">
+	            <h3 class="settings-item" data-id="settings-aboutus-whoweare"> General </h3>
+	            <div id="settings-aboutus-whoweare">
+	              We are PALENDAR !
+	            </div>
+	            <h3 class="settings-item" data-id="settings-aboutus-other"> Notifications </h3>
+	            <div id="settings-aboutus-other">
+	              Other stuff ...
+	            </div>
+	            <h3 class="settings-item" data-id="settings-aboutus-whywedoit"> Security </h3>
+	            <div id="settings-aboutus-whywedoit">
+	              BECAUSE
+	            </div>
+	          </div>
+	          <!-- Support -->
+	          <div class="tab-pane fade" id="settings-support">
+	            <h3 class="settings-item" data-id="settings-support-help"> Get some help </h3>
+	            <div id="settings-support-help">
+	              Help
+	            </div>
+	            <h3 class="settings-item" data-id="settings-support-assistance"> Assistance </h3>
+	            <div id="settings-support-assistance">
+	              Notifications ...
+	            </div>
+	            <h3 class="settings-item" data-id="settings-support-problem"> Signal a problem </h3>
+	            <div id="settings-support-problem">
+	              <form>
+	                <input type="text" name="settings-support-problem-title" palceholder="Problem">
+	                <input type="text" name="settings-support-problem-core" placeholder="Your message">
+	                <button type="submit" class="btn"> Send ! </button>
+	              </form>
+	            </div>
+	            <h3 class="settings-item" data-id="settings-support-terms"> Terms </h3>
+	            <div id="settings-support-terms">
+	              Terms
+	            </div>
+	            <h3 class="settings-item" data-id="settings-support-tellus"> Tell us something </h3>
+	            <div id="settings-support-tellus">
+	              <form>
+	                <input type="text" name="settings-support-tellus-title" palceholder="Subject">
+	                <input type="text" name="settings-support-tellus-core" placeholder="Your message">
+	                <button type="submit" class="btn"> Send ! </button>
+	              </form>
+	            </div>
+	          </div>
+	          <!-- Calendar syncing -->
+	          <div class="tab-pane fade" id="settings-calsync">
+							<h3 class="settings-item" data-id="settings-calsync-import"> Import a calendar </h3>
+							<table class="tabAllCalendar">
+								<tr>
+									<form>
+										<td>
+											<input id="inputCalendarName" type="text" name="settings-calsync-import-name" placeholder="Calendar name" required>
+										</td>
+										<td>
+											<input id="inputCalendarUrl" type="text" name="settings-calsync-import-url" placeholder="File URL (.ics only)" required>
+										</td>
+										<td>
+											<input type="color" name="settings-calsync-import-color" class="colorpicker-perso">
+										</td>
+										<td>
+											<button id="addCalendar"><i class="fa fa-check" aria-hidden="true"></i></button>
+										</td>
+									</form>
+								</tr>
+							</table>
+	          </div>
+	        </div>
+	        <!-- END MODAL RIGHT PART -->
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- END MODAL -->
+</header>
+<body>
+  <div class="container">
+    <div class="addmargintop">
+        <img align="left" class="" src=""/>
+        <div class="">
+            <h1>Nom Prenom</h1>
+            <p>description</p>
+        </div>
+        <button> Add Friend </button>
+    </div>
+  </div> <!-- /container -->
+</body>
+</html>

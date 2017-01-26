@@ -14,6 +14,14 @@ function getContact() {
   window.location.href = newlink;
 }
 
+function getProfile() {
+  var current = $(location).attr('href');
+  var tabcurrent = current.split('/');
+  var lastElement = tabcurrent[tabcurrent.length-1];
+  var newlink = current.replace(lastElement,'profile');
+  window.location.href = newlink;
+}
+
 function logout() {
   $.post('http://vinci.aero/palendar/php/logout.php', function(data, status) {
     if (status === "success") {
@@ -34,24 +42,31 @@ $(window).on('load', function () {
     $('#' + this.dataset.id).toggle();
   });
 
-
   $("#search").keyup(function() {
     var input = $("#search").val();
     if (input.trim() != ""){
       $(".resultsSearch").show();
       $.post('http://vinci.aero/palendar/php/search.php', {search:input}, function(data, status) {
         if (status === "success") {
-          console.log(data);
           $(".resultsSearch table tbody").html('');
           $.each(data, function(index, val) {
             $(".resultsSearch table tbody").append("<tr>" +
-                "<td>" + val.firstname + ' ' + val.lastname + "</td></tr>");
+                "<td>" + val.firstname + ' ' + val.lastname + "</td>"+
+                "<td class='idprofile' style='display:none;'>" + val.id+ "</td>"+
+                "</tr>");
           });
         }
       }, "json");
     } else {
       $(".resultsSearch").hide();
     }
+  });
+
+  //click search profile
+  $(".resultsSearch table").on("click", "tr", function() {
+    var idprofile = $(this).find(".idprofile").text();
+    console.log(idprofile);
+    getProfile();
   });
 
   //add Ical
