@@ -18,6 +18,9 @@ function clearAllInput() {
 }
 
 function validatePassword(){
+  $(".register-form").closest('form').find('input').eq(4).blur(function() {
+    $(this).css("box-shadow","");
+  });
   if(password.value != confirm_password.value) {
     confirm_password.setCustomValidity("Passwords don't match");
     $(".register-form").closest('form').find('input').eq(4).focus(function() {
@@ -91,7 +94,8 @@ $(window).on('load', function () {
             if (status === "success") {
               var registerOk = data.validate;
               if(registerOk) {
-                console.log("ok");
+                alert('You have successfully created your Palendar Account');
+                location.reload();
               } else {
                 //error message email
               }
