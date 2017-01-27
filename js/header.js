@@ -27,7 +27,7 @@ function returnIdProfile(id) {
 }
 
 function logout() {
-  $.post('http://vinci.aero/palendar/php/logout.php', function(data, status) {
+  $.post('http://vinci.aero/palendar/php/user/logout.php', function(data, status) {
     if (status === "success") {
         location.reload();
     }
@@ -97,10 +97,11 @@ $(window).on('load', function () {
   });
 
   //getUserInfo in settings
-  $.getJSON('http://vinci.aero/palendar/php/getUser.php', function (data, status) {
+  $.getJSON('http://vinci.aero/palendar/php/user/getUser.php', function (data, status) {
     if (status === "success") {
+      console.log(data.firstname + data.lastname + data.email);
       $("#settings-accsettings-profile-fn").val(data.firstname);
-      $("#settings-accsettings-profile-ln").val(data.lastname);
+      $("#settings-accsettings-profile-ln").val("dddddd");
       $("#settings-accsettings-profile-mail").val(data.email);
     }
   });

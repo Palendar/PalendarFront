@@ -15,7 +15,7 @@ function getHome() {
 }
 
 $(document).ready(function() {
-  var url = 'http://vinci.aero/palendar/php/checkLogin.php';
+  var url = 'http://vinci.aero/palendar/php/user/checkLogin.php';
   $.getJSON(url, function (data, status) {
     if (status === "success") {
       if(!data.validate) {

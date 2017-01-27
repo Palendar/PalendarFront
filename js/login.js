@@ -54,7 +54,7 @@ $(window).on('load', function () {
     var email = $(this).closest('form').find('input').eq(0).val();
     var password = $(this).closest('form').find('input').eq(1).val();
 
-    var loginPostUrl = 'http://vinci.aero/palendar/php/login.php';
+    var loginPostUrl = 'http://vinci.aero/palendar/php/user/login.php';
     $.post(loginPostUrl, {email: email, password: password}, function(data, status) {
       if (status === "success") {
         var loginOK = data.validate;
@@ -80,8 +80,8 @@ $(window).on('load', function () {
 
     console.log(fn +' ' + ln + ' '+ email + ' ' + password);
 
-    var checkEmailUrl = 'http://vinci.aero/palendar/php/checkEmail.php';
-    var registerUrl = 'http://vinci.aero/palendar/php/register.php';
+    var checkEmailUrl = 'http://vinci.aero/palendar/php/user/checkEmail.php';
+    var registerUrl = 'http://vinci.aero/palendar/php/user/register.php';
     $.post(checkEmailUrl, {email: email}, function(data, status) {
       if (status === "success") {
         var emailOK = data.validate;
