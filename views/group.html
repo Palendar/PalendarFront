@@ -24,12 +24,12 @@
 	<nav class="navbar navbar-custom navbar-fixed-top">
 	  <div class="row rowWithNoMargin">
 	    <div class="col-xs-1">
-	      <button class="btn btnhome" onclick="getHome();">
+	      <button class="btnheader btnhome" onclick="getHome();">
 	        <i class="fa fa-home" aria-hidden="true"></i>
 	      </button>
 	    </div>
 	    <div class="col-xs-1">
-	      <button class="btn btncontact" onclick="getContact();">
+	      <button class="btnheader btncontact" onclick="getContact();">
 	        <i class="fa fa-users" aria-hidden="true"></i>
 	      </button>
 	    </div>
@@ -50,7 +50,7 @@
 	      </form>
 	    </div>
 	    <div class="col-xs-1">
-	      <button class="btn btnsettings" data-toggle="modal" data-target="#modalSettings"><i class="fa fa-cog" aria-hidden="true"></i></button>
+	      <button class="btnheader btnsettings" data-toggle="modal" data-target="#modalSettings"><i class="fa fa-cog" aria-hidden="true"></i></button>
 	    </div>
 	  </div>
 	</nav>
@@ -210,16 +210,48 @@
 	      <div id="group-calendar-chat"> CHAT HERE</div>
 	    </div>
 	    <div class="tab-pane fade" id="group-members">
-	      <ul id="group-members-list">
-	        <li> Member 1 </li>
-	        <li> Member 2 </li>
-	      </ul>
+				<table class="table table-condensed">
+					<tbody>
+						<tr>
+							<td> test 1 </td>
+						</tr>
+						<tr>
+							<td> test 1 </td>
+						</tr>
+						<tr>
+							<td> test 1 </td>
+						</tr>
+						<tr>
+							<td> test 1 </td>
+						</tr>
+					</tbody>
+				</table>
+				<button type="button" class="btn btn-primary">Add friends</button>
+				<div id="invit-friends">
+					<table class="table table-condensed addmargintop">
+						<tbody>
+							<tr>
+								<td> test 2 </td>
+							</tr>
+							<tr>
+								<td> test 2 </td>
+							</tr>
+							<tr>
+								<td> test 2 </td>
+							</tr>
+							<tr>
+								<td> test 2 </td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 	    </div>
 			<div class="tab-pane fade" id="group-events">
-	      <ul id="group-events-list">
-	        <li> Event 1 </li>
-	        <li> Event 2 </li>
-	      </ul>
+				<table class="table table-condensed">
+					<tbody>
+
+					</tbody>
+				</table>
 	    </div>
 		</div>
   </div>

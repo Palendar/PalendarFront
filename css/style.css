@@ -549,7 +549,8 @@ html {
   background-color: #33AA33;
 }
 
-.btn{
+.btnheader{
+  margin-top: 6px;
   background: none;
   border: 0;
   outline: 0;
