@@ -58,7 +58,7 @@ $(window).on('load', function () {
     var input = $("#search").val();
     if (input.trim() != ""){
       $(".resultsSearch").show();
-      $.post('http://vinci.aero/palendar/php/search.php', {search:input}, function(data, status) {
+      $.post('http://vinci.aero/palendar/php/user/searchUser.php', {search:input}, function(data, status) {
         if (status === "success") {
           $(".resultsSearch table tbody").html('');
           $.each(data, function(index, val) {
@@ -87,7 +87,7 @@ $(window).on('load', function () {
     var tabcurrent = current.split('=');
     var idprofile = tabcurrent[tabcurrent.length-1];
     console.log(idprofile);
-    $.post('http://vinci.aero/palendar/php/addUser.php', {id:idprofile}, function(data, status) {
+    $.post('http://vinci.aero/palendar/php/contact/addContact.php', {id:idprofile}, function(data, status) {
       if (status === "success") {
         //namedbb = data.name;
         console.log(data);
@@ -99,9 +99,8 @@ $(window).on('load', function () {
   //getUserInfo in settings
   $.getJSON('http://vinci.aero/palendar/php/user/getUser.php', function (data, status) {
     if (status === "success") {
-      console.log(data.firstname + data.lastname + data.email);
       $("#settings-accsettings-profile-fn").val(data.firstname);
-      $("#settings-accsettings-profile-ln").val("dddddd");
+      $("#settings-accsettings-profile-ln").val(data.lastname);
       $("#settings-accsettings-profile-mail").val(data.email);
     }
   });

@@ -17,14 +17,14 @@ function refreshHomeGroups(location) {
 }
 
 function getAllInvitationUser() {
-  $.getJSON('http://vinci.aero/palendar/php/getAllInvitationUser.php', function (data, status) {
+  $.getJSON('http://vinci.aero/palendar/php/contact/getAllContactRequest.php', function (data, status) {
     if (status === "success") {
         $.each(data, function(index, val) {
           $(".notifications-invitation table tbody").html('');
           $(".notifications-invitation table tbody").append("<tr>" +
               "<td>" + val.firstname + ' ' + val.lastname + " wants to be your friend." + "</td>"+
               "<td><i id='acceptUser' class='fa fa-check' aria-hidden='true'></i></td>" +
-              "<td><i class='fa fa-times' aria-hidden='true'></i></td>"+
+              "<td><i id='declineUser' class='fa fa-times' aria-hidden='true'></i></td>"+
               "<td class='idprofileUser' style='display:none;'>" + val.id+ "</td>"+
               "</tr>");
         });
@@ -87,13 +87,25 @@ $(window).on('load', function () {
   $(".notifications-invitation table").on("click", "#acceptUser", function() {
     var idprofileUser = $(this).parent().parent().find(".idprofileUser").text();
     console.log(idprofileUser);
-    /*$.post('http://vinci.aero/palendar/php/acceptUser.php', {id:'1'}, function(data, status) {
+    $.post('http://vinci.aero/palendar/php/contact/acceptContact.php', {id:idprofileUser}, function(data, status) {
       if (status === "success") {
         //namedbb = data.name;
         console.log("acceptUser");
-        console.log(data);
       }
-    }, "json");*/
+    }, "json");
+    getAllInvitationUser();
+  });
+
+  //declineUser
+  $(".notifications-invitation table").on("click", "#declineUser", function() {
+    var idprofileUser = $(this).parent().parent().find(".idprofileUser").text();
+    console.log(idprofileUser);
+    $.post('http://vinci.aero/palendar/php/contact/declineContact.php', {id:idprofileUser}, function(data, status) {
+      if (status === "success") {
+        //namedbb = data.name;
+        console.log("declineUser");
+      }
+    }, "json");
     getAllInvitationUser();
   });
 
