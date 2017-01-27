@@ -35,12 +35,20 @@ function logout() {
 }
 
 $(window).on('load', function () {
+
   //searchbar & result search init
   $(document).click(function() {
     $("#search").val('');
     $(".resultsSearch").hide();
   });
 
+
+  //hover buttton header
+  $(".btnheader").hover(function() {
+        $(this).addClass('transition');
+    }, function() {
+        $(this).removeClass('transition');
+  });
 
   $('.settings-item').click(function () {
     $('#' + this.dataset.id).toggle();

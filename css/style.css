@@ -630,3 +630,11 @@ html {
 #notifications .notif-close {
 	display: none;
 }
+
+.transition {
+    -webkit-transform: scale(1.4);
+    -moz-transform: scale(1.4);
+    -o-transform: scale(1.4);
+    transform: scale(1.4);
+    transition: all .1s;
+}
