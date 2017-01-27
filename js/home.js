@@ -16,6 +16,22 @@ function refreshHomeGroups(location) {
   }
 }
 
+function getAllInvitationUser() {
+  $.getJSON('http://vinci.aero/palendar/php/getAllInvitationUser.php', function (data, status) {
+    if (status === "success") {
+        $.each(data, function(index, val) {
+          $(".notifications-invitation table tbody").html('');
+          $(".notifications-invitation table tbody").append("<tr>" +
+              "<td>" + val.firstname + ' ' + val.lastname + " wants to be your friend." + "</td>"+
+              "<td><i id='acceptUser' class='fa fa-check' aria-hidden='true'></i></td>" +
+              "<td><i class='fa fa-times' aria-hidden='true'></i></td>"+
+              "<td class='idprofileUser' style='display:none;'>" + val.id+ "</td>"+
+              "</tr>");
+        });
+    }
+  });
+}
+
 $(window).on('load', function () {
 
   $('#self').click(function(){
@@ -64,18 +80,7 @@ $(window).on('load', function () {
     $(".notif-close").css("display", "block");
     $(this).css("display", "none");
 
-    $.getJSON('http://vinci.aero/palendar/php/getAllInvitationUser.php', function (data, status) {
-      if (status === "success") {
-          $.each(data, function(index, val) {
-            $(".notifications-invitation table tbody").append("<tr>" +
-                "<td>" + val.firstname + ' ' + val.lastname + " wants to be your friend !" + "</td>"+
-                "<td><i id='acceptUser' class='fa fa-check' aria-hidden='true'></i></td>" +
-                "<td><i class='fa fa-times' aria-hidden='true'></i></td>"+
-                "<td class='idprofileUser' style='display:none;'>" + val.id+ "</td>"+
-                "</tr>");
-          });
-      }
-    });
+    getAllInvitationUser();
   });
 
   //acceptUser
@@ -89,6 +94,7 @@ $(window).on('load', function () {
         console.log(data);
       }
     }, "json");*/
+    getAllInvitationUser();
   });
 
 
