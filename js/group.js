@@ -1,4 +1,10 @@
 $(window).on('load', function () {
+
+  //add friend in group
+  $("#buttonaddfriends").click(function() {
+    $("#invit-friends").slideToggle();
+  });
+
   var container = $('#group-calendar-timeline')[0];
 
   // Create a DataSet (allows two way data-binding)
