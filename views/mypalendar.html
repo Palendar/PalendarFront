@@ -207,6 +207,67 @@
 	    <div class="tab-pane fade active in" id="my-calendar">
 	      <div id="mypalendar-calendar-timeline"></div>
 				<div id="calendar"></div>
+				<div class="modal fade" id="modalNewEvent" role="dialog">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal">&times;</button>
+				        <h4 class="modal-title">Create you event !</h4>
+				      </div>
+				      <div class="modal-body">
+								<form class="newEvent-form" method="POST" action="../php/group/createEvent.php">
+									<ul>
+										<li>
+											<div class="control-group">
+												<label class="control-label" for="modalNewEvent-name"> Event title </label>
+												<div class="controls">
+								    			<input type="text" name="newEvent-name" id="modalNewEvent-name" placeholder="Event title" required>
+												</div>
+											</div>
+											<div class="control-group">
+												<div class="controls">
+													<input type="text" name="newEvent-description" placeholder="Put your description here" id="modalNewEvent-description">
+												</div>
+											</div>
+										</li>
+										<li>
+											<div class="control-group">
+												<label class="control-label" for="modalNewEvent-timestart"> Start </label>
+												<div class="controls">
+													<input type="number" name="time-start-dd" maxlength="2" min="00" class="modalNewEvent-time-input" id="modalNewEvent-timestart" disabled>
+													<span>/</span>
+													<input type="number" name="time-start-mm" maxlength="2" min="01" max="12" class="modalNewEvent-time-input" disabled>
+													<span>/</span>
+													<input type="number" name="time-start-yyyy" maxlength="4" class="modalNewEvent-time-input" disabled>
+													<input type="number" name="time-start-hh" maxlength="2" min="00" max="23" class="modalNewEvent-time-input">
+													<span>:</span>
+													<input type="number" name="time-start-min" maxlength="2" min="00" max="59" class="modalNewEvent-time-input">
+												</div>
+												<label class="control-label" for="modalNewEvent-timeend"> End </label>
+												<div class="controls">
+													<input type="number" name="time-end-dd" maxlength="2" min="00" class="modalNewEvent-time-input" id="modalNewEvent-timeend">
+													<span>/</span>
+													<input type="number" name="time-end-mm" maxlength="2" min="01" max="12" class="modalNewEvent-time-input">
+													<span>/</span>
+													<input type="number" name="time-end-yyyy" maxlength="4" class="modalNewEvent-time-input">
+													<input type="number" name="time-end-hh" maxlength="2" min="00" max="23" class="modalNewEvent-time-input">
+													<span>:</span>
+													<input type="number" name="time-end-min" maxlength="2" min="00" max="59" class="modalNewEvent-time-input">
+												</div>
+											</div>
+										</li>
+									</ul>
+									<div class="control-group">
+										<div class="controls">
+						    			<!-- <input type="image" id="modalNewGroup-send"> -->
+											<input type="submit" value="Create !">
+										</div>
+									</div>
+							  </form>
+				      </div>
+				    </div>
+				  </div>
+				</div>
 	    </div>
 	    <div class="tab-pane fade" id="my-events">
 				<table class="table table-striped">
@@ -232,6 +293,7 @@
 			    </tbody>
 				  </table>
 	    </div>
+			<button onclick="showaa()">aaa</button>
 		</div>
   </div>
 </body>
