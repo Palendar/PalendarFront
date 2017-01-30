@@ -17,6 +17,7 @@ $(document).ready(function() {
         $("#myfriends table tbody").append("<tr>" +
 						"<td>" + val.firstname + ' ' + val.lastname + "</td></tr>");
       });
+      getNumberFriendsGroups();
     }
   });
 
