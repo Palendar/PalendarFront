@@ -51,9 +51,11 @@ $(window).on('load', function () {
     $(".erroremail").hide();
     $(".register-form").closest('form').find('input').eq(2).css("box-shadow","");
     $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+    $("input").prop('required',false);
   });
 
   $(".login-form").submit(function(event) {
+    $("input").prop('required',true);
     var email = $(this).closest('form').find('input').eq(0).val();
     var password = $(this).closest('form').find('input').eq(1).val();
 
@@ -73,6 +75,7 @@ $(window).on('load', function () {
   });
 
   $(".register-form").submit(function(event) {
+    $("input").prop('required',true);
     $(".erroremail").hide();
     $(".register-form").closest('form').find('input').eq(2).css("box-shadow","");
 
