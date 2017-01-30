@@ -42,15 +42,21 @@ function displayEventInfo(selectedEventId){
   var $eventDescription = $('#mypalendar-event-description');
   var $eventStartTime = $('#mypalendar-event-start');
   var $eventEndStime = $('#mypalendar-event-end');
-
   currentEventDisplayedId = selectedEventId;
-  var selectedItem = allEventsArray[currentEventDisplayedId];
 
-  $eventTitle.html(selectedItem.title);
-  $eventDescription.html(selectedItem.content);
-  $eventStartTime.html(selectedItem.start);
-  $eventEndStime.html(selectedItem.end);
+  if (selectedEventId){
+    var selectedItem = allEventsArray[currentEventDisplayedId];
 
+    $eventTitle.html(selectedItem.title);
+    $eventDescription.html(selectedItem.content);
+    $eventStartTime.html(selectedItem.start);
+    $eventEndStime.html(selectedItem.end);
+  } else {
+    $eventTitle.html('');
+    $eventDescription.html('');
+    $eventStartTime.html('');
+    $eventEndStime.html('');
+  }
 }
 
 
@@ -68,7 +74,6 @@ function validateNumber(event) {
 };
 
 function moveTimeline (percentage) {
-  console.log(timeline);
   var range = timeline.getWindow();
   var interval = range.end - range.start;
 
@@ -181,13 +186,17 @@ $(window).on('load', function () {
       timeline.zoomOut(0.3);
     });
 
-    // Navigation buttons for the timeline (left and right)
-    $("#timeline-moveleft").on("click", function(e){
+    // Navigation buttons for the timeline (left and right and go back to current time)
+    $("#timeline-moveLeft").on("click", function(e){
       moveTimeline(0.3);
     });
-    $("#timeline-moveright").on("click", function(e){
+    $("#timeline-moveRight").on("click", function(e){
       moveTimeline(-0.3);
     });
+    $("#timeline-moveCurrent").on("click", function(e){
+      focusNow();
+    });
+
   }
 
   // Displays the timeline and the events
@@ -205,6 +214,25 @@ $(window).on('load', function () {
       timeline.focus(prop.items[0]);
     });
 
+    timeline.on("click", function(prop){
+      if(prop.item == null && currentEventDisplayedId){
+        displayEventInfo(false);
+      }
+    });
+
+    timeline.on("rangechange", function(prop){
+      timeline.off("click");
+    });
+
+    timeline.on("rangechanged", function(prop){
+      setTimeout(function(){
+        timeline.on("click", function(prop){
+          if(prop.item == null && currentEventDisplayedId){
+            displayEventInfo(false);
+          }
+        });
+      }, 100);
+    });
     allEventsSortedArray.sort(function(a,b){
       return new Date(a.start) - new Date(b.start);
     });
