@@ -68,6 +68,7 @@ function validateNumber(event) {
 };
 
 function moveTimeline (percentage) {
+  console.log(timeline);
   var range = timeline.getWindow();
   var interval = range.end - range.start;
 
@@ -77,15 +78,27 @@ function moveTimeline (percentage) {
   });
 }
 
+function focusNow(){
+  timeline.moveTo(new Date());
+}
+
+
 $(window).on('load', function () {
   $('.newEvent-form input[type="number"]').keypress(validateNumber);
 
   var ical_file = "../ical/basic.ics";
 
   container = $('#mypalendar-calendar-timeline')[0];
+
+  var currentDate = new Date();
+
   options = {
     width: '100%',
     height: '250px',
+    min: new Date(currentDate.getFullYear()-1, currentDate.getMonth(), currentDate.getDate()),                // lower limit of visible range
+    max: new Date(currentDate.getFullYear()+1, currentDate.getMonth(), currentDate.getDate()),                // upper limit of visible range
+    zoomMin: 1000 * 60 * 60 * 8,             // 8 hours in milliseconds
+    zoomMax: 1000 * 60 * 60 * 24 * 20,    // about 20 days in milliseconds
     editable: {
       add: false,         // add new items by double tapping
       updateTime: true,  // drag items horizontally
@@ -195,8 +208,8 @@ $(window).on('load', function () {
     allEventsSortedArray.sort(function(a,b){
       return new Date(a.start) - new Date(b.start);
     });
-    console.log(allEventsSortedArray);
     bindTimelineButtons();
+    focusNow();
   }
 
   //Display All future events in ical file as list.
@@ -241,7 +254,4 @@ $(window).on('load', function () {
       //And display them
       loadEvents(events);
   });
-
-
-
 });
