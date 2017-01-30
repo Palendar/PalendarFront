@@ -18,12 +18,14 @@ function refreshHomeGroups(location) {
 
 //notifications
 function getAllInvitationUser() {
+  console.log("dd");
+  $(".notifications-invitation table tbody").html('');
   $.getJSON('http://vinci.aero/palendar/php/contact/getAllContactRequest.php', function (data, status) {
     if (status === "success") {
+      if(data == null) {
+        $(".notifications-invitation table tbody").append("<tr><td> no notification </td></tr>");
+      } else {
         $.each(data, function(index, val) {
-          console.log("ddddd");
-          console.log($(".notifications-invitation table tbody").html());
-          $(".notifications-invitation table tbody").html('');
           $(".notifications-invitation table tbody").append("<tr>" +
               "<td>" + val.firstname + ' ' + val.lastname + " wants to be your friend." + "</td>"+
               "<td><i id='acceptUser' class='fa fa-check' aria-hidden='true'></i></td>" +
@@ -31,6 +33,7 @@ function getAllInvitationUser() {
               "<td class='idprofileUser' style='display:none;'>" + val.id+ "</td>"+
               "</tr>");
         });
+      }
     }
   });
 }
@@ -82,7 +85,6 @@ $(window).on('load', function () {
     $("#notifications").css("left", "0px");
     $(".notif-close").css("display", "block");
     $(this).css("display", "none");
-    console.log("ddddddddddddd");
     getAllInvitationUser();
   });
 
