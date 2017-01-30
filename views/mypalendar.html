@@ -205,8 +205,25 @@
     </div>
 		<div class="tab-content">
 	    <div class="tab-pane fade active in" id="my-calendar">
+				<div id="mypalendar-calendar-timeline-options">
+					<button id="zoomIn">+</button>
+					<button id="zoomOut">-</button>
+					<button id="timeline-moveleft"><</button>
+					<button id="timeline-moveright">></button>
+				</div>
 	      <div id="mypalendar-calendar-timeline"></div>
-				<div id="calendar"></div>
+				<div id="mypalendar-event-display">
+					<div>
+						<button id="mypalendar-event-previous"><</button>
+						<h3 id="mypalendar-event-title"></h3>
+						<button id="mypalendar-event-next">></button>
+					</div>
+					<div>
+						<p> Event start : <span id="mypalendar-event-start"></span></p>
+						<p> Event end : <span id="mypalendar-event-end"></span></p>
+						<p> Description : <span id="mypalendar-event-description"></span></p>
+					</div>
+				</div>
 				<div class="modal fade" id="modalNewEvent" role="dialog">
 				  <div class="modal-dialog">
 				    <div class="modal-content">
@@ -293,7 +310,6 @@
 			    </tbody>
 				  </table>
 	    </div>
-			<button onclick="showaa()">aaa</button>
 		</div>
   </div>
 </body>
