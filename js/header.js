@@ -86,7 +86,6 @@ $(window).on('load', function () {
     var current = $(location).attr('href');
     var tabcurrent = current.split('=');
     var idprofile = tabcurrent[tabcurrent.length-1];
-    console.log(idprofile);
     $.post('http://vinci.aero/palendar/php/contact/addContact.php', {id:idprofile}, function(data, status) {
       if (status === "success") {
         //namedbb = data.name;
@@ -97,7 +96,7 @@ $(window).on('load', function () {
   });
 
   //getUserInfo in settings
-  $.getJSON('http://vinci.aero/palendar/php/user/getUser.php', function (data, status) {
+  $.getJSON('http://vinci.aero/palendar/php/user/getMyUser.php', function (data, status) {
     if (status === "success") {
       $("#settings-accsettings-profile-fn").val(data.firstname);
       $("#settings-accsettings-profile-ln").val(data.lastname);
