@@ -7,7 +7,6 @@ function getMyPalendar() {
 }
 
 function refreshHomeGroups(location) {
-  console.log(location);
   if (location != null && location != "" && !!location) {
     var $slot = $("#grid").find("a").filter("[data-favid]=" + location);
     var $parentSlot = $slot.parent();
@@ -18,7 +17,6 @@ function refreshHomeGroups(location) {
 
 //notifications
 function getAllInvitationUser() {
-  console.log("dd");
   $(".notifications-invitation table tbody").html('');
   $.getJSON('http://vinci.aero/palendar/php/contact/getAllContactRequest.php', function (data, status) {
     if (status === "success") {
@@ -74,28 +72,42 @@ $(window).on('load', function () {
     $(this).css('background-size', '100% 100%');
   });
 
+  /**
   $(".notif-close").click(function(e){
     $("#notifications").css("left", "-250px");
     $(".notif-open").css("display", "block");
     $(this).css("display", "none");
   });
 
-  //notification
+
   $(".notif-open").click(function(e){
+    $("#notifications").css("left", "0px");
+    $(".notif-close").css("display", "block");
+    $(this).css("display", "none");
+    getAllInvitationUser();
+  });**/
+
+  //notification hover open
+  $(".notif-open").mouseenter(function(e){
     $("#notifications").css("left", "0px");
     $(".notif-close").css("display", "block");
     $(this).css("display", "none");
     getAllInvitationUser();
   });
 
+  //notification hover close
+  $("#notifications").mouseleave(function(e){
+    $("#notifications").css("left", "-250px");
+    $(".notif-open").css("display", "block");
+    $(".notif-close").css("display", "none");
+  });
+
   //acceptUser
   $(".notifications-invitation table").on("click", "#acceptUser", function() {
     var idprofileUser = $(this).parent().parent().find(".idprofileUser").text();
-    console.log(idprofileUser);
     $.post('http://vinci.aero/palendar/php/contact/acceptContact.php', {id:idprofileUser}, function(data, status) {
       if (status === "success") {
         //namedbb = data.name;
-        console.log("acceptUser");
       }
     }, "json");
     getAllInvitationUser();
@@ -104,11 +116,9 @@ $(window).on('load', function () {
   //declineUser
   $(".notifications-invitation table").on("click", "#declineUser", function() {
     var idprofileUser = $(this).parent().parent().find(".idprofileUser").text();
-    console.log(idprofileUser);
     $.post('http://vinci.aero/palendar/php/contact/declineContact.php', {id:idprofileUser}, function(data, status) {
       if (status === "success") {
         //namedbb = data.name;
-        console.log("declineUser");
       }
     }, "json");
     getAllInvitationUser();
