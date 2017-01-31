@@ -108,11 +108,13 @@ $(window).on('load', function () {
   $("#addCalendar").click(function(event) {
     var nameCal = $("#inputCalendarName").val();
     var urlCal = $("#inputCalendarUrl").val();
+    var colorCal = $("#inputCalendarColor").val();
+
     var namedbb, iddbb;
     if(nameCal === '' || urlCal === '') {
       return;
     }
-    $.post('http://vinci.aero/palendar/php/createIcal.php', {name:nameCal, url:urlCal}, function(data, status) {
+    $.post('http://vinci.aero/palendar/php/calendar/createIcal.php', {name:nameCal, url:urlCal, color: colorCal}, function(data, status) {
       if (status === "success") {
         //namedbb = data.name;
         console.log(data);
@@ -128,11 +130,12 @@ $(window).on('load', function () {
     								"</tr>");
     $("#inputCalendarName").val("");
     $("#inputCalendarUrl").val("");
+    $("#inputCalendarColor").val("#45d2f9");
     event.preventDefault();
   });
 
   //get All Ical in settings-item
-  $.getJSON('http://vinci.aero/palendar/php/getAllIcal.php', function (data, status) {
+  $.getJSON('http://vinci.aero/palendar/php/calendar/getAllIcal.php', function (data, status) {
     if (status === "success") {
       $.each(data, function(index, val) {
         $(".tabAllCalendar > tbody").prepend("<tr><td>" + val.name +"</td>" +
