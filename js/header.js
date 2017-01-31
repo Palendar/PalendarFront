@@ -22,6 +22,14 @@ function getProfile(id) {
   window.location.href = newlink + id;
 }
 
+function getGroup(id) {
+  var current = $(location).attr('href');
+  var tabcurrent = current.split('/');
+  var lastElement = tabcurrent[tabcurrent.length-1];
+  var newlink = current.replace(lastElement,'group');
+  window.location.href = newlink + id;
+}
+
 function returnIdProfile(id) {
   return id;
 }

@@ -523,6 +523,13 @@ html {
   background-color: #37ABEA;
 }
 
+.imagegroup {
+  width:80px;
+  height:80px;
+  margin-right: 20px;
+  border-radius: 100px;
+}
+
 /** NAV BAR CUSTOM **/
 .addmargintop {
   margin-top: 60px;
@@ -608,14 +615,14 @@ html {
 ***/
 
 #notifications {
-	background: #6B9A49;
+	background: #4CAF50;
   color: #fff;
 
   position: absolute;
   width: 250px;
 	padding: 10px;
 	left: -250px;
-  top: 58px;
+  top: 70px;
 
   -webkit-transition: all .5s ease-in;
 	transition: all .5s ease-in;

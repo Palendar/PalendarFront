@@ -1,11 +1,13 @@
-function getNumberFriendsGroups() {
-  var tabgroups = $('.tabgroups a').text();
-  var numbergroups = $('#mygroups table tbody tr').length;
-  $('.tabgroups a').text(tabgroups + ' (' + numbergroups +')');
-
+function getNumberFriends() {
   var tabfriends = $('.tabfriends a').text();
   var numberfriends = $('#myfriends table tbody tr').length;
   $('.tabfriends a').text(tabfriends + ' (' + numberfriends +')');
+}
+
+function getNumberGroups() {
+  var tabgroups = $('.tabgroups a').text();
+  var numbergroups = $('#mygroups table tbody tr').length;
+  $('.tabgroups a').text(tabgroups + ' (' + numbergroups +')');
 }
 
 $(document).ready(function() {
@@ -18,7 +20,7 @@ $(document).ready(function() {
 						"<td>" + val.firstname + ' ' + val.lastname + "</td>" +
             "<td class='idprofilefriend' style='display:none;'>" + val.id+ "</td>"+ "</tr>");
       });
-      getNumberFriendsGroups();
+      getNumberFriends();
     }
   });
 
@@ -30,14 +32,21 @@ $(document).ready(function() {
 
 
   //Get JSON listgroups page contact
-  /*var url2 = 'http://vinci.aero/palendar/php/test.php';
+  var url2 = 'http://vinci.aero/palendar/php/group/getAllGroup.php';
   $.getJSON(url2, function (data, status) {
     if (status === "success") {
       $.each(data, function(index, val) {
         $("#mygroups table tbody").append("<tr>" +
-            "<td>" + val.pseudo + "</td></tr>");
+						"<td>" + "<img class='imagegroup' src='../upload/group/" + val.id + ".jpg'>" + "<h2>" + val.name + "</h2>" + ' ' + "<p>" + val.description + "</p>" + "</td>" +
+            "<td class='idprofilegroup' style='display:none;'>" + val.id+ "</td>"+ "</tr>");
       });
-      getNumberFriendsGroups();
+      getNumberGroups();
     }
-  });*/
+  });
+
+  //click group profile
+  $("#mygroups table").on("click", "tr", function() {
+    var idprofilegroup = $(this).find(".idprofilegroup").text();
+    getGroup("?id="+idprofilegroup);
+  });
 });

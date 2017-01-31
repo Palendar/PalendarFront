@@ -29,7 +29,7 @@ function getNumberNotifs() {
   });
 }
 
-//notifications
+//notifications friend
 function getAllInvitationUser() {
   $(".notifications-invitation table tbody").html('');
   $.getJSON('http://vinci.aero/palendar/php/contact/getAllContactRequest.php', function (data, status) {
@@ -43,6 +43,27 @@ function getAllInvitationUser() {
               "<td><i id='acceptUser' class='fa fa-check' aria-hidden='true'></i></td>" +
               "<td><i id='declineUser' class='fa fa-times' aria-hidden='true'></i></td>"+
               "<td class='idprofileUser' style='display:none;'>" + val.id+ "</td>"+
+              "</tr>");
+        });
+      }
+    }
+  });
+}
+
+//notifications group
+function getAllInvitationGroup() {
+  $(".notifications-invitation-group table tbody").html('');
+  $.getJSON('', function (data, status) {
+    if (status === "success") {
+      if(data == null) {
+        $(".notifications-invitation-group table tbody").append("<tr><td> no notification </td></tr>");
+      } else {
+        $.each(data, function(index, val) {
+          $(".notifications-invitation-group table tbody").append("<tr>" +
+              "<td>" + val.name + " invites you to join the group." + "</td>"+
+              "<td><i id='acceptGroup' class='fa fa-check' aria-hidden='true'></i></td>" +
+              "<td><i id='declineGroup' class='fa fa-times' aria-hidden='true'></i></td>"+
+              "<td class='idprofileGroup' style='display:none;'>" + val.id+ "</td>"+
               "</tr>");
         });
       }
@@ -159,6 +180,7 @@ $(window).on('load', function () {
 
   $(".addGroup").on("click", function(e){
     var favId = $(this).parent().data('favid');
+    console.log('test' + favId);
     var $slot = $("#grid").find("a");
 
     if(favId != null && favId != "" && !!favId){
