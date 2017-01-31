@@ -13,13 +13,19 @@ $(document).ready(function() {
   var url1 = 'http://vinci.aero/palendar/php/contact/getAllContact.php';
   $.getJSON(url1, function (data, status) {
     if (status === "success") {
-      console.log(data);
       $.each(data, function(index, val) {
         $("#myfriends table tbody").append("<tr>" +
-						"<td>" + val.firstname + ' ' + val.lastname + "</td></tr>");
+						"<td>" + val.firstname + ' ' + val.lastname + "</td>" +
+            "<td class='idprofilefriend' style='display:none;'>" + val.id+ "</td>"+ "</tr>");
       });
       getNumberFriendsGroups();
     }
+  });
+
+  //click friend profile
+  $("#myfriends table").on("click", "tr", function() {
+    var idprofile = $(this).find(".idprofilefriend").text();
+    getProfile("?id="+idprofile);
   });
 
 

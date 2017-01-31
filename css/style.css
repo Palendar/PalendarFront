@@ -514,6 +514,15 @@ html {
   background-color: #37ABEA;
 }
 
+/** CONTACT **/
+#myfriends table tbody tr:hover {
+  background-color: #37ABEA;
+}
+
+#mygroups table tbody tr:hover {
+  background-color: #37ABEA;
+}
+
 /** NAV BAR CUSTOM **/
 .addmargintop {
   margin-top: 60px;
