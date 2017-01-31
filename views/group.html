@@ -15,6 +15,7 @@
 	<script src="../css/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 
 	<script src="../js/vis-js/vis.min.js"></script>
+	<script src="../js/ical-parser/ical_parser.js"></script>
 	<script src="../js/group.js"></script>
 	<script src="../js/checklogin.js"></script>
 
@@ -206,8 +207,85 @@
     </div>
 		<div class="tab-content">
 	    <div class="tab-pane fade active in" id="group-calendar">
+				<button id="zoomIn">+</button>
+				<button id="zoomOut">-</button>
+				<button id="timeline-moveLeft"><</button>
+				<button id="timeline-moveRight">></button>
+				<button id="timeline-moveCurrent"> Centrer sur date courante </button>
 	      <div id="group-calendar-timeline"></div>
-	      <div id="group-calendar-chat"> CHAT HERE</div>
+				<div id="group-event-display">
+					<div>
+						<button id="group-event-previous"><</button>
+						<h3 id="groupgroup-event-title"></h3>
+						<button id="group-event-next">></button>
+					</div>
+					<div>
+						<p> Event start : <span id="group-event-start"></span></p>
+						<p> Event end : <span id="groupgroup-event-end"></span></p>
+						<p> Description : <span id="group-event-description"></span></p>
+					</div>
+				</div>
+				<div class="modal fade" id="modalNewEvent" role="dialog">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal">&times;</button>
+				        <h4 class="modal-title">Create you event !</h4>
+				      </div>
+				      <div class="modal-body">
+								<form class="newEvent-form" method="POST">
+									<ul>
+										<li>
+											<div class="control-group">
+												<label class="control-label" for="modalNewEvent-name"> Event title </label>
+												<div class="controls">
+								    			<input type="text" name="newEvent-name" id="modalNewEvent-name" placeholder="Event title" required>
+												</div>
+											</div>
+											<div class="control-group">
+												<div class="controls">
+													<input type="text" name="newEvent-description" placeholder="Put your description here" id="modalNewEvent-description">
+												</div>
+											</div>
+										</li>
+										<li>
+											<div class="control-group">
+												<label class="control-label" for="modalNewEvent-timestart"> Start </label>
+												<div class="controls">
+													<input type="number" name="time-start-dd" maxlength="2" min="00" class="modalNewEvent-time-input" id="modalNewEvent-timestart" disabled>
+													<span>/</span>
+													<input type="number" name="time-start-mm" maxlength="2" min="01" max="12" class="modalNewEvent-time-input" disabled>
+													<span>/</span>
+													<input type="number" name="time-start-yyyy" maxlength="4" class="modalNewEvent-time-input" disabled>
+													<input type="number" name="time-start-hh" maxlength="2" min="00" max="23" class="modalNewEvent-time-input">
+													<span>:</span>
+													<input type="number" name="time-start-min" maxlength="2" min="00" max="59" class="modalNewEvent-time-input">
+												</div>
+												<label class="control-label" for="modalNewEvent-timeend"> End </label>
+												<div class="controls">
+													<input type="number" name="time-end-dd" maxlength="2" min="00" class="modalNewEvent-time-input" id="modalNewEvent-timeend">
+													<span>/</span>
+													<input type="number" name="time-end-mm" maxlength="2" min="01" max="12" class="modalNewEvent-time-input">
+													<span>/</span>
+													<input type="number" name="time-end-yyyy" maxlength="4" class="modalNewEvent-time-input">
+													<input type="number" name="time-end-hh" maxlength="2" min="00" max="23" class="modalNewEvent-time-input">
+													<span>:</span>
+													<input type="number" name="time-end-min" maxlength="2" min="00" max="59" class="modalNewEvent-time-input">
+												</div>
+											</div>
+										</li>
+									</ul>
+									<div class="control-group">
+										<div class="controls">
+						    			<!-- <input type="image" id="modalNewGroup-send"> -->
+											<button id="newEvent-submit">Create ! </button>
+										</div>
+									</div>
+							  </form>
+				      </div>
+				    </div>
+				  </div>
+				</div>
 	    </div>
 	    <div class="tab-pane fade" id="group-members">
 				<table class="table table-condensed">

@@ -314,7 +314,7 @@ $(window).on('load', function () {
         item.content = event.description;
         item.start = event.time_start;
         if (new String(event.time_start).valueOf() !== new String(event.time_end).valueOf()){
-          item.end = data.time_end;
+          item.end = event.time_end;
         }
         item.editable = false;
 
