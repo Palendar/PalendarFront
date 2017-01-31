@@ -238,19 +238,19 @@
 						<p class="modal-title"> Creating your group allows you to keep in touch with your friends ! </p>
 		      </div>
 		      <div class="modal-body">
-						<form class="form-horizontal" method="POST" action="../php/createGroup.php">
+						<form class="form-horizontal" method="POST" action="../php/group/createGroup.php" enctype="multipart/form-data">
 							<span id="modalNewGroup-favid" name="group-favid" style="display:none;"></span>
 							<ul>
 								<li>
 									<div class="control-group">
 										<label class="control-label" for="modalNewGroup-name"> Group name </label>
 										<div class="controls">
-						    			<input type="text" name="newGroup-name" id="modalNewGroup-name" placeholder="Type in your group name" required>
+						    			<input type="text" name="name" placeholder="Type in your group name" required>
 										</div>
 									</div>
 									<div class="control-group">
 										<div class="controls">
-											<textarea row="4" name="newGroup-description" placeholder="Put your description here" id="modalNewGroup-description"></textarea>
+											<textarea row="4" name="description" placeholder="Put your description here"></textarea>
 										</div>
 									</div>
 								</li>
