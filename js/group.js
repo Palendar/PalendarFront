@@ -99,6 +99,21 @@ function loadCssForImportedCalendars(){
 }
 
 $(window).on('load', function () {
+  var idd = window.location.search.substr(1).split("=")[1];
+
+  $.getJSON('http://vinci.aero/palendar/php/group/getAllGroupIcal.php', {id_group: idd}, function (data, status) {
+    console.log('get all group ical', data);
+    if (status === "success") {
+        console.log(data);
+      }
+    }, "json");
+
+  $.getJSON('http://vinci.aero/palendar/php/group/getAllGroupEvent.php', {id_group: idd}, function (data, status) {
+    console.log('get all group events', data);
+    if (status === "success") {
+        console.log(data);
+      }
+    },"json");
 
   //slide friends
   $("#buttonaddfriends").click(function() {
@@ -430,15 +445,18 @@ $(window).on('load', function () {
       }
     }
   });
+
+  // get all events from the group
   function loadGroupEvents() {
     var id_group = window.location.search.substr(1).split("=")[1];
-    $.getJSON('http://vinci.aero/palendar/php/group/getAllGroupEvent.php', {id_group: id_group}, function (data, status) {
+    $.getJSON('http://vinci.aero/palendar/php/group/getAllGroupMyEvent.php', {id_group: id_group}, function (data, status) {
       if (status === "success") {
           loadCustomEvents(data);
         }
       }
     );
   }
+  // Get all events from personnal account
   function loadPersonnalEvents() {
     $.getJSON('http://vinci.aero/palendar/php/calendar/getAllEvent.php', function (data, status) {
       if (status === "success") {
@@ -448,5 +466,4 @@ $(window).on('load', function () {
     );
     loadGroupEvents();
   }
-
 });
