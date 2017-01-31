@@ -5,6 +5,18 @@ $(window).on('load', function () {
     $("#invit-friends").slideToggle();
   });
 
+  //get all friend to add group
+  $.getJSON('http://vinci.aero/palendar/php/contact/getAllContact.php', function (data, status) {
+    if (status === "success") {
+      $.each(data, function(index, val) {
+        $("#invit-friends table tbody").append("<tr>" +
+            "<td>" + val.firstname + ' ' + val.lastname + "</td>" + "<td><i id='invitfriendtogroup' class='fa fa-plus' aria-hidden='true'></td></tr>");
+      });
+    }
+  });
+
+
+
   var container = $('#group-calendar-timeline')[0];
 
   // Create a DataSet (allows two way data-binding)
