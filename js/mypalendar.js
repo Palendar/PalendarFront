@@ -1,15 +1,16 @@
-var timeline;
-var container;
-var items;
-var dataSet = [];
+var timeline; // the timeline object
+var container; // the container object for the timeline
+var items; // the items for the dataSet used in the timeline
+var dataSet = []; // the dataSet for the timeline
 
-var allEventsArray = [];
-var allEventsSortedArray = [];
+var allEventsArray = []; // The array containing all the events with start, end, id etc
+var allEventsSortedArray = []; // The sorted array of all the events for the navigation through buttons
+var importedEvents = []; // Array storing the imported calendar events (ics files)
+var classToColor = []; // Map key: classname, value: color
 
-var currentEventDisplayedId;
+var currentEventDisplayedId; // Id of the current display event
 
-// Configuration for the Timeline
-var options;
+var options; // Configuration for the Timeline
 
 // Format date 'dd/mm/yyyy' TO 'yyyy-mm-dd'
 function formatDate(dateToFormat) {
@@ -24,14 +25,14 @@ function setModalValues(prop){
   // Control on start date
   $("#modalNewEvent input[name='time-start-yyyy']").val(prop.time.getFullYear());
   $("#modalNewEvent input[name='time-start-mm']").val(prop.time.getMonth()+1);
-  $("#modalNewEvent input[name='time-start-dd']").val(prop.time.getDay());
+  $("#modalNewEvent input[name='time-start-dd']").val(prop.time.getDate());
   $("#modalNewEvent input[name='time-start-hh']").val(prop.time.getHours());
   $("#modalNewEvent input[name='time-start-min']").val(prop.time.getMinutes());
 
   // Control on end date
   $("#modalNewEvent input[name='time-end-yyyy']").val(prop.time.getFullYear());
   $("#modalNewEvent input[name='time-end-mm']").val(prop.time.getMonth()+1);
-  $("#modalNewEvent input[name='time-end-dd']").val(prop.time.getDay());
+  $("#modalNewEvent input[name='time-end-dd']").val(prop.time.getDate());
   $("#modalNewEvent input[name='time-end-hh']").val(prop.time.getHours());
   $("#modalNewEvent input[name='time-end-min']").val(prop.time.getMinutes());
 }
@@ -59,8 +60,6 @@ function displayEventInfo(selectedEventId){
   }
 }
 
-
-
 // Validation for input inside the event creation modal
 function validateNumber(event) {
     var key = window.event ? event.keyCode : event.which;
@@ -87,11 +86,15 @@ function focusNow(){
   timeline.moveTo(new Date());
 }
 
+function loadCssForImportedCalendars(){
+  for (var className in classToColor){
+    var color = classToColor[className];
+    $("." + className).css('background-color', color);
+  }
+}
 
 $(window).on('load', function () {
   $('.newEvent-form input[type="number"]').keypress(validateNumber);
-
-  var ical_file = "../ical/basic.ics";
 
   container = $('#mypalendar-calendar-timeline')[0];
 
@@ -113,33 +116,58 @@ $(window).on('load', function () {
     },
   };
 
-  $(".newEvent-form").submit(function(event) {
+  $("#newEvent-submit").on('click', function(event) {
+    event.preventDefault();
     var time_start = $("#modalNewEvent input[name='time-start-yyyy']").val() + '-' +
-                     $("#modalNewEvent input[name='time-start-mm']").val() + '-' +
-                     $("#modalNewEvent input[name='time-start-dd']").val() + ' ' +
-                     $("#modalNewEvent input[name='time-start-hh']").val() + ':' +
-                     $("#modalNewEvent input[name='time-start-min']").val() + ':00';
-
-    var time_end = $("#modalNewEvent input[name='time-end-yyyy']").val() + '-' +
-                   $("#modalNewEvent input[name='time-end-mm']").val() + '-' +
-                   $("#modalNewEvent input[name='time-end-dd']").val() + ' ' +
-                   $("#modalNewEvent input[name='time-end-hh']").val() + ':' +
-                   $("#modalNewEvent input[name='time-end-min']").val() + ':00';
-
+                   $("#modalNewEvent input[name='time-start-mm']").val() + '-' +
+                   $("#modalNewEvent input[name='time-start-dd']").val() + ' ' +
+                   $("#modalNewEvent input[name='time-start-hh']").val() + ':' +
+                   $("#modalNewEvent input[name='time-start-min']").val() + ':00';
+   var time_end = $("#modalNewEvent input[name='time-end-yyyy']").val() + '-' +
+                  $("#modalNewEvent input[name='time-end-mm']").val() + '-' +
+                  $("#modalNewEvent input[name='time-end-dd']").val() + ' ' +
+                  $("#modalNewEvent input[name='time-end-hh']").val() + ':' +
+                  $("#modalNewEvent input[name='time-end-min']").val() + ':00';
     var description = $("#modalNewEvent input[name='newEvent-description']").val();
-    var id_group = 1;
-    var id_user = 1;
+
     var name = $("#modalNewEvent input[name='newEvent-name']").val();
 
-    var loginPostUrl = 'http://vinci.aero/palendar/php/group/createEvent.php';
-
-    $.post(loginPostUrl, {description: description, id_group: id_group, nom: name, time_start: time_start, time_end: time_end}, function(data, status) {
+    $.post('http://vinci.aero/palendar/php/calendar/createEvent.php', {description: description, name: name, time_start: time_start, time_end: time_end}, function(data, status) {
       if (status === "success") {
-        console.log("ss",data);
+        var item = {};
+
+        item.id = 'custom-user-' + data.id_user + '-event-' + data.id;
+        item.content = data.description;
+        item.start = data.time_start;
+        if (new String(data.time_start).valueOf() !== new String(data.time_end).valueOf()){
+          item.end = data.time_end;
+        }
+        item.editable = false;
+
+        allEventsArray[item.id] = {
+          title: data.name,
+          content: item.content,
+          start: item.start,
+          end: data.time_end
+        }
+
+        allEventsSortedArray.push({
+          id: item.id,
+          start: item.start
+        });
+
+        allEventsSortedArray.sort(function(a,b){
+          return new Date(a.start) - new Date(b.start);
+        });
+        dataSet.push(item);
+        timeline.setItems(new vis.DataSet(dataSet));
+        loadCssForImportedCalendars();
+        timeline.redraw();
       } else {
         console.log("ecc", data);
       }
     }, "json");
+    $("#modalNewEvent").modal("hide");
   });
 
   //Focus and select the new event
@@ -238,10 +266,12 @@ $(window).on('load', function () {
     });
     bindTimelineButtons();
     focusNow();
+
+    loadCssForImportedCalendars();
   }
 
-  //Display All future events in ical file as list.
-  function loadEvents(events){
+  // load events from ical
+  function loadEventsFromIcs(events, group){
     var item;
     var id = 0;
     //Foreach event
@@ -249,12 +279,11 @@ $(window).on('load', function () {
       item = {};
       var formattedDate = formatDate(event.start_date);
 
-      item.group = 'daniel-exemple';
-      item.id = item.group + '-' + id;
+      item.id = group + '-' + id;
       item.content = event.SUMMARY;
       item.start = formattedDate + ' ' + event.start_time;
       item.end = formattedDate + ' ' + event.end_time;
-      item.className = 'timeline-item-' + item.group;
+      item.className = group;
       item.editable = false;
       id += 1;
 
@@ -272,14 +301,94 @@ $(window).on('load', function () {
 
       dataSet.push(item);
     });
-    displayEventsOnTimeline();
   }
 
-  new ical_parser(ical_file, function(cal){
-      //When ical parser has loaded file
-      //get future events
-      events = cal.getFutureEvents();
-      //And display them
-      loadEvents(events);
+  // load personnal events
+  function loadCustomEvents(events){
+    var item;
+    if (events){
+      events.forEach(function(event){
+        item = {};
+
+        item.id = 'custom-user-' + event.id_user + '-event-' + event.id;
+        item.content = event.description;
+        item.start = event.time_start;
+        if (new String(event.time_start).valueOf() !== new String(event.time_end).valueOf()){
+          item.end = data.time_end;
+        }
+        item.editable = false;
+
+        allEventsArray[item.id] = {
+          title: event.name,
+          content: item.content,
+          start: item.start,
+          end: event.time_end
+        }
+
+        allEventsSortedArray.push({
+          id: item.id,
+          start: item.start
+        });
+
+        dataSet.push(item);
+      });
+    }
+  }
+
+  function addEvents(calendar_id, calendar_events, callback){
+    importedEvents['cal-' + calendar_id].events = calendar_events;
+    if(callback){
+      for(var i in importedEvents){
+        var cal = importedEvents[i];
+        loadEventsFromIcs(cal.events, cal.name);
+      }
+      callback();
+    }
+  }
+  //get all ical in my palendar
+  $.getJSON('http://vinci.aero/palendar/php/calendar/getAllIcal.php', function (data, status) {
+    if (status === "success") {
+      for (var i = 0; i < data.length; i++){
+        // Used to find the right calendar on the server
+        var cal_id = data[i].id;
+        var ical_file = "../upload/ical/" + cal_id + ".ics";
+
+        // Used to identify the calendar to be loaded on the timeline later on, associated with a color
+        var cal_name = data[i].name + '-' + cal_id;
+        var cal_color = data[i].color;
+        importedEvents['cal-' + cal_id] = {
+          id: cal_id,
+          name: cal_name
+        };
+        classToColor[cal_name] = cal_color;
+        if (i < data.length -1) {
+          new ical_parser(ical_file, function(cal){
+              //When ical parser has loaded file
+              //get future events
+              var cal_id = cal.feed_url.split('/')[3].split('.')[0];
+              events = cal.getFutureEvents();
+              addEvents(cal_id, events, false);
+          });
+        } else {
+          new ical_parser(ical_file, function(cal){
+              //When ical parser has loaded file
+              //get future events
+              var cal_id = cal.feed_url.split('/')[3].split('.')[0];
+              events = cal.getFutureEvents();
+              addEvents(cal_id, events, loadPersonnalEvents);
+          });
+        }
+      }
+    }
   });
+  function loadPersonnalEvents() {
+    $.getJSON('http://vinci.aero/palendar/php/calendar/getAllEvent.php', function (data, status) {
+      if (status === "success") {
+          loadCustomEvents(data);
+          displayEventsOnTimeline();
+        }
+      }
+    );
+  }
+
 });
