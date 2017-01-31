@@ -92,7 +92,10 @@
 								  <input type="password" name="settings-accsettings-profile-password" id="settings-accsettings-profile-password">
 								</div>
 								<div>
-								  <input type="file" name="settings-accsettings-profile-image" accept="image/*" id="modalSettings-image-input">
+									<form method="POST" action="../php/user/addImage.php" enctype="multipart/form-data">
+								  	<input type="file" name="fileToUpload" accept="image/*" id="modalSettings-image-input">
+										<button class="btn btn-primary" type="submit"> Update profile</button>
+									</form>
 									<div id="modal-image-select-preview">
 								  	<div id="modal-image-select">
 									    <div id="modal-image">
