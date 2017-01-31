@@ -262,9 +262,12 @@ html {
 
 .addGroup {
   background-color: #fff;
-  background-image: url(../img/icon/add.png);
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.addGroupPlus {
+  background-image: url(../img/icon/add.png);
 }
 
 /***
