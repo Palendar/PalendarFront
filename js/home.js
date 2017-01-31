@@ -67,10 +67,10 @@ $(window).on('load', function () {
   });
 
   //  $(".group-fav:eq" + ID of hexagone).css
-  $(".group-fav").each(function(index){
+  /*$(".group-fav").each(function(index){
     $(this).css('background-image', "url('../img/group-fav/calendrier.png')");
     $(this).css('background-size', '100% 100%');
-  });
+  });*/
 
   /**
   $(".notif-close").click(function(e){
