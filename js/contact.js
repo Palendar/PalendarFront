@@ -16,9 +16,16 @@ $(document).ready(function() {
   $.getJSON(url1, function (data, status) {
     if (status === "success") {
       $.each(data, function(index, val) {
-        $("#myfriends table tbody").append("<tr>" +
-						"<td>" + val.firstname + ' ' + val.lastname + "</td>" +
-            "<td class='idprofilefriend' style='display:none;'>" + val.id+ "</td>"+ "</tr>");
+        console.log("d:" + val.image);
+        if(val.image === '') {
+          $("#myfriends table tbody").append("<tr>" +
+              "<td>" + "<img class='imagegroup' src='../upload/user/default.jpeg'>" + val.firstname + ' ' + val.lastname + "</td>" +
+              "<td class='idprofilefriend' style='display:none;'>" + val.id+ "</td>"+ "</tr>");
+        } else {
+          $("#myfriends table tbody").append("<tr>" +
+              "<td>" + "<img class='imagegroup' src='../upload/user/" + val.image + "'>" + val.firstname + ' ' + val.lastname + "</td>" +
+              "<td class='idprofilefriend' style='display:none;'>" + val.id+ "</td>"+ "</tr>");
+        }
       });
       getNumberFriends();
     }
@@ -37,7 +44,7 @@ $(document).ready(function() {
     if (status === "success") {
       $.each(data, function(index, val) {
         $("#mygroups table tbody").append("<tr>" +
-						"<td>" + "<img class='imagegroup' src='../upload/group/" + val.id + ".jpg'>" + "<h2>" + val.name + "</h2>" + ' ' + "<p>" + val.description + "</p>" + "</td>" +
+						"<td>" + "<img class='imagegroup' src='../upload/group/" + val.image + "'>" + "<h2>" + val.name + "</h2>" + ' ' + "<p>" + val.description + "</p>" + "</td>" +
             "<td class='idprofilegroup' style='display:none;'>" + val.id+ "</td>"+ "</tr>");
       });
       getNumberGroups();
