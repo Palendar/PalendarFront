@@ -100,9 +100,25 @@ function loadCssForImportedCalendars(){
 
 $(window).on('load', function () {
 
-  //add friend in group
+  //slide friends
   $("#buttonaddfriends").click(function() {
     $("#invit-friends").slideToggle();
+  });
+
+  //add friend in group
+  $("#invit-friends table").on("click", ".invitfriendtogroup", function() {
+    var idprofile = $(this).parent().parent().find(".idprofilefriend").text();
+    var current = $(location).attr('href');
+    var tabcurrent = current.split('=');
+    var idGroup = tabcurrent[tabcurrent.length-1];
+
+    $.post('http://vinci.aero/palendar/php/group/inviteGroup.php', {id_user:idprofile, id_group:idGroup}, function(data, status) {
+      if (status === "success") {
+        //namedbb = data.name;
+        console.log(data);
+        alert("Invitation sent !");
+      }
+    }, "json");
   });
 
   //get all friend to add group
@@ -110,7 +126,9 @@ $(window).on('load', function () {
     if (status === "success") {
       $.each(data, function(index, val) {
         $("#invit-friends table tbody").append("<tr>" +
-            "<td>" + val.firstname + ' ' + val.lastname + "</td>" + "<td><i id='invitfriendtogroup' class='fa fa-plus' aria-hidden='true'></td></tr>");
+            "<td>" + val.firstname + ' ' + val.lastname + "</td>" +
+            "<td class='idprofilefriend' style='display:none;'>" + val.id+ "</td>"+
+            "<td><i class='invitfriendtogroup fa fa-plus' aria-hidden='true'></td></tr>");
       });
     }
   });
