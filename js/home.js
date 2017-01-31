@@ -101,9 +101,17 @@ $(window).on('load', function () {
     reader.readAsDataURL(this.files[0]);
   });
 
-  //  $(".group-fav:eq" + ID of hexagone).css
+  //get group fav in homepage
+  $.getJSON('http://vinci.aero/palendar/php/group/getAllGroup.php', function (data, status) {
+    if (status === "success") {
+      $.each(data, function(index, val) {
+        $(".group-fav")
+
+      });
+    }
+  });
   $(".group-fav").each(function(index){
-    console.log($(this).attr('class'));
+    console.log($(this).parent().attr('data-favid'));
     $(this).css('background-image', "url('../img/group-fav/calendrier.png')");
     $(this).css('background-size', '100% 100%');
   });
