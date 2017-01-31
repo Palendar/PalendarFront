@@ -614,7 +614,7 @@ html {
 #notifications .notif-open, #notifications .notif-close {
   position: absolute;
   right: -38px;
-  top: 4px;
+  top: 14px;
   padding: 10px;
   width: 35px;
   height: 35px;
@@ -625,6 +625,22 @@ html {
 
 	text-decoration: none;
 	border-radius: 0 8px 8px 0px;
+  z-index: 8;
+}
+
+#notifications .notif-number {
+  position: absolute;
+  right: -40px;
+  top: 4px;
+  width: 18px;
+  height: 18px;
+  font-weight: bold;
+  text-align: center;
+  background-color: red !important;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px #888888;
+  z-index: 8;
+  display: none;
 }
 
 #notifications .notif-close {

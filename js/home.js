@@ -15,6 +15,20 @@ function refreshHomeGroups(location) {
   }
 }
 
+//get number notif
+function getNumberNotifs() {
+  $.getJSON('http://vinci.aero/palendar/php/user/getNbrNotif.php', function (data, status) {
+    if (status === "success") {
+      if(data.nbr === '0') {
+        $(".notif-number").hide();
+      } else {
+        $(".notif-number").show();
+        $(".notif-number").text(data.nbr);
+      }
+    }
+  });
+}
+
 //notifications
 function getAllInvitationUser() {
   $(".notifications-invitation table tbody").html('');
@@ -87,6 +101,7 @@ $(window).on('load', function () {
     getAllInvitationUser();
   });**/
 
+  getNumberNotifs();
   //notification hover open
   $(".notif-open").mouseenter(function(e){
     $("#notifications").css("left", "0px");
@@ -102,6 +117,8 @@ $(window).on('load', function () {
     $(".notif-close").css("display", "none");
   });
 
+
+
   //acceptUser
   $(".notifications-invitation table").on("click", "#acceptUser", function() {
     var idprofileUser = $(this).parent().parent().find(".idprofileUser").text();
@@ -111,6 +128,7 @@ $(window).on('load', function () {
       }
     }, "json");
     getAllInvitationUser();
+    getNumberNotifs();
   });
 
   //declineUser
@@ -122,6 +140,7 @@ $(window).on('load', function () {
       }
     }, "json");
     getAllInvitationUser();
+    getNumberNotifs();
   });
 
 
