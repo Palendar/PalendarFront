@@ -122,7 +122,7 @@ $(window).on('load', function () {
     }, "json");
     $(".tabAllCalendar > tbody").prepend("<tr><td>" + nameCal +"</td>" +
     									"<td>" +
-    										"<input type='color' class='colorpicker-perso'>" +
+    										"<input type='color' class='colorpicker-perso' value='" + colorCal +"'>" +
     									"</td>" +
                       "<td>" +
                         "<span><i class='fa fa-times' aria-hidden='true'></i></span>" +
@@ -140,7 +140,7 @@ $(window).on('load', function () {
       $.each(data, function(index, val) {
         $(".tabAllCalendar > tbody").prepend("<tr><td>" + val.name +"</td>" +
                           "<td>" +
-                            "<input type='color' class='colorpicker-perso'>" +
+                            "<input type='color' class='colorpicker-perso' value='" + val.color +"'>" +
                           "</td>" +
                           "<td>" +
                             "<span><i class='fa fa-times' aria-hidden='true'></i></span>" +
