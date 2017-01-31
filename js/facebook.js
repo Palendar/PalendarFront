@@ -24,11 +24,9 @@ window.fbAsyncInit = function() {
 //connect with fb
 function connectFb() {
 	FB.api('/me', 'GET', {fields: 'first_name,last_name,name,email,id,picture.width(150).height(150)'}, function(response) {
-		console.log(response.email + response.id + '<br>' + response.first_name + '<br>' + response.last_name);
 		$.post('http://vinci.aero/palendar/php/user/loginFacebook.php', {facebook:response.id}, function(data, status) {
 			if (status === "success") {
 				if(data.validate) {
-					console.log("testfb");
 					getHome();
 				} else {
 					$.post('http://vinci.aero/palendar/php/user/registerFacebook.php', {email:response.email, facebook:response.id, firstname:response.first_name, lastname:response.last_name}, function(data, status) {
