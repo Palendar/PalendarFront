@@ -22,6 +22,11 @@ function formatDate(dateToFormat) {
 function setModalValues(prop){
   $("#modalNewEvent").modal("show");
 
+  var $parent = $("#modalNewEvent-name").parent();
+  $("#modalNewEvent-name").remove();
+  $parent.append('<input type="text" name="newEvent-name" id="modalNewEvent-name" placeholder="Event title" required>');
+  $("#modalNewEvent #modalNewEvent-description").val('');
+
   // Control on start date
   $("#modalNewEvent input[name='time-start-yyyy']").val(prop.time.getFullYear());
   $("#modalNewEvent input[name='time-start-mm']").val(prop.time.getMonth()+1);
@@ -134,33 +139,8 @@ $(window).on('load', function () {
 
     $.post('http://vinci.aero/palendar/php/calendar/createEvent.php', {description: description, name: name, time_start: time_start, time_end: time_end}, function(data, status) {
       if (status === "success") {
-        var item = {};
-
-        item.id = 'custom-user-' + data.id_user + '-event-' + data.id;
-        item.content = data.description;
-        item.start = data.time_start;
-        if (new String(data.time_start).valueOf() !== new String(data.time_end).valueOf()){
-          item.end = data.time_end;
-        }
-        item.editable = false;
-
-        allEventsArray[item.id] = {
-          title: data.name,
-          content: item.content,
-          start: item.start,
-          end: data.time_end
-        }
-
-        allEventsSortedArray.push({
-          id: item.id,
-          start: item.start
-        });
-
-        allEventsSortedArray.sort(function(a,b){
-          return new Date(a.start) - new Date(b.start);
-        });
-        dataSet.push(item);
-        timeline.setItems(new vis.DataSet(dataSet));
+        loadCustomEvents([data]);
+        refreshTimelineEvents();
         loadCssForImportedCalendars();
         timeline.redraw();
       } else {
@@ -261,13 +241,18 @@ $(window).on('load', function () {
         });
       }, 100);
     });
-    allEventsSortedArray.sort(function(a,b){
+    /*allEventsSortedArray.sort(function(a,b){
       return new Date(a.start) - new Date(b.start);
-    });
+    });*/
     bindTimelineButtons();
     focusNow();
 
     loadCssForImportedCalendars();
+  }
+
+  // Refresh the event list after retrieving dataSet
+  function refreshTimelineEvents(){
+    timeline.setItems(new vis.DataSet(dataSet));
   }
 
   // load events from ical
@@ -275,7 +260,8 @@ $(window).on('load', function () {
     var item;
     var id = 0;
     //Foreach event
-    events.forEach(function(event){
+    for(var i in events){
+      var event = events[i];
       item = {};
       var formattedDate = formatDate(event.start_date);
 
@@ -299,15 +285,19 @@ $(window).on('load', function () {
         start: item.start
       });
 
+      allEventsSortedArray.sort(function(a,b){
+        return new Date(a.start) - new Date(b.start);
+      });
       dataSet.push(item);
-    });
+    }
   }
 
   // load personnal events
   function loadCustomEvents(events){
     var item;
     if (events){
-      events.forEach(function(event){
+      for(var i in events){
+        var event = events[i];
         item = {};
 
         item.id = 'custom-user-' + event.id_user + '-event-' + event.id;
@@ -330,8 +320,12 @@ $(window).on('load', function () {
           start: item.start
         });
 
+        allEventsSortedArray.sort(function(a,b){
+          return new Date(a.start) - new Date(b.start);
+        });
+
         dataSet.push(item);
-      });
+      }
     }
   }
 
@@ -341,6 +335,7 @@ $(window).on('load', function () {
       for(var i in importedEvents){
         var cal = importedEvents[i];
         loadEventsFromIcs(cal.events, cal.name);
+        displayEventsOnTimeline();
       }
       callback();
     }
@@ -385,7 +380,8 @@ $(window).on('load', function () {
     $.getJSON('http://vinci.aero/palendar/php/calendar/getAllEvent.php', function (data, status) {
       if (status === "success") {
           loadCustomEvents(data);
-          displayEventsOnTimeline();
+          refreshTimelineEvents();
+          loadCssForImportedCalendars();
         }
       }
     );

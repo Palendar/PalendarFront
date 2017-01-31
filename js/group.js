@@ -22,6 +22,11 @@ function formatDate(dateToFormat) {
 function setModalValues(prop){
   $("#modalNewEvent").modal("show");
 
+  var $parent = $("#modalNewEvent-name").parent();
+  $("#modalNewEvent-name").remove();
+  $parent.append('<input type="text" name="newEvent-name" id="modalNewEvent-name" placeholder="Event title" required>');
+  $("#modalNewEvent #modalNewEvent-description").val('');
+
   // Control on start date
   $("#modalNewEvent input[name='time-start-yyyy']").val(prop.time.getFullYear());
   $("#modalNewEvent input[name='time-start-mm']").val(prop.time.getMonth()+1);
@@ -148,11 +153,11 @@ $(window).on('load', function () {
     var description = $("#modalNewEvent input[name='newEvent-description']").val();
 
     var name = $("#modalNewEvent input[name='newEvent-name']").val();
+    var id_group = window.location.search.substr(1).split('=')[1];
 
-    $.post('http://vinci.aero/palendar/php/calendar/createEvent.php', {description: description, name: name, time_start: time_start, time_end: time_end}, function(data, status) {
+    $.post('http://vinci.aero/palendar/php/group/createGroupEvent.php', {id_group:id_group, description: description, name: name, time_start: time_start, time_end: time_end}, function(data, status) {
       if (status === "success") {
         var item = {};
-
         item.id = 'custom-user-' + data.id_user + '-event-' + data.id;
         item.content = data.description;
         item.start = data.time_start;
@@ -283,7 +288,12 @@ $(window).on('load', function () {
     });
     bindTimelineButtons();
     focusNow();
+  }
 
+  // Refresh the event list after retrieving dataSet
+  function refreshTimelineEvents(){
+    timeline.setItems(new vis.DataSet(dataSet));
+    timeline.redraw();
     loadCssForImportedCalendars();
   }
 
@@ -291,8 +301,9 @@ $(window).on('load', function () {
   function loadEventsFromIcs(events, group){
     var item;
     var id = 0;
-    //Foreach event
-    events.forEach(function(event){
+
+    for(var i in events){
+      var event = events[i];
       item = {};
       var formattedDate = formatDate(event.start_date);
 
@@ -317,14 +328,15 @@ $(window).on('load', function () {
       });
 
       dataSet.push(item);
-    });
+    }
   }
 
   // load personnal events
   function loadCustomEvents(events){
     var item;
     if (events){
-      events.forEach(function(event){
+      for(var i in events){
+        var event = events[i];
         item = {};
 
         item.id = 'custom-user-' + event.id_user + '-event-' + event.id;
@@ -348,7 +360,8 @@ $(window).on('load', function () {
         });
 
         dataSet.push(item);
-      });
+      }
+      refreshTimelineEvents();
     }
   }
 
@@ -358,6 +371,7 @@ $(window).on('load', function () {
       for(var i in importedEvents){
         var cal = importedEvents[i];
         loadEventsFromIcs(cal.events, cal.name);
+        displayEventsOnTimeline();
       }
       callback();
     }
@@ -398,13 +412,23 @@ $(window).on('load', function () {
       }
     }
   });
-  function loadPersonnalEvents() {
-    $.getJSON('http://vinci.aero/palendar/php/calendar/getAllEvent.php', function (data, status) {
+  function loadGroupEvents() {
+    var id_group = window.location.search.substr(1).split("=")[1];
+    $.getJSON('http://vinci.aero/palendar/php/group/getAllGroupEvent.php', {id_group: id_group}, function (data, status) {
       if (status === "success") {
           loadCustomEvents(data);
-          displayEventsOnTimeline();
         }
       }
     );
   }
+  function loadPersonnalEvents() {
+    $.getJSON('http://vinci.aero/palendar/php/calendar/getAllEvent.php', function (data, status) {
+      if (status === "success") {
+          loadCustomEvents(data);
+        }
+      }
+    );
+    loadGroupEvents();
+  }
+
 });
