@@ -418,13 +418,14 @@ $(window).on('load', function () {
       for(var i in importedEvents){
         var cal = importedEvents[i];
         loadEventsFromIcs(cal.events, cal.name);
-        displayEventsOnTimeline();
+        refreshTimelineEvents();
       }
       callback();
     }
   }
   //get all ical in my palendar
   $.getJSON('http://vinci.aero/palendar/php/calendar/getAllIcal.php', function (data, status) {
+    displayEventsOnTimeline();
     if (status === "success") {
       if (data){
         for (var i = 0; i < data.length; i++){
@@ -440,26 +441,14 @@ $(window).on('load', function () {
             name: cal_name
           };
           classToColor[cal_name] = cal_color;
-          if (i < data.length -1) {
-            new ical_parser(ical_file, function(cal){
-                //When ical parser has loaded file
-                //get future events
-                var cal_id = cal.feed_url.split('/')[3].split('.')[0];
-                events = cal.getFutureEvents();
-                addEvents(cal_id, events, false);
-            });
-          } else {
-            new ical_parser(ical_file, function(cal){
-                //When ical parser has loaded file
-                //get future events
-                var cal_id = cal.feed_url.split('/')[3].split('.')[0];
-                events = cal.getFutureEvents();
-                addEvents(cal_id, events, loadPersonnalEvents);
-            });
-          }
+          new ical_parser(ical_file, function(cal){
+              //When ical parser has loaded file
+              //get future events
+              var cal_id = cal.feed_url.split('/')[3].split('.')[0];
+              var events = cal.getFutureEvents();
+              addEvents(cal_id, events, loadPersonnalEvents);
+          });
         }
-      } else {
-        displayEventsOnTimeline();
       }
     }
   });
