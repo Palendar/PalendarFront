@@ -260,35 +260,37 @@ $(window).on('load', function () {
     var item;
     var id = 0;
     //Foreach event
-    for(var i in events){
-      var event = events[i];
-      item = {};
-      var formattedDate = formatDate(event.start_date);
+    if (events){
+      for(var i in events){
+        var event = events[i];
+        item = {};
+        var formattedDate = formatDate(event.start_date);
 
-      item.id = group + '-' + id;
-      item.content = event.SUMMARY;
-      item.start = formattedDate + ' ' + event.start_time;
-      item.end = formattedDate + ' ' + event.end_time;
-      item.className = group;
-      item.editable = false;
-      id += 1;
+        item.id = group + '-' + id;
+        item.content = event.SUMMARY;
+        item.start = formattedDate + ' ' + event.start_time;
+        item.end = formattedDate + ' ' + event.end_time;
+        item.className = group;
+        item.editable = false;
+        id += 1;
 
-      allEventsArray[item.id] = {
-        title: item.content,
-        content: item.content,
-        start: item.start,
-        end: item.end
+        allEventsArray[item.id] = {
+          title: item.content,
+          content: item.content,
+          start: item.start,
+          end: item.end
+        }
+
+        allEventsSortedArray.push({
+          id: item.id,
+          start: item.start
+        });
+
+        allEventsSortedArray.sort(function(a,b){
+          return new Date(a.start) - new Date(b.start);
+        });
+        dataSet.push(item);
       }
-
-      allEventsSortedArray.push({
-        id: item.id,
-        start: item.start
-      });
-
-      allEventsSortedArray.sort(function(a,b){
-        return new Date(a.start) - new Date(b.start);
-      });
-      dataSet.push(item);
     }
   }
 
@@ -343,36 +345,40 @@ $(window).on('load', function () {
   //get all ical in my palendar
   $.getJSON('http://vinci.aero/palendar/php/calendar/getAllIcal.php', function (data, status) {
     if (status === "success") {
-      for (var i = 0; i < data.length; i++){
-        // Used to find the right calendar on the server
-        var cal_id = data[i].id;
-        var ical_file = "../upload/ical/" + cal_id + ".ics";
+      if (data){
+        for (var i = 0; i < data.length; i++){
+          // Used to find the right calendar on the server
+          var cal_id = data[i].id;
+          var ical_file = "../upload/ical/" + cal_id + ".ics";
 
-        // Used to identify the calendar to be loaded on the timeline later on, associated with a color
-        var cal_name = data[i].name + '-' + cal_id;
-        var cal_color = data[i].color;
-        importedEvents['cal-' + cal_id] = {
-          id: cal_id,
-          name: cal_name
-        };
-        classToColor[cal_name] = cal_color;
-        if (i < data.length -1) {
-          new ical_parser(ical_file, function(cal){
-              //When ical parser has loaded file
-              //get future events
-              var cal_id = cal.feed_url.split('/')[3].split('.')[0];
-              events = cal.getFutureEvents();
-              addEvents(cal_id, events, false);
-          });
-        } else {
-          new ical_parser(ical_file, function(cal){
-              //When ical parser has loaded file
-              //get future events
-              var cal_id = cal.feed_url.split('/')[3].split('.')[0];
-              events = cal.getFutureEvents();
-              addEvents(cal_id, events, loadPersonnalEvents);
-          });
+          // Used to identify the calendar to be loaded on the timeline later on, associated with a color
+          var cal_name = data[i].name + '-' + cal_id;
+          var cal_color = data[i].color;
+          importedEvents['cal-' + cal_id] = {
+            id: cal_id,
+            name: cal_name
+          };
+          classToColor[cal_name] = cal_color;
+          if (i < data.length -1) {
+            new ical_parser(ical_file, function(cal){
+                //When ical parser has loaded file
+                //get future events
+                var cal_id = cal.feed_url.split('/')[3].split('.')[0];
+                events = cal.getFutureEvents();
+                addEvents(cal_id, events, false);
+            });
+          } else {
+            new ical_parser(ical_file, function(cal){
+                //When ical parser has loaded file
+                //get future events
+                var cal_id = cal.feed_url.split('/')[3].split('.')[0];
+                events = cal.getFutureEvents();
+                addEvents(cal_id, events, loadPersonnalEvents);
+            });
+          }
         }
+      } else {
+        displayEventsOnTimeline();
       }
     }
   });

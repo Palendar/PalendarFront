@@ -426,7 +426,7 @@ $(window).on('load', function () {
   //get all ical in my palendar
   $.getJSON('http://vinci.aero/palendar/php/calendar/getAllIcal.php', function (data, status) {
     if (status === "success") {
-      if (data && data.length != 0){
+      if (data){
         for (var i = 0; i < data.length; i++){
           // Used to find the right calendar on the server
           var cal_id = data[i].id;
