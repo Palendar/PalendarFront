@@ -334,39 +334,40 @@ $(window).on('load', function () {
   function loadEventsFromIcs(events, group){
     var item;
     var id = 0;
+    if (events){
+      for(var i in events){
+        var event = events[i];
+        item = {};
+        var formattedDate = formatDate(event.start_date);
 
-    for(var i in events){
-      var event = events[i];
-      item = {};
-      var formattedDate = formatDate(event.start_date);
+        item.id = group + '-' + id;
+        item.content = event.SUMMARY;
+        item.start = formattedDate + ' ' + event.start_time;
+        item.end = formattedDate + ' ' + event.end_time;
+        item.className = group;
+        item.editable = false;
+        id += 1;
 
-      item.id = group + '-' + id;
-      item.content = event.SUMMARY;
-      item.start = formattedDate + ' ' + event.start_time;
-      item.end = formattedDate + ' ' + event.end_time;
-      item.className = group;
-      item.editable = false;
-      id += 1;
+        allEventsArray[item.id] = {
+          title: item.content,
+          content: item.content,
+          start: item.start,
+          end: item.end
+        }
 
-      allEventsArray[item.id] = {
-        title: item.content,
-        content: item.content,
-        start: item.start,
-        end: item.end
+        allEventsSortedArray.push({
+          id: item.id,
+          start: item.start
+        });
+
+        allEventsSortedArray.sort(function(a,b){
+          return new Date(a.start) - new Date(b.start);
+        });
+
+        addEventToSynchroArray(item.start, event.time_end);
+
+        dataSet.push(item);
       }
-
-      allEventsSortedArray.push({
-        id: item.id,
-        start: item.start
-      });
-
-      allEventsSortedArray.sort(function(a,b){
-        return new Date(a.start) - new Date(b.start);
-      });
-
-      addEventToSynchroArray(item.start, event.time_end);
-
-      dataSet.push(item);
     }
   }
 
@@ -424,90 +425,43 @@ $(window).on('load', function () {
   //get all ical in my palendar
   $.getJSON('http://vinci.aero/palendar/php/calendar/getAllIcal.php', function (data, status) {
     if (status === "success") {
-      for (var i = 0; i < data.length; i++){
-        // Used to find the right calendar on the server
-        var cal_id = data[i].id;
-        var ical_file = "../upload/ical/" + cal_id + ".ics";
+      if (data && data.length != 0){
+        for (var i = 0; i < data.length; i++){
+          // Used to find the right calendar on the server
+          var cal_id = data[i].id;
+          var ical_file = "../upload/ical/" + cal_id + ".ics";
 
-        // Used to identify the calendar to be loaded on the timeline later on, associated with a color
-        var cal_name = data[i].name + '-' + cal_id;
-        var cal_color = data[i].color;
-        importedEvents['cal-' + cal_id] = {
-          id: cal_id,
-          name: cal_name
-        };
-        classToColor[cal_name] = cal_color;
-        if (i < data.length -1) {
-          new ical_parser(ical_file, function(cal){
-              //When ical parser has loaded file
-              //get future events
-              var cal_id = cal.feed_url.split('/')[3].split('.')[0];
-              events = cal.getFutureEvents();
-              addEvents(cal_id, events, false);
-          });
-        } else {
-          new ical_parser(ical_file, function(cal){
-              //When ical parser has loaded file
-              //get future events
-              var cal_id = cal.feed_url.split('/')[3].split('.')[0];
-              events = cal.getFutureEvents();
-              addEvents(cal_id, events, loadPersonnalEvents);
-          });
+          // Used to identify the calendar to be loaded on the timeline later on, associated with a color
+          var cal_name = data[i].name + '-' + cal_id;
+          var cal_color = data[i].color;
+          importedEvents['cal-' + cal_id] = {
+            id: cal_id,
+            name: cal_name
+          };
+          classToColor[cal_name] = cal_color;
+          if (i < data.length -1) {
+            new ical_parser(ical_file, function(cal){
+                //When ical parser has loaded file
+                //get future events
+                var cal_id = cal.feed_url.split('/')[3].split('.')[0];
+                events = cal.getFutureEvents();
+                addEvents(cal_id, events, false);
+            });
+          } else {
+            new ical_parser(ical_file, function(cal){
+                //When ical parser has loaded file
+                //get future events
+                var cal_id = cal.feed_url.split('/')[3].split('.')[0];
+                events = cal.getFutureEvents();
+                addEvents(cal_id, events, loadPersonnalEvents);
+            });
+          }
         }
+      } else {
+        displayEventsOnTimeline();
       }
     }
   });
-
-
-
-  // Function to get all the events of all users in a group
-  function loadAllGroupEvents (){
-    if (!triggerPostCheck){
-      triggerPostCheck = true;
-      $.post('http://vinci.aero/palendar/php/group/getAllGroupEvent.php', {id_group: idd}, function (data, status) {
-        if (status === "success") {
-          console.log('GET ALL GROUP EVENT', data);
-          if(data){
-            for (var i=0; i<data.length; i++){
-              var event = data[i];
-              addEventToSynchroArray(event.time_start, event.time_end);
-            }
-          }
-
-        }
-      },"json");
-      /*$.post('http://vinci.aero/palendar/php/group/getAllGroupIcal.php', {id_group: idd}, function (data, status) {
-        if (status === "success") {
-          console.log('GET AL LGROUP ICAL');
-          startProcess(data);
-        }
-      }, "json");*/
-    }
-  }
-
-  // get all events from the group
-  function loadGroupEvents() {
-    var id_group = window.location.search.substr(1).split("=")[1];
-    $.post('http://vinci.aero/palendar/php/group/getAllGroupMyEvent.php', {id_group: id_group}, function (data, status) {
-      if (status === "success") {
-        console.log('GET ALL EVENTS FOR THE GROUP');
-          loadCustomEvents(data);
-          loadAllGroupEvents();
-        }
-      }, "json");
-  }
-  // Get all events from personnal account
-  function loadPersonnalEvents() {
-    $.getJSON('http://vinci.aero/palendar/php/calendar/getAllEvent.php', function (data, status) {
-      if (status === "success") {
-        console.log("GET ALL EVENTS FOR ME")
-          loadCustomEvents(data);
-          loadAllGroupEvents();
-        }
-      }
-    );
-    loadGroupEvents();
-  }
 
   function startProcess(data){
     for (var i = 0; i < data.length; i++){
@@ -534,11 +488,65 @@ $(window).on('load', function () {
               var item = {};
               item.start = formattedDate + ' ' + event.start_time;
               item.end = formattedDate + ' ' + event.end_time;
-
+              console.log('startPROCESS')
               addEventToSynchroArray(item.start, item.end);
             }
           }
       });
     }
+  }
+
+  function loadAllGroupIcal() {
+    var idd = window.location.search.substr(1).split("=")[1];
+    $.post('http://vinci.aero/palendar/php/group/getAllGroupIcal.php', {id_group: idd}, function (data, status) {
+      if (status === "success") {
+        console.log('GET AL LGROUP ICAL');
+        startProcess(data);
+      }
+    }, "json");
+  }
+
+  // Function to get all the events of all users in a group
+  function loadAllGroupEvents (){
+    var idd = window.location.search.substr(1).split("=")[1];
+    if (!triggerPostCheck){
+      triggerPostCheck = true;
+      $.post('http://vinci.aero/palendar/php/group/getAllGroupEvent.php', {id_group: idd}, function (data, status) {
+        if (status === "success") {
+          console.log('GET ALL GROUP EVENT', data);
+          if(data){
+            for (var i=0; i<data.length; i++){
+              var event = data[i];
+              addEventToSynchroArray(event.time_start, event.time_end);
+            }
+          }
+          loadAllGroupIcal();
+        }
+      },"json");
+    }
+  }
+
+  // get all events from the group
+  function loadGroupEvents() {
+    var id_group = window.location.search.substr(1).split("=")[1];
+    $.post('http://vinci.aero/palendar/php/group/getAllGroupMyEvent.php', {id_group: id_group}, function (data, status) {
+      if (status === "success") {
+        console.log('GET ALL EVENTS FOR THE GROUP');
+          loadCustomEvents(data);
+          loadAllGroupEvents();
+        }
+      }, "json");
+  }
+  // Get all events from personnal account
+  function loadPersonnalEvents() {
+    $.getJSON('http://vinci.aero/palendar/php/calendar/getAllEvent.php', function (data, status) {
+      if (status === "success") {
+        console.log("GET ALL EVENTS FOR ME")
+          loadCustomEvents(data);
+          loadAllGroupEvents();
+        }
+      }
+    );
+    loadGroupEvents();
   }
 });
