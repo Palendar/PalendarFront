@@ -8,9 +8,14 @@ var allEventsSortedArray = []; // The sorted array of all the events for the nav
 var importedEvents = []; // Array storing the imported calendar events (ics files)
 var classToColor = []; // Map key: classname, value: color
 
+////// CHANGES TO DO >>>> nb USER >>> EVENTS PER USER
+var synchroAllGroupEventArray = []; // array of all events of a group (use to compare)
+
 var currentEventDisplayedId; // Id of the current display event
 
 var options; // Configuration for the Timeline
+
+var triggerPostCheck = false;
 
 // Format date 'dd/mm/yyyy' TO 'yyyy-mm-dd'
 function formatDate(dateToFormat) {
@@ -101,20 +106,6 @@ function loadCssForImportedCalendars(){
 $(window).on('load', function () {
   var idd = window.location.search.substr(1).split("=")[1];
 
-  $.getJSON('http://vinci.aero/palendar/php/group/getAllGroupIcal.php', {id_group: idd}, function (data, status) {
-    console.log('get all group ical', data);
-    if (status === "success") {
-        console.log(data);
-      }
-    }, "json");
-
-  $.getJSON('http://vinci.aero/palendar/php/group/getAllGroupEvent.php', {id_group: idd}, function (data, status) {
-    console.log('get all group events', data);
-    if (status === "success") {
-        console.log(data);
-      }
-    },"json");
-
   //slide friends
   $("#buttonaddfriends").click(function() {
     $("#invit-friends").slideToggle();
@@ -190,32 +181,8 @@ $(window).on('load', function () {
 
     $.post('http://vinci.aero/palendar/php/group/createGroupEvent.php', {id_group:id_group, description: description, name: name, time_start: time_start, time_end: time_end}, function(data, status) {
       if (status === "success") {
-        var item = {};
-        item.id = 'custom-user-' + data.id_user + '-event-' + data.id;
-        item.content = data.description;
-        item.start = data.time_start;
-        if (new String(data.time_start).valueOf() !== new String(data.time_end).valueOf()){
-          item.end = data.time_end;
-        }
-        item.editable = false;
-
-        allEventsArray[item.id] = {
-          title: data.name,
-          content: item.content,
-          start: item.start,
-          end: data.time_end
-        }
-
-        allEventsSortedArray.push({
-          id: item.id,
-          start: item.start
-        });
-
-        allEventsSortedArray.sort(function(a,b){
-          return new Date(a.start) - new Date(b.start);
-        });
-        dataSet.push(item);
-        timeline.setItems(new vis.DataSet(dataSet));
+        loadCustomEvents([data]);
+        refreshTimelineEvents();
         loadCssForImportedCalendars();
         timeline.redraw();
       } else {
@@ -316,9 +283,7 @@ $(window).on('load', function () {
         });
       }, 100);
     });
-    allEventsSortedArray.sort(function(a,b){
-      return new Date(a.start) - new Date(b.start);
-    });
+
     bindTimelineButtons();
     focusNow();
   }
@@ -328,6 +293,17 @@ $(window).on('load', function () {
     timeline.setItems(new vis.DataSet(dataSet));
     timeline.redraw();
     loadCssForImportedCalendars();
+  }
+
+  function addEventToSynchroArray(start, end){
+    synchroAllGroupEventArray.push({
+      start: start,
+      end: end
+    });
+
+    synchroAllGroupEventArray.sort(function(a,b){
+      return new Date(a.start) - new Date(b.start);
+    });
   }
 
   // load events from ical
@@ -360,6 +336,12 @@ $(window).on('load', function () {
         start: item.start
       });
 
+      allEventsSortedArray.sort(function(a,b){
+        return new Date(a.start) - new Date(b.start);
+      });
+
+      addEventToSynchroArray(item.start, event.time_end);
+
       dataSet.push(item);
     }
   }
@@ -391,6 +373,12 @@ $(window).on('load', function () {
           id: item.id,
           start: item.start
         });
+
+        allEventsSortedArray.sort(function(a,b){
+          return new Date(a.start) - new Date(b.start);
+        });
+
+        addEventToSynchroArray(item.start, event.time_end);
 
         dataSet.push(item);
       }
@@ -446,24 +434,87 @@ $(window).on('load', function () {
     }
   });
 
+
+
+  // Function to get all the events of all users in a group
+  function loadAllGroupEvents (){
+    if (!triggerPostCheck){
+      triggerPostCheck = true;
+      $.post('http://vinci.aero/palendar/php/group/getAllGroupEvent.php', {id_group: idd}, function (data, status) {
+        if (status === "success") {
+          console.log('GET ALL GROUP EVENT', data);
+          if(data){
+            for (var i=0; i<data.length; i++){
+              var event = data[i];
+              addEventToSynchroArray(event.time_start, event.time_end);
+            }
+          }
+
+        }
+      },"json");
+      /*$.post('http://vinci.aero/palendar/php/group/getAllGroupIcal.php', {id_group: idd}, function (data, status) {
+        if (status === "success") {
+          console.log('GET AL LGROUP ICAL');
+          startProcess(data);
+        }
+      }, "json");*/
+    }
+  }
+
   // get all events from the group
   function loadGroupEvents() {
     var id_group = window.location.search.substr(1).split("=")[1];
-    $.getJSON('http://vinci.aero/palendar/php/group/getAllGroupMyEvent.php', {id_group: id_group}, function (data, status) {
+    $.post('http://vinci.aero/palendar/php/group/getAllGroupMyEvent.php', {id_group: id_group}, function (data, status) {
       if (status === "success") {
+        console.log('GET ALL EVENTS FOR THE GROUP');
           loadCustomEvents(data);
+          loadAllGroupEvents();
         }
-      }
-    );
+      }, "json");
   }
   // Get all events from personnal account
   function loadPersonnalEvents() {
     $.getJSON('http://vinci.aero/palendar/php/calendar/getAllEvent.php', function (data, status) {
       if (status === "success") {
+        console.log("GET ALL EVENTS FOR ME")
           loadCustomEvents(data);
+          loadAllGroupEvents();
         }
       }
     );
     loadGroupEvents();
+  }
+
+  function startProcess(data){
+    for (var i = 0; i < data.length; i++){
+      // Used to find the right calendar on the server
+      var cal_id = data[i].id;
+      var ical_file = "../upload/ical/" + cal_id + ".ics";
+
+      // Used to identify the calendar to be loaded on the timeline later on, associated with a color
+      var cal_name = data[i].name + '-' + cal_id;
+      var cal_color = data[i].color;
+      importedEvents['cal-' + cal_id] = {
+        id: cal_id,
+        name: cal_name
+      };
+      new ical_parser(ical_file, function(cal){
+          //When ical parser has loaded file
+          //get future events
+          var cal_id = cal.feed_url.split('/')[3].split('.')[0];
+          events = cal.getFutureEvents();
+          if (events) {
+            for (var i in events){
+              var event = events[i];
+              var formattedDate = formatDate(event.start_date);
+              var item = {};
+              item.start = formattedDate + ' ' + event.start_time;
+              item.end = formattedDate + ' ' + event.end_time;
+
+              addEventToSynchroArray(item.start, item.end);
+            }
+          }
+      });
+    }
   }
 });
