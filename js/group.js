@@ -112,6 +112,7 @@ $(window).on('load', function () {
   });
 
   //get members in group
+  var idgroupselect = window.location.search.substr(1).split("=")[1];
   $.post('http://vinci.aero/palendar/php/group/getAllGroupUser.php', {id_group:'18'}, function(data, status) {
     if (status === "success") {
       console.log(data);
