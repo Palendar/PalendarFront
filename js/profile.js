@@ -6,7 +6,7 @@ $(window).on('load', function () {
   var idprofile = tabcurrent[tabcurrent.length-1];
   $.post('http://vinci.aero/palendar/php/contact/getUser.php', {id:idprofile}, function(data, status) {
     if (status === "success") {
-      if(data.image === '') {
+      if(data.image === '' || data.image === null) {
         $('.infoUser').prepend("<img class='imagegroup addmargintop' src='../upload/user/default.jpeg'>");
         $("#fistnamelastname").text(data.firstname + ' ' + data.lastname);
       } else {

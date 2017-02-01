@@ -70,7 +70,7 @@ $(window).on('load', function () {
         if (status === "success") {
           $(".resultsSearch table tbody").html('');
           $.each(data, function(index, val) {
-            if(val.image === '') {
+            if(val.image === '' || val.image === null) {
               $(".resultsSearch table tbody").append("<tr>" +
                   "<td>" + "<img class='imagegroupsmall' src='../upload/user/default.jpeg'>"  + val.firstname + ' ' + val.lastname + "</td>"+
                   "<td class='idprofile' style='display:none;'>" + val.id+ "</td>"+
@@ -111,9 +111,11 @@ $(window).on('load', function () {
   });
 
   //getUserInfo in settings
+  console.log("getMyUser");
   $.getJSON('http://vinci.aero/palendar/php/user/getMyUser.php', function (data, status) {
     if (status === "success") {
-      if(data.image === '') {
+      console.log("getMyUser" + data);
+      if(data.image === '' || data.image === null) {
         $("#self").css('background-image', "url('../upload/user/default.jpeg')");
         $("#self").css('background-size', '100% 100%');
       } else {

@@ -117,7 +117,7 @@ $(window).on('load', function () {
     if (status === "success") {
       console.log(data);
       $.each(data, function(index, val) {
-        if(val.image === '') {
+        if(val.image === '' || val.image === null) {
           $("#get-members table tbody").append("<tr>" +
               "<td>" + "<img class='imagegroup' src='../upload/user/default.jpeg'>" + val.firstname + ' ' + val.lastname + "</td>" +
               "<td class='idprofilefriend' style='display:none;'>" + val.id+ "</td>"+ "</tr>");
@@ -150,7 +150,7 @@ $(window).on('load', function () {
   $.getJSON('http://vinci.aero/palendar/php/contact/getAllContact.php', function (data, status) {
     if (status === "success") {
       $.each(data, function(index, val) {
-        if(val.image === '') {
+        if(val.image === '' || val.image === null) {
           $("#invit-friends table tbody").append("<tr>" +
               "<td>" + "<img class='imagegroupsmall' src='../upload/user/default.jpeg'>"  + val.firstname + ' ' + val.lastname + "</td>"+
               "<td class='idprofilefriend' style='display:none;'>" + val.id+ "</td>"+
