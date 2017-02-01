@@ -16,7 +16,6 @@ $(document).ready(function() {
   $.getJSON(url1, function (data, status) {
     if (status === "success") {
       $.each(data, function(index, val) {
-        console.log("d:" + val.image);
         if(val.image === '') {
           $("#myfriends table tbody").append("<tr>" +
               "<td>" + "<img class='imagegroup' src='../upload/user/default.jpeg'>" + val.firstname + ' ' + val.lastname + "</td>" +

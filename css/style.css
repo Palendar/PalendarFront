@@ -256,10 +256,6 @@ html {
   background-color: red;
 }
 
-#self {
-  background-color: green;
-}
-
 .addGroup {
   background-color: #fff;
   background-repeat: no-repeat;
@@ -527,8 +523,17 @@ html {
 }
 
 .imagegroup {
-  width:80px;
-  height:80px;
+  width: 80px;
+  height: 80px;
+  margin-right: 20px;
+  margin-left: 10px;
+  border-radius: 100px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.6);
+}
+
+.imagegroupsmall {
+  width: 25px;
+  height: 25px;
   margin-right: 20px;
   margin-left: 10px;
   border-radius: 100px;

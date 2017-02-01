@@ -18,10 +18,4 @@ $(window).on('load', function () {
     }
   }, "json");
 
-  $.post('http://vinci.aero/palendar/php/group/getAllGroupUser.php', {id_group:'18'}, function(data, status) {
-    if (status === "success") {
-      console.log(data);
-    }
-  }, "json");
-
 });

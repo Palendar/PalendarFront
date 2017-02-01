@@ -80,8 +80,8 @@ function getAllInvitationGroup() {
         $.each(data, function(index, val) {
           $(".notifications-invitation-group table tbody").append("<tr>" +
               "<td>" + val.firstname + ' ' + val.lastname + " invites you to join the group " + val.name + "</td>"+
-              "<td><i id='acceptGroup' class='fa fa-check' aria-hidden='true'></i></td>" +
-              "<td><i id='declineGroup' class='fa fa-times' aria-hidden='true'></i></td>"+
+              "<td><i class='acceptGroup fa fa-check' aria-hidden='true'></i></td>" +
+              "<td><i class='declineGroup fa fa-times' aria-hidden='true'></i></td>"+
               "<td class='idprofileUser' style='display:none;'>" + val.id_user+ "</td>"+
               "<td class='idprofileGroup' style='display:none;'>" + val.id_group+ "</td>"+
               "</tr>");
@@ -91,8 +91,31 @@ function getAllInvitationGroup() {
   });
 }
 
+//get group fav in homepage
+function getAllGroupFavImage() {
+  $.getJSON('http://vinci.aero/palendar/php/group/getAllGroup.php', function (data, status) {
+    if (status === "success") {
+      $.each(data, function(index, val) {
+        $(".group-fav").each(function(i){
+          if(i == index) {
+            $(this).css('background-image', "url('../upload/group/" + val.image + "')");
+            $(this).css('background-size', '100% 100%');
+          }
+        });
+      });
+    }
+  });
+}
+
 $(window).on('load', function () {
 
+  //get group fav in homepage
+  getAllGroupFavImage();
+
+  //get number notif
+  getNumberNotifs();
+
+  //click my palendar
   $('#self').click(function(){
     getMyPalendar();
   });
@@ -121,19 +144,7 @@ $(window).on('load', function () {
     reader.readAsDataURL(this.files[0]);
   });
 
-  //get group fav in homepage
-  $.getJSON('http://vinci.aero/palendar/php/group/getAllGroup.php', function (data, status) {
-    if (status === "success") {
-      $.each(data, function(index, val) {
-        $(".group-fav").each(function(i){
-          if(i == index) {
-            $(this).css('background-image', "url('../upload/group/" + val.id + ".jpg')");
-            $(this).css('background-size', '100% 100%');
-          }
-        });
-      });
-    }
-  });
+
 
   //click on group
   $(".group-fav").on("click", function(e){
@@ -172,7 +183,6 @@ $(window).on('load', function () {
     getAllInvitationUser();
   });**/
 
-  getNumberNotifs();
   //notification hover open
   $(".notif-open").mouseenter(function(e){
     $("#notifications").css("left", "0px");
@@ -216,9 +226,10 @@ $(window).on('load', function () {
   });
 
   //acceptGroup
-  $(".notifications-invitation-group table").on("click", ".acceptUser", function() {
+  $(".notifications-invitation-group table").on("click", ".acceptGroup", function() {
     var idprofileUser = $(this).parent().parent().find(".idprofileUser").text();
     var idprofileGroup = $(this).parent().parent().find(".idprofileGroup").text();
+    console.log(idprofileUser + idprofileGroup);
     $.post('http://vinci.aero/palendar/php/group/acceptGroup.php', {id_user:idprofileUser, id_group:idprofileGroup}, function(data, status) {
       if (status === "success") {
         //namedbb = data.name;
@@ -226,10 +237,11 @@ $(window).on('load', function () {
     }, "json");
     getAllInvitationGroup();
     getNumberNotifs();
+    getAllGroupFavImage();
   });
 
   //declineGroup
-  $(".notifications-invitation-group table").on("click", ".declineUser", function() {
+  $(".notifications-invitation-group table").on("click", ".declineGroup", function() {
     var idprofileUser = $(this).parent().parent().find(".idprofileUser").text();
     var idprofileGroup = $(this).parent().parent().find(".idprofileGroup").text();
     $.post('http://vinci.aero/palendar/php/group/declineGroup.php', {id_user:idprofileUser, id_group:idprofileGroup}, function(data, status) {

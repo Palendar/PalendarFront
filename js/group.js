@@ -111,6 +111,24 @@ $(window).on('load', function () {
     $("#invit-friends").slideToggle();
   });
 
+  //get members in group
+  $.post('http://vinci.aero/palendar/php/group/getAllGroupUser.php', {id_group:'18'}, function(data, status) {
+    if (status === "success") {
+      console.log(data);
+      $.each(data, function(index, val) {
+        if(val.image === '') {
+          $("#get-members table tbody").append("<tr>" +
+              "<td>" + "<img class='imagegroup' src='../upload/user/default.jpeg'>" + val.firstname + ' ' + val.lastname + "</td>" +
+              "<td class='idprofilefriend' style='display:none;'>" + val.id+ "</td>"+ "</tr>");
+        } else {
+          $("#get-members table tbody").append("<tr>" +
+              "<td>" + "<img class='imagegroup' src='../upload/user/" + val.image + "'>" + val.firstname + ' ' + val.lastname + "</td>" +
+              "<td class='idprofilefriend' style='display:none;'>" + val.id+ "</td>"+ "</tr>");
+        }
+      });
+    }
+  }, "json");
+
   //add friend in group
   $("#invit-friends table").on("click", ".invitfriendtogroup", function() {
     var idprofile = $(this).parent().parent().find(".idprofilefriend").text();
@@ -131,14 +149,20 @@ $(window).on('load', function () {
   $.getJSON('http://vinci.aero/palendar/php/contact/getAllContact.php', function (data, status) {
     if (status === "success") {
       $.each(data, function(index, val) {
-        $("#invit-friends table tbody").append("<tr>" +
-            "<td>" + val.firstname + ' ' + val.lastname + "</td>" +
-            "<td class='idprofilefriend' style='display:none;'>" + val.id+ "</td>"+
-            "<td><i class='invitfriendtogroup fa fa-plus' aria-hidden='true'></td></tr>");
-      });
+        if(val.image === '') {
+          $("#invit-friends table tbody").append("<tr>" +
+              "<td>" + "<img class='imagegroupsmall' src='../upload/user/default.jpeg'>"  + val.firstname + ' ' + val.lastname + "</td>"+
+              "<td class='idprofilefriend' style='display:none;'>" + val.id+ "</td>"+
+              "<td><i class='invitfriendtogroup fa fa-plus' aria-hidden='true'></td></tr>");
+        } else {
+          $("#invit-friends table tbody").append("<tr>" +
+              "<td>" + "<img class='imagegroupsmall' src='../upload/user/" + val.image + "'>"  + val.firstname + ' ' + val.lastname + "</td>"+
+              "<td class='idprofilefriend' style='display:none;'>" + val.id+ "</td>"+
+              "<td><i class='invitfriendtogroup fa fa-plus' aria-hidden='true'></td></tr>");
+        }
+      })
     }
   });
-
 
   $('.newEvent-form input[type="number"]').keypress(validateNumber);
 
