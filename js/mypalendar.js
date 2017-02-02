@@ -334,7 +334,6 @@ $(window).on('load', function () {
 
   // Add events to the timeline from the ics
   function addEventsFromIcs(){
-    //importedEvents['cal-' + calendar_id].events = calendar_events;
     for(var i in importedEvents){
       var cal = importedEvents[i];
       loadEventsFromIcs(cal.events, cal.name);

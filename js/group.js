@@ -3,108 +3,119 @@ var container; // the container object for the timeline
 var items; // the items for the dataSet used in the timeline
 var dataSet = []; // the dataSet for the timeline
 
+var icalCount = 0; // Use to check if ical files are completely loaded (personnal)
+var icalData = [];
+var icalGroupCount = 0; // Use to check if ical files for all the users are loaded
+var icalGroupData = [];
+
+var usersInGroup = []; // used to store all events of all members in the group
+var numberUsers; // The total number of users in one group
+var current_user; // The id of the current user
+var currentUserProcessed; // Used in the treatment of the ics files of a group
+
 var allEventsArray = []; // The array containing all the events with start, end, id etc
 var allEventsSortedArray = []; // The sorted array of all the events for the navigation through buttons
 var importedEvents = []; // Array storing the imported calendar events (ics files)
 var classToColor = []; // Map key: classname, value: color
 
-////// CHANGES TO DO >>>> nb USER >>> EVENTS PER USER
-var synchroAllGroupEventArray = []; // array of all events of a group (use to compare)
-
 var currentEventDisplayedId; // Id of the current display event
 
 var options; // Configuration for the Timeline
 
-var triggerPostCheck = false;
-
-// Format date 'dd/mm/yyyy' TO 'yyyy-mm-dd'
-function formatDate(dateToFormat) {
-  var splitDate = dateToFormat.split('/');
-  return splitDate[2] + '-' + splitDate[1] + '-' + splitDate[0];
-}
-
-// Double-clicking on timeline to create an event triggers this
-function setModalValues(prop){
-  $("#modalNewEvent").modal("show");
-
-  var $parent = $("#modalNewEvent-name").parent();
-  $("#modalNewEvent-name").remove();
-  $parent.append('<input type="text" name="newEvent-name" id="modalNewEvent-name" placeholder="Event title" required>');
-  $("#modalNewEvent #modalNewEvent-description").val('');
-
-  // Control on start date
-  $("#modalNewEvent input[name='time-start-yyyy']").val(prop.time.getFullYear());
-  $("#modalNewEvent input[name='time-start-mm']").val(prop.time.getMonth()+1);
-  $("#modalNewEvent input[name='time-start-dd']").val(prop.time.getDate());
-  $("#modalNewEvent input[name='time-start-hh']").val(prop.time.getHours());
-  $("#modalNewEvent input[name='time-start-min']").val(prop.time.getMinutes());
-
-  // Control on end date
-  $("#modalNewEvent input[name='time-end-yyyy']").val(prop.time.getFullYear());
-  $("#modalNewEvent input[name='time-end-mm']").val(prop.time.getMonth()+1);
-  $("#modalNewEvent input[name='time-end-dd']").val(prop.time.getDate());
-  $("#modalNewEvent input[name='time-end-hh']").val(prop.time.getHours());
-  $("#modalNewEvent input[name='time-end-min']").val(prop.time.getMinutes());
-}
-
-// Selecting an item on the timeline displays its data
-function displayEventInfo(selectedEventId){
-  var $eventTitle = $('#group-event-title');
-  var $eventDescription = $('#group-event-description');
-  var $eventStartTime = $('#group-event-start');
-  var $eventEndStime = $('#group-event-end');
-  currentEventDisplayedId = selectedEventId;
-
-  if (selectedEventId){
-    var selectedItem = allEventsArray[currentEventDisplayedId];
-
-    $eventTitle.html(selectedItem.title);
-    $eventDescription.html(selectedItem.content);
-    $eventStartTime.html(selectedItem.start);
-    $eventEndStime.html(selectedItem.end);
-  } else {
-    $eventTitle.html('');
-    $eventDescription.html('');
-    $eventStartTime.html('');
-    $eventEndStime.html('');
-  }
-}
-
-// Validation for input inside the event creation modal
-function validateNumber(event) {
-    var key = window.event ? event.keyCode : event.which;
-    if (event.keyCode === 8 || event.keyCode === 46) {
-        return true;
-    } else if ( key < 48 || key > 57 ) {
-        return false;
-    } else {
-    	return true;
-    }
-};
-
-function moveTimeline (percentage) {
-  var range = timeline.getWindow();
-  var interval = range.end - range.start;
-
-  timeline.setWindow({
-    start: range.start.valueOf() - interval * percentage,
-    end:   range.end.valueOf()   - interval * percentage
-  });
-}
-
-function focusNow(){
-  timeline.moveTo(new Date());
-}
-
-function loadCssForImportedCalendars(){
-  for (var className in classToColor){
-    var color = classToColor[className];
-    $("." + className).css('background-color', color);
-  }
-}
-
 $(window).on('load', function () {
-  var idd = window.location.search.substr(1).split("=")[1];
+
+  // Format date 'dd/mm/yyyy' TO 'yyyy-mm-dd'
+  function formatDate(dateToFormat) {
+    var splitDate = dateToFormat.split('/');
+    return splitDate[2] + '-' + splitDate[1] + '-' + splitDate[0];
+  }
+
+  // Function to add days to a date
+  function addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(date.getDate() + days);
+    return result;
+  }
+
+  // Double-clicking on timeline to create an event triggers this
+  function setModalValues(prop){
+    $("#modalNewEvent").modal("show");
+
+    var $parent = $("#modalNewEvent-name").parent();
+    $("#modalNewEvent-name").remove();
+    $parent.append('<input type="text" name="newEvent-name" id="modalNewEvent-name" placeholder="Event title" required>');
+    $("#modalNewEvent #modalNewEvent-description").val('');
+
+    // Control on start date
+    $("#modalNewEvent input[name='time-start-yyyy']").val(prop.time.getFullYear());
+    $("#modalNewEvent input[name='time-start-mm']").val(prop.time.getMonth()+1);
+    $("#modalNewEvent input[name='time-start-dd']").val(prop.time.getDate());
+    $("#modalNewEvent input[name='time-start-hh']").val(prop.time.getHours());
+    $("#modalNewEvent input[name='time-start-min']").val(prop.time.getMinutes());
+
+    // Control on end date
+    $("#modalNewEvent input[name='time-end-yyyy']").val(prop.time.getFullYear());
+    $("#modalNewEvent input[name='time-end-mm']").val(prop.time.getMonth()+1);
+    $("#modalNewEvent input[name='time-end-dd']").val(prop.time.getDate());
+    $("#modalNewEvent input[name='time-end-hh']").val(prop.time.getHours());
+    $("#modalNewEvent input[name='time-end-min']").val(prop.time.getMinutes());
+  }
+
+  // Selecting an item on the timeline displays its data
+  function displayEventInfo(selectedEventId){
+    var $eventTitle = $('#group-event-title');
+    var $eventDescription = $('#group-event-description');
+    var $eventStartTime = $('#group-event-start');
+    var $eventEndStime = $('#group-event-end');
+    currentEventDisplayedId = selectedEventId;
+
+    if (selectedEventId){
+      var selectedItem = allEventsArray[currentEventDisplayedId];
+
+      $eventTitle.html(selectedItem.title);
+      $eventDescription.html(selectedItem.content);
+      $eventStartTime.html(selectedItem.start);
+      $eventEndStime.html(selectedItem.end);
+    } else {
+      $eventTitle.html('');
+      $eventDescription.html('');
+      $eventStartTime.html('');
+      $eventEndStime.html('');
+    }
+  }
+
+  // Validation for input inside the event creation modal
+  function validateNumber(event) {
+      var key = window.event ? event.keyCode : event.which;
+      if (event.keyCode === 8 || event.keyCode === 46) {
+          return true;
+      } else if ( key < 48 || key > 57 ) {
+          return false;
+      } else {
+      	return true;
+      }
+  };
+
+  function moveTimeline (percentage) {
+    var range = timeline.getWindow();
+    var interval = range.end - range.start;
+
+    timeline.setWindow({
+      start: range.start.valueOf() - interval * percentage,
+      end:   range.end.valueOf()   - interval * percentage
+    });
+  }
+
+  function focusNow(){
+    timeline.moveTo(new Date());
+  }
+
+  function loadCssForImportedCalendars(){
+    for (var className in classToColor){
+      var color = classToColor[className];
+      $("." + className).css('background-color', color);
+    }
+  }
 
   //slide friends
   $("#buttonaddfriends").click(function() {
@@ -115,8 +126,9 @@ $(window).on('load', function () {
   var idgroupselect = window.location.search.substr(1).split("=")[1];
   $.post('http://vinci.aero/palendar/php/group/getAllGroupUser.php', {id_group:idgroupselect}, function(data, status) {
     if (status === "success") {
-      console.log(data);
+      numberUsers = data.length +1;
       $.each(data, function(index, val) {
+        usersInGroup['user-' + val.id] = [];
         if(val.image === '' || val.image === null) {
           $("#get-members table tbody").append("<tr>" +
               "<td>" + "<img class='imagegroup' src='../upload/user/default.jpeg'>" + val.firstname + ' ' + val.lastname + "</td>" +
@@ -275,7 +287,7 @@ $(window).on('load', function () {
   }
 
   // Displays the timeline and the events
-  function displayEventsOnTimeline(){
+  function displayTimeline(){
     items = new vis.DataSet(dataSet);
     // Create a Timeline
     timeline = new vis.Timeline(container, items, options);
@@ -320,14 +332,12 @@ $(window).on('load', function () {
     loadCssForImportedCalendars();
   }
 
-  function addEventToSynchroArray(start, end){
-    synchroAllGroupEventArray.push({
+  function addEventToSynchroArray(user_id, start, end){
+    var id = 'user-' + user_id;
+
+    usersInGroup[id].push({
       start: start,
       end: end
-    });
-
-    synchroAllGroupEventArray.sort(function(a,b){
-      return new Date(a.start) - new Date(b.start);
     });
   }
 
@@ -346,6 +356,7 @@ $(window).on('load', function () {
         item.start = formattedDate + ' ' + event.start_time;
         item.end = formattedDate + ' ' + event.end_time;
         item.className = group;
+        item.style = 'background-color:' + classToColor[group];
         item.editable = false;
         id += 1;
 
@@ -365,7 +376,7 @@ $(window).on('load', function () {
           return new Date(a.start) - new Date(b.start);
         });
 
-        addEventToSynchroArray(item.start, event.time_end);
+        addEventToSynchroArray(current_user, item.start, item.end);
 
         dataSet.push(item);
       }
@@ -404,7 +415,7 @@ $(window).on('load', function () {
           return new Date(a.start) - new Date(b.start);
         });
 
-        addEventToSynchroArray(item.start, event.time_end);
+        addEventToSynchroArray(current_user ,item.start, event.time_end);
 
         dataSet.push(item);
       }
@@ -412,108 +423,173 @@ $(window).on('load', function () {
     }
   }
 
-  function addEvents(calendar_id, calendar_events, callback){
-    importedEvents['cal-' + calendar_id].events = calendar_events;
-    if(callback){
-      for(var i in importedEvents){
-        var cal = importedEvents[i];
-        loadEventsFromIcs(cal.events, cal.name);
-        refreshTimelineEvents();
+  // load events of the group
+  // Here we can set the style of the group item
+  function loadEventsForGroups(events){
+    var item;
+    if (events){
+      for(var i in events){
+        var event = events[i];
+        item = {};
+
+        item.id = 'group-' + event.id_group + '-event-' + event.id;
+        item.content = event.description;
+        item.start = event.time_start;
+        if (new String(event.time_start).valueOf() !== new String(event.time_end).valueOf()){
+          item.end = event.time_end;
+        }
+        item.editable = false;
+        item.style="box-shadow: 0px 0px 2px 1px yellow";
+
+        allEventsArray[item.id] = {
+          title: event.name,
+          content: item.content,
+          start: item.start,
+          end: event.time_end
+        }
+
+        allEventsSortedArray.push({
+          id: item.id,
+          start: item.start
+        });
+
+        allEventsSortedArray.sort(function(a,b){
+          return new Date(a.start) - new Date(b.start);
+        });
+        dataSet.push(item);
       }
-      callback();
+      refreshTimelineEvents();
     }
   }
-  //get all ical in my palendar
-  $.getJSON('http://vinci.aero/palendar/php/calendar/getAllIcal.php', function (data, status) {
-    displayEventsOnTimeline();
-    if (status === "success") {
-      if (data){
-        for (var i = 0; i < data.length; i++){
-          // Used to find the right calendar on the server
-          var cal_id = data[i].id;
-          var ical_file = "../upload/ical/" + cal_id + ".ics";
 
-          // Used to identify the calendar to be loaded on the timeline later on, associated with a color
-          var cal_name = data[i].name + '-' + cal_id;
-          var cal_color = data[i].color;
-          importedEvents['cal-' + cal_id] = {
-            id: cal_id,
-            name: cal_name
-          };
-          classToColor[cal_name] = cal_color;
-          new ical_parser(ical_file, function(cal){
-              //When ical parser has loaded file
-              //get future events
-              var cal_id = cal.feed_url.split('/')[3].split('.')[0];
-              var events = cal.getFutureEvents();
-              addEvents(cal_id, events, loadPersonnalEvents);
-          });
-        }
-      }
+  // Add events to the timeline from the ics
+  function addEventsFromIcs(){
+    for(var i in importedEvents){
+      var cal = importedEvents[i];
+      loadEventsFromIcs(cal.events, cal.name);
     }
-  });
+  }
 
-  function startProcess(data){
-    for (var i = 0; i < data.length; i++){
+  function storeIcalData(){
+    for (var i = 0; i < icalData.length; i++){
       // Used to find the right calendar on the server
-      var cal_id = data[i].id;
-      var ical_file = "../upload/ical/" + cal_id + ".ics";
+      var cal_id = icalData[i].id;
 
       // Used to identify the calendar to be loaded on the timeline later on, associated with a color
-      var cal_name = data[i].name + '-' + cal_id;
-      var cal_color = data[i].color;
+      var cal_name = icalData[i].name + '-' + cal_id;
+      var cal_color = icalData[i].color;
       importedEvents['cal-' + cal_id] = {
         id: cal_id,
         name: cal_name
       };
+      classToColor[cal_name] = cal_color;
+    }
+  }
+
+  // Function to start ical_parser for each calendar we get from the ics file (personnal)
+  function processIcalParser(){
+    icalCount -= 1;
+    // While we didn't load all ics files we load them
+    if (icalCount >= 0){
+      var ical_file = "../upload/ical/" + icalData[icalCount].id + ".ics";
       new ical_parser(ical_file, function(cal){
           //When ical parser has loaded file
           //get future events
           var cal_id = cal.feed_url.split('/')[3].split('.')[0];
-          events = cal.getFutureEvents();
-          if (events) {
-            for (var i in events){
-              var event = events[i];
-              var formattedDate = formatDate(event.start_date);
-              var item = {};
-              item.start = formattedDate + ' ' + event.start_time;
-              item.end = formattedDate + ' ' + event.end_time;
-              console.log('startPROCESS')
-              addEventToSynchroArray(item.start, item.end);
-            }
-          }
+          var events = cal.getFutureEvents();
+          importedEvents['cal-' + cal_id].events = events;
+          processIcalParser();
       });
+    } else { // Once we finished loading them, we add them to the timeline
+      addEventsFromIcs();
+      loadPersonnalEvents();
     }
   }
 
+  function processIcalParserForGroupEvents(){
+    icalGroupCount -= 1;
+    if (icalGroupCount >= 0){
+      var ical = icalGroupData[icalGroupCount];
+      var ical_file = "../upload/ical/" + ical.id + ".ics";
+      currentUserProcessed = ical.id_user;
+      new ical_parser(ical_file, function(cal){
+        var cal_id = cal.feed_url.split('/')[3].split('.')[0];
+        var events = cal.getFutureEvents();
+        for (var i in events){
+          var ev = events[i];
+          var formattedDate = formatDate(ev.start_date);
+          var start = formattedDate + ' ' + ev.start_time;
+          var end = formattedDate + ' ' + ev.end_time;
+          addEventToSynchroArray(currentUserProcessed, start, end);
+        }
+        processIcalParserForGroupEvents();
+      });
+    } else { // Once we finished loading them, we add them to the timeline
+      startSynchronization();
+    }
+  }
+  //get all ical in my palendar
+  $.getJSON('http://vinci.aero/palendar/php/calendar/getAllIcal.php', function (data, status) {
+    displayTimeline();
+    if (status === "success") {
+      if (data){
+        icalCount = data.length;
+        icalData = $.extend(true, [], data);
+        current_user = data[0].id_user;
+        usersInGroup['user-' + current_user] = [];
+        storeIcalData();
+        processIcalParser();
+      }
+    }
+  });
+
+  function loadPersonnalEvents() {
+    $.getJSON('http://vinci.aero/palendar/php/calendar/getAllEvent.php', function (data, status) {
+      if (status === "success") {
+          loadCustomEvents(data);
+          loadGroupEvents();
+        }
+      });
+  }
+
+  // Function to treat all the ics files of the group and store the events in the usersInGroup array
+  function startProcessingGroupIcs(data){
+    for (var i = 0; i < data.length; i++){
+      var cal = data[i];
+      var cal_id = cal.id;
+      var ical_file = "../upload/ical/" + cal_id + ".ics";
+      processIcalParserForGroupEvents(ical_file);
+    }
+  }
+
+  // function to get all ical flow from the group (synchro)
   function loadAllGroupIcal() {
     var idd = window.location.search.substr(1).split("=")[1];
     $.post('http://vinci.aero/palendar/php/group/getAllGroupIcal.php', {id_group: idd}, function (data, status) {
       if (status === "success") {
-        console.log('GET AL LGROUP ICAL');
-        startProcess(data);
+        if (data){
+          icalGroupData = $.extend(true, [], data);
+          icalGroupCount = data.length;
+          startProcessingGroupIcs(data);
+        }
       }
     }, "json");
   }
 
-  // Function to get all the events of all users in a group
+  // Function to get all the events of all users in a group (synchro)
   function loadAllGroupEvents (){
     var idd = window.location.search.substr(1).split("=")[1];
-    if (!triggerPostCheck){
-      triggerPostCheck = true;
-      $.post('http://vinci.aero/palendar/php/group/getAllGroupEvent.php', {id_group: idd}, function (data, status) {
-        if (status === "success") {
-          console.log('GET ALL GROUP EVENT', data);
-          if(data){
-            for (var i=0; i<data.length; i++){
-              var event = data[i];
-              addEventToSynchroArray(event.time_start, event.time_end);
-            }
+    $.post('http://vinci.aero/palendar/php/group/getAllGroupEvent.php', {id_group: idd}, function (data, status) {
+      if (status === "success") {
+        if(data){
+          for (var i=0; i<data.length; i++){
+            var event = data[i];
+            addEventToSynchroArray(event.id_user, event.time_start, event.time_end);
           }
-          loadAllGroupIcal();
         }
-      },"json");
-    }
+        loadAllGroupIcal();
+      }
+    },"json");
   }
 
   // get all events from the group
@@ -521,22 +597,89 @@ $(window).on('load', function () {
     var id_group = window.location.search.substr(1).split("=")[1];
     $.post('http://vinci.aero/palendar/php/group/getAllGroupMyEvent.php', {id_group: id_group}, function (data, status) {
       if (status === "success") {
-        console.log('GET ALL EVENTS FOR THE GROUP');
-          loadCustomEvents(data);
-          loadAllGroupEvents();
-        }
-      }, "json");
-  }
-  // Get all events from personnal account
-  function loadPersonnalEvents() {
-    $.getJSON('http://vinci.aero/palendar/php/calendar/getAllEvent.php', function (data, status) {
-      if (status === "success") {
-        console.log("GET ALL EVENTS FOR ME")
-          loadCustomEvents(data);
+        if (data){
+          loadEventsForGroups(data);
           loadAllGroupEvents();
         }
       }
-    );
-    loadGroupEvents();
+    }, "json");
+  }
+
+  function computeAvailability(numberMatch){
+    var percentage = numberMatch/numberUsers;
+    if (percentage < 0.25) return '#66ff66';
+    if (percentage >= 0.25 && percentage < 50) return '#ffff80';
+    if (percentage >= 50 && percentage < 75) return '#ffa64d';
+    return '#ff6666';
+  }
+
+  function startSynchronization(){
+    var currentDate = new Date();
+    var curr_hour = currentDate.getHours();
+    currentDate.setMinutes(0);
+    currentDate.setSeconds(0);
+
+    var daysPreview = 7; // number of days to preview the availability
+    var dateStart, dateEnd;
+
+    var match; // number of user whose events times match the comparison times
+    var availability_color; // availability color made from (match/numberUser) percentage
+
+    for (var d=0; d<daysPreview; d++){
+      // We are looping for the next days
+      for (var h=curr_hour; h<24; h++){
+        match = 0;
+        //Looping through all the hours in a day with 1 hour period check, starting at the current hour
+        dateStart = addDays(currentDate, d);
+        dateEnd = addDays(currentDate, d);
+        dateStart.setHours(h);
+        if (h != 23){
+          dateEnd.setHours(h+1);
+        } else {
+          dateEnd = addDays(currentDate, d+1);
+          dateEnd.setHours(0);
+        }
+        // Now we will check for every events if it goes inside the time
+        for (var user in usersInGroup){
+          var events = usersInGroup[user];
+          // Looping through the events of one use
+          for (var i in events){
+            var event = events[i];
+            // We get something if
+            // - start is between dateStart & dateEnd
+            // - if end exist, end is between dateStart & dateEnd
+            // - if dateStart & dateEnd are between the start and end
+            var event_start = new Date(event.start);
+            var event_end;
+            if (event.end) event_end = new Date(event.end);
+            if (event_start >= dateStart && event_start <= dateEnd){
+              match += 1;
+              break;
+            }
+            if (event_end && (event_end >= dateStart && event_end <= dateEnd)){
+              match += 1;
+              break;
+            }
+            if (event_end && (dateStart >= event_start && dateEnd <= event_end)){
+              match += 1;
+              break;
+            }
+          }
+        }
+        availability_color = computeAvailability(match);
+        var item = {};
+        item.content = '';
+        item.start = dateStart;
+        item.end = dateEnd;
+        item.type = 'background';
+        item.style = 'background-color:' + availability_color;
+        item.editable = false;
+        dataSet.push(item);
+      } // End Day
+      curr_hour = 0;
+    } // End all days prevision
+    refreshTimelineEvents();
+    loadCssForImportedCalendars();
+    timeline.redraw();
   }
 });
