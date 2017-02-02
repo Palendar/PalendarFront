@@ -365,7 +365,6 @@ $(window).on('load', function () {
 
   function addEventToSynchroArray(user_id, start, end){
     var id = 'user-' + user_id;
-
     usersInGroup[id].push({
       start: start,
       end: end
@@ -421,7 +420,6 @@ $(window).on('load', function () {
       for(var i in events){
         var event = events[i];
         item = {};
-
         item.id = 'custom-user-' + event.id_user + '-event-' + event.id;
         item.content = event.description;
         item.start = event.time_start;
@@ -539,6 +537,7 @@ $(window).on('load', function () {
   }
 
   function processIcalParserForGroupEvents(){
+    console.log('toto');
     icalGroupCount -= 1;
     if (icalGroupCount >= 0){
       var ical = icalGroupData[icalGroupCount];
@@ -569,15 +568,21 @@ $(window).on('load', function () {
         icalData = $.extend(true, [], data);
         current_user = data[0].id_user;
         usersInGroup['user-' + current_user] = [];
-        storeIcalData();
-        processIcalParser();
       }
+      storeIcalData();
+      processIcalParser();
     }
   });
 
   function loadPersonnalEvents() {
     $.getJSON('http://vinci.aero/palendar/php/calendar/getAllEvent.php', function (data, status) {
       if (status === "success") {
+          if(data){
+            if(!current_user){
+              current_user = data[0].id_user;
+              usersInGroup['user-' + current_user] = [];
+            }
+          }
           loadCustomEvents(data);
           loadGroupEvents();
         }
@@ -586,12 +591,7 @@ $(window).on('load', function () {
 
   // Function to treat all the ics files of the group and store the events in the usersInGroup array
   function startProcessingGroupIcs(data){
-    for (var i = 0; i < data.length; i++){
-      var cal = data[i];
-      var cal_id = cal.id;
-      var ical_file = "../upload/ical/" + cal_id + ".ics";
-      processIcalParserForGroupEvents(ical_file);
-    }
+    processIcalParserForGroupEvents();
   }
 
   // function to get all ical flow from the group (synchro)
@@ -602,8 +602,8 @@ $(window).on('load', function () {
         if (data){
           icalGroupData = $.extend(true, [], data);
           icalGroupCount = data.length;
-          startProcessingGroupIcs(data);
         }
+        startProcessingGroupIcs(data);
       }
     }, "json");
   }

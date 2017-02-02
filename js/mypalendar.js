@@ -405,18 +405,17 @@ $(window).on('load', function () {
       if (data){
         icalCount = data.length;
         icalData = $.extend(true, [], data);
-        storeIcalData();
-        processIcalParser();
       }
+      storeIcalData();
+      processIcalParser();
     }
   });
 
   function loadPersonnalEvents() {
     $.getJSON('http://vinci.aero/palendar/php/calendar/getAllEvent.php', function (data, status) {
       if (status === "success") {
-          loadCustomEvents(data);
-        }
+        loadCustomEvents(data);
       }
-    );
+    });
   }
 });
