@@ -80,11 +80,18 @@ $(window).on('load', function () {
 
     if (selectedEventId){
       var selectedItem = allEventsArray[currentEventDisplayedId];
+      var dateStart = selectedItem.start.split(" ")[0].split("-");
+      var hourStart = selectedItem.start.split(" ")[1];
+      var displayStart = dateStart[2] + '/' + dateStart[1] + ' at ' + hourStart;
+
+      var dateEnd = selectedItem.end.split(" ")[0].split("-");
+      var hourEnd = selectedItem.end.split(" ")[1];
+      var displayEnd = dateEnd[2] + '/' + dateEnd[1] + ' at ' + hourEnd;
 
       $eventTitle.html(selectedItem.title);
       $eventDescription.html(selectedItem.content);
-      $eventStartTime.html(selectedItem.start);
-      $eventEndStime.html(selectedItem.end);
+      $eventStartTime.html(displayStart);
+      $eventEndStime.html(displayEnd);
     } else {
       $eventTitle.html('');
       $eventDescription.html('');
@@ -632,7 +639,7 @@ $(window).on('load', function () {
   function computeAvailability(numberMatch){
     var percentage = numberMatch/numberUsers;
     if (percentage < 0.25) return '#66ff66';
-    if (percentage >= 0.25 && percentage < 50) return '#ffff80';
+    if (percentage >= 0.25 && percentage < 50) return '#fff399';
     if (percentage >= 50 && percentage < 75) return '#ffa64d';
     return '#ff6666';
   }

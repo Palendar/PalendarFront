@@ -209,18 +209,24 @@
 		<div class="tab-content">
 	    <div class="tab-pane fade active in" id="my-calendar">
 				<div id="mypalendar-calendar-timeline-options">
-					<button id="zoomIn">+</button>
-					<button id="zoomOut">-</button>
-					<button id="timeline-moveLeft"><</button>
-					<button id="timeline-moveRight">></button>
-					<button id="timeline-moveCurrent"> Centrer sur date courante </button>
+					<button id="zoomIn" class="btn">+</button>
+					<button id="zoomOut" class="btn">-</button>
+					<button id="timeline-moveLeft" class="btn"><</button>
+					<button id="timeline-moveRight" class="btn">></button>
+					<button id="timeline-moveCurrent" class="btn"> Centrer sur date courante </button>
 				</div>
 	      <div id="mypalendar-calendar-timeline"></div>
 				<div id="mypalendar-event-display">
-					<div>
-						<button id="mypalendar-event-previous"><</button>
-						<h3 id="mypalendar-event-title"></h3>
-						<button id="mypalendar-event-next">></button>
+					<div class="row">
+						<div class="col-md-2">
+							<button id="mypalendar-event-previous" class="btn btn-lg"><</button>
+						</div>
+						<div class="col-md-8">
+							<h3 id="mypalendar-event-title"></h3>
+						</div>
+						<div class="col-md-2">
+							<button id="mypalendar-event-next" class="btn btn-lg">></button>
+						</div>
 					</div>
 					<div>
 						<p> Event start : <span id="mypalendar-event-start"></span></p>

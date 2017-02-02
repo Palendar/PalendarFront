@@ -716,3 +716,23 @@ html {
    font-weight: italic;
    margin-bottom: 10px;
  }
+
+
+/***
+  MY PALENDAR PAGE + GROUP PAGE
+***/
+#mypalendar-calendar-timeline-options{
+  margin-top: 15px;
+}
+
+#mypalendar-event-next, #mypalendar-event-previous, #group-event-next, #group-event-previous{
+  width: 100% !important;
+}
+
+#mypalendar-event-title, #group-event-title{
+  text-align: center;
+}
+
+#mypalendar-event-display div p, #group-event-display div p{
+  text-align: center;
+}
