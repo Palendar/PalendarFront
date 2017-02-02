@@ -298,18 +298,18 @@ $(window).on('load', function () {
 
     // Zoom buttons
     $("#zoomIn").on("click", function(e){
-      timeline.zoomIn(0.3);
+      timeline.zoomIn(0.5);
     });
     $("#zoomOut").on("click", function(e){
-      timeline.zoomOut(0.3);
+      timeline.zoomOut(0.5);
     });
 
     // Navigation buttons for the timeline (left and right and go back to current time)
     $("#timeline-moveLeft").on("click", function(e){
-      moveTimeline(0.3);
+      moveTimeline(0.4);
     });
     $("#timeline-moveRight").on("click", function(e){
-      moveTimeline(-0.3);
+      moveTimeline(-0.4);
     });
     $("#timeline-moveCurrent").on("click", function(e){
       focusNow();
@@ -387,7 +387,7 @@ $(window).on('load', function () {
         item.start = formattedDate + ' ' + event.start_time;
         item.end = formattedDate + ' ' + event.end_time;
         item.className = group;
-        item.style = 'background-color:' + classToColor[group];
+        item.style = 'box-shadow: 0px 0px 2px 1px #5e025c; background-color:' + classToColor[group];
         item.editable = false;
         id += 1;
 
@@ -429,6 +429,7 @@ $(window).on('load', function () {
           item.end = event.time_end;
         }
         item.editable = false;
+        item.style = "box-shadow: 0px 0px 2px 1px #5e025c"
 
         allEventsArray[item.id] = {
           title: event.name,
@@ -470,7 +471,7 @@ $(window).on('load', function () {
           item.end = event.time_end;
         }
         item.editable = false;
-        item.style="box-shadow: 0px 0px 2px 1px yellow";
+        item.style="box-shadow: 0px 0px 2px 1px blue";
 
         allEventsArray[item.id] = {
           title: event.name,
