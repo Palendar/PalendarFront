@@ -24,6 +24,15 @@ var options; // Configuration for the Timeline
 
 $(window).on('load', function () {
 
+  var idgroup = window.location.search.substr(1).split("=")[1];
+  $.post('http://vinci.aero/palendar/php/group/getGroup.php', {id:idgroup}, function(data, status) {
+    if (status === "success") {
+      $(".namegroup").text(data.name);
+      $("body").prepend("<img class='imagegroup addmargintop' src='../upload/group/" + data.image + "'>");
+
+    }
+  }, "json");
+
   // Format date 'dd/mm/yyyy' TO 'yyyy-mm-dd'
   function formatDate(dateToFormat) {
     var splitDate = dateToFormat.split('/');
@@ -140,6 +149,21 @@ $(window).on('load', function () {
         }
       });
     }
+  }, "json");
+
+  //get alleventgroup
+  $.post('http://vinci.aero/palendar/php/group/getAllGroupMyEvent.php', {id_group:idgroup}, function (data, status) {
+    if (status === "success") {
+      console.log(data);
+      $("#group-events table tbody").html('');
+      $.each(data, function(index, val) {
+        $("#group-events table tbody").append("<tr>" +
+            "<td>" + "Start : " + val.time_start + "</td>"+
+            "<td>" + "End : " + val.time_end +"</td>"+
+            "<td>" + val.name + "</td>"+
+            "</tr>");
+      })
+      }
   }, "json");
 
   //add friend in group

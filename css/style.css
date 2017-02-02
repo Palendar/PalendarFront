@@ -687,6 +687,7 @@ html {
   background-color: white;
   overflow-y: scroll;
   max-height: 500px;
+  display: block;
 }
 
 .user {
@@ -694,6 +695,7 @@ html {
   color: grey;
   margin-left: 10px;
   margin-top: 10px;
+  display: block;
 }
 
 .stylemsg {
@@ -701,15 +703,16 @@ html {
   background-color: #F0F0F0;
   font-size: 16px;
   padding: 5px 10px 5px 10px;
-  width:auto;
-  height:auto;
-  float:left;
+  display: inline-block;
 }
 
  .onemessage {
-   display: inline-block;
+   display: block;
  }
 
  .date {
-   display: inline-block;
+   display: block;
+   font-size: 10px;
+   font-weight: italic;
+   margin-bottom: 10px;
  }

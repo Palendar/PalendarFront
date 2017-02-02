@@ -23,6 +23,21 @@ $(window).on('load', function () {
     return splitDate[2] + '-' + splitDate[1] + '-' + splitDate[0];
   }
 
+  //events mypalendar
+  $.getJSON('http://vinci.aero/palendar/php/calendar/getAllEvent.php', function (data, status) {
+    console.log(data);
+    if (status === "success") {
+      $("#my-events table tbody").html('');
+      $.each(data, function(index, val) {
+        $("#my-events table tbody").append("<tr>" +
+            "<td>" + "Start : " + val.time_start + "</td>"+
+            "<td>" + "End : " + val.time_end +"</td>"+
+            "<td>" + val.name + "</td>"+
+            "</tr>");
+      })
+      }
+    }
+  );
   // Double-clicking on timeline to create an event triggers this
   function setModalValues(prop){
     $("#modalNewEvent").modal("show");

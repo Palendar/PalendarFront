@@ -1,19 +1,23 @@
 $(window).on('load', function () {
-  $("#messageform").submit(function() {
+  var idgroupselect = window.location.search.substr(1).split("=")[1];
+  $("#sendmsg").click(function() {
     var message = $("#msg").val();
     console.log(message);
-    $.post('http://vinci.aero/palendar/php/group/sendGroupMessage.php', {message:message, id_group:'18'}, function(data, status) {
+    $.post('http://vinci.aero/palendar/php/group/sendGroupMessage.php', {message:message, id_group:idgroupselect}, function(data, status) {
       if (status === "success") {
       }
     }, "json");
+    location.reload();
   });
 
-  $.post('http://vinci.aero/palendar/php/group/getAllGroupMessage.php', {id_group:'18'}, function(data, status) {
+  var idgroup = window.location.search.substr(1).split("=")[1];
+  $.post('http://vinci.aero/palendar/php/group/getAllGroupMessage.php', {id_group:idgroup}, function(data, status) {
     if (status === "success") {
+      $("#chatZone").html('');
       $.each(data, function(index, val) {
         $("#chatZone").append("<div class='onemessage'>" +
-						"<div class='user'>" + val.firstname + ' ' + val.lastname + "</div>" + "<div class='stylemsg'>" + val.message + "</div>" +
-            "<div class='date'>" + val.created + "</div>"+ "</div>");
+						"<p class='user'>" + val.firstname + ' ' + val.lastname + "</p>" + "<p class='stylemsg'>" + val.message + "</p>" +
+            "<p class='date'>" + val.created + "</p>"+ "</div>");
       });
     }
   }, "json");
